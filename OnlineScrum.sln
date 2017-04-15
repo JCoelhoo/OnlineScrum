@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.24720.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OnlineScrum", "OnlineScrum\OnlineScrum.csproj", "{76750BB9-95C1-49FF-B33C-F0359DD4E088}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OnlineScrum.Tests", "OnlineScrum.Tests\OnlineScrum.Tests.csproj", "{999E572A-1531-4589-BBA7-ED208008ACC9}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{76750BB9-95C1-49FF-B33C-F0359DD4E088}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{76750BB9-95C1-49FF-B33C-F0359DD4E088}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{76750BB9-95C1-49FF-B33C-F0359DD4E088}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{76750BB9-95C1-49FF-B33C-F0359DD4E088}.Release|Any CPU.Build.0 = Release|Any CPU
+		{999E572A-1531-4589-BBA7-ED208008ACC9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{999E572A-1531-4589-BBA7-ED208008ACC9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{999E572A-1531-4589-BBA7-ED208008ACC9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{999E572A-1531-4589-BBA7-ED208008ACC9}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
