@@ -1,0 +1,46 @@
+﻿@model OnlineScrum.Models.Login
+
+@{
+    ViewBag.Title = "Login";
+}
+
+<div class="row LoginHeader">
+    <h2>Login</h2>
+</div>
+
+<div id="signInForm" class="row ">
+    @using (@Html.BeginForm("Login", "Login", FormMethod.Post))
+    {
+
+        <div class="login-editor">
+            @*@Html.EditorForModel()*@
+            @Html.LabelFor(model => model.Email)
+            <br />
+            @Html.EditorFor(model => model.Email)
+            @Html.ValidationMessageFor(model => model.Email)
+            <br />
+            <br />
+            @Html.LabelFor(model => model.Password)
+            <br />
+            @Html.EditorFor(model => model.Password)
+            @Html.ValidationMessageFor(model => model.Password)
+            <br />
+            <br />
+            <input type="submit" value="Submit" class="btn btn-primary" />
+        </div>
+        <br />
+        @Html.ValidationSummary()
+    }
+    <br />
+    @if (@ViewBag.Error != "" && @ViewBag.Error != null)
+    {
+        <div class="alert alert-danger fade in">
+            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+            <strong>Error!</strong> @ViewBag.Error
+        </div>
+
+    }
+</div>
+
+
+

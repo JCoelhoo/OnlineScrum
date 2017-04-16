@@ -1,0 +1,39 @@
+﻿@model OnlineScrum.Models.Register
+@{
+    ViewBag.Title = "Register";
+}
+
+<h2>LecturerRegister</h2>
+
+
+@using (@Html.BeginForm("Register", "Register", FormMethod.Post))
+{
+    <h1>Lecturer Signup</h1>
+        <div class="lecturer-editor">
+            @Html.EditorForModel()
+            @Html.ValidationSummary()
+
+
+            <br />
+
+            <input type="submit" value="Submit" />
+            @if (@ViewBag.Error != "" && @ViewBag.Error != null)
+            {
+                <br />
+
+                <div class="alert alert-danger fade in">
+                    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                    <strong>Error!</strong> @ViewBag.Error
+                </div>
+            }
+
+            <br />
+
+            <div style="border-top: 1px solid#888; padding-top:17px; font-size:85%">
+                <a href="/">
+                    Log in
+                </a>
+            </div>
+        </div>
+}
+

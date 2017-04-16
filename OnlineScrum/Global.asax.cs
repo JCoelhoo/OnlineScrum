@@ -12,9 +12,9 @@ namespace OnlineScrum
     {
         protected void Application_Start()
         {
-            AreaRegistration.RegisterAllAreas();
-            FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
-            RouteConfig.RegisterRoutes(RouteTable.Routes);
+//            AreaRegistration.RegisterAllAreas();
+//            FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
+            RouteTable.Routes.MapMvcAttributeRoutes();
             BundleConfig.RegisterBundles(BundleTable.Bundles);
         }
     }
