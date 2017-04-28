@@ -15,6 +15,7 @@ namespace OnlineScrum.Controllers
         [Route("")]
         public ActionResult Login()
         {
+            UserManager.RegisterUser(new Register { Email = "jk@gmail.com", Password = "jk", Username = "JK" });
             return View();
         }
 

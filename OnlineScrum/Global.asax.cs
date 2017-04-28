@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -12,10 +13,12 @@ namespace OnlineScrum
     {
         protected void Application_Start()
         {
-//            AreaRegistration.RegisterAllAreas();
-//            FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
+            //            AreaRegistration.RegisterAllAreas();
+            //            FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
+            //Database.SetInitializer<DatabaseContext>(null);
             RouteTable.Routes.MapMvcAttributeRoutes();
             BundleConfig.RegisterBundles(BundleTable.Bundles);
+
         }
     }
 }
