@@ -1,0 +1,32 @@
+﻿@model OnlineScrum.Models.Project
+@{
+    ViewBag.Title = "Create_Project";
+}
+
+@using (@Html.BeginForm("Dashboard", "new_project", FormMethod.Post))
+{
+
+    <div class="login-editor">
+        @*@Html.EditorForModel()*@
+        @Html.LabelFor(model => model.Name)
+        <br />
+        @Html.EditorFor(model => model.Name)
+        @Html.ValidationMessageFor(model => model.Name)
+        <br />
+        <br />
+        @Html.LabelFor(model => model.DevTeam)
+        <br />
+        @for (var i = 0; i < 3; i++)
+        {
+            @Html.EditorFor(model => model.DevTeam[i])
+            <br/>
+        }
+        @Html.ValidationMessageFor(model => model.DevTeam)
+        <br />
+        <br />
+        <input type="submit" value="Submit" class="btn btn-primary" />
+    </div>
+        <br />
+        @Html.ValidationSummary()
+}
+

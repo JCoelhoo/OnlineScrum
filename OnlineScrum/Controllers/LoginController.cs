@@ -30,8 +30,7 @@ namespace OnlineScrum.Controllers
             }
             else if (status == UserManager.LoginStatus.RegularUser)
             {
-                Session["Type"] = "RegularUser";
-                Session["Email"] = login.Email;
+                Session["UserInfo"] = UserManager.getUserByEmail(login.Email);
                 Session["TimeOfCreation"] = DateTime.Now;
                 return RedirectToAction("Home", "Dashboard");
             }

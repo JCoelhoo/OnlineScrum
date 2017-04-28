@@ -42,6 +42,7 @@ namespace OnlineScrum.BusinessLayer
                 {
                     using (StreamWriter sw = File.AppendText(".\\log.txt"))
                     {
+                        sw.Write("RegisterUser\t");
                         sw.Write(e.GetBaseException());
                         sw.Write('\t');
                         sw.WriteLine(e.Message);
@@ -75,6 +76,7 @@ namespace OnlineScrum.BusinessLayer
             {
                 using (StreamWriter sw = File.AppendText(".\\log.txt"))
                 {
+                    sw.Write("CheckExistingEmail\t");
                     sw.Write(e.GetBaseException());
                     sw.Write('\t');
                     sw.WriteLine(e.Message);
@@ -120,12 +122,49 @@ namespace OnlineScrum.BusinessLayer
             {
                 using (StreamWriter sw = File.AppendText(".\\log.txt"))
                 {
+                    sw.Write("Login");
+                    sw.Write('\t');
                     sw.Write(e.GetBaseException());
                     sw.Write('\t');
                     sw.WriteLine(e.Message);
                 }
                 return LoginStatus.DBFail;
             }
+        }
+
+        public static User getUserByEmail(string Email)
+        {
+            try
+            {
+                var returnedUser = new User();
+                using (var context = new DatabaseContext())
+                {
+                    var userResult = (from user in context.Users
+                                          where user.Email == Email
+                                          select user).FirstOrDefault();
+                    if (userResult != null)
+                    {
+                        returnedUser.Email = userResult.Email;
+                        returnedUser.Username = userResult.Username;
+                        returnedUser.Password = userResult.Password;
+                        returnedUser.Role = userResult.Role;
+
+                    }
+                    return returnedUser;
+                }
+            }
+            catch (Exception e)
+            {
+                using (StreamWriter sw = File.AppendText(".\\log.txt"))
+                {
+                    sw.Write("getUserByUsername\t");
+                    sw.Write(e.GetBaseException());
+                    sw.Write('\t');
+                    sw.WriteLine(e.Message);
+                }
+                return null;
+            }
+
         }
 
         public static string Hash(string input)
