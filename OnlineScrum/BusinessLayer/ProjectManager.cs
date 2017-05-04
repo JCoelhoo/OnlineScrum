@@ -10,7 +10,7 @@ namespace OnlineScrum.BusinessLayer
 {
     public class ProjectManager
     {
-        public static string AddProject(Project project)
+        public static string AddProject(Project project, string scrumMaster)
         {
             //TODO: fix id
             if (project == null)
@@ -23,10 +23,16 @@ namespace OnlineScrum.BusinessLayer
                 {
                     using (var context = new DatabaseContext())
                     {
-                        //var sha = new SHA1CryptoServiceProvider();
-                        //var password = Encoding.ASCII.GetBytes(lecturer.Password);    
-                        //lecturer.Password = Encoding.Default.GetString(sha.ComputeHash(password));
-                        var insertProject = new Project { Name = project.Name, ScrumMaster = "jk" };
+                        var insertProject = new Project { Name = project.Name, ScrumMaster = scrumMaster, DevTeam = project.DevTeam };
+                        if (!UserManager.CheckExistingEmail(insertProject.ScrumMaster))
+                            return insertProject.ScrumMaster + "does not exist";
+                        insertProject.DevTeam = String.Join(",", project.DevTeamList);
+                        foreach(var dev in insertProject.DevTeam.Split(new char[] { ',' }))
+                        {
+                            if (String.IsNullOrEmpty(dev)) continue; 
+                            if (!UserManager.CheckExistingEmail(dev))
+                                return dev + "does not exist";
+                        }
                         context.Projects.Add(insertProject);
                         context.SaveChanges();
                         return "";
@@ -43,6 +49,45 @@ namespace OnlineScrum.BusinessLayer
                     }
                     return "Database error";
                 }
+            }
+        }
+
+        public static Project getProjectByEmail(string email)
+        {
+            try
+            {
+                using (var context = new DatabaseContext())
+                {
+                    var projects = (from proj in context.Projects
+                                       select proj).ToList();
+                    Project project = null;
+                    foreach(var proj in projects)
+                    {
+                        if (proj.ScrumMaster == email || proj.DevTeam.Contains(email))
+                            project = proj;
+                    }
+                    
+                    //Project retProj = new Project
+                    //               {
+                    //                   DevTeam = project.DevTeam,
+                    //                   ScrumMaster = project.ScrumMaster,
+                    //                   Name = project.Name,
+                    //                   ProjectID = project.ProjectID
+                    //               };
+
+                    return project;
+                }
+            }
+            catch (Exception e)
+            {
+                using (StreamWriter sw = File.AppendText(".\\log.txt"))
+                {
+                    sw.Write("getProjectByEmail\t");
+                    sw.Write(e.GetBaseException());
+                    sw.Write('\t');
+                    sw.WriteLine(e.Message);
+                }
+                return null;
             }
         }
     }

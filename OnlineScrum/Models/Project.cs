@@ -21,17 +21,17 @@ namespace OnlineScrum.Models
         public int ProjectID { get; set; }
 
         [Column("ScrumMaster")]
-        [ForeignKey("User")]
+        [ForeignKey("ScrumMasterUser")]
         public virtual string ScrumMaster { get; set; }
-        //Message = "The ForeignKeyAttribute on property 'ScrumMaster' on type 'OnlineScrum.Models.Project' is not valid. 
-        //The navigation property 'User' was not found on the dependent type 'OnlineScrum.Models.Project'. 
-        //The Name value should be a valid navigation property name."
-
+        
         [Column("DevTeam")]
-        [ForeignKey("User")]
-        public virtual List<string> DevTeam { get; set; }
+        //[ForeignKey("ScrumMasterUser")]
+        public virtual string DevTeam { get; set; }
 
-        public virtual User User { get; set; }
+        public List<string> DevTeamList { get; set; }
+
+        public virtual User ScrumMasterUser { get; set; }
+        //public virtual ICollection<User> DevTeamUser { get; set; }
         /*
         [Column("Sprint")]
         [ForeignKey("Sprint")]

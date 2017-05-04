@@ -24,6 +24,17 @@
                     <li>@Html.ActionLink("About", "About", "Home")</li>
                     <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
                 </ul>
+                <ul class="nav navbar-nav" style="margin-top:15px">
+                    @if (Session["UserInfo"] != null)
+                    {
+                        <a href="~/logout"><span class="glyphicon glyphicon-log-out"></span> Log Out</a>
+                    }
+                    else
+                    {
+                        <a href="~/login"><span class="glyphicon glyphicon-log-in"></span> Login</a>
+                    }
+                </ul>
+
             </div>
         </div>
     </div>

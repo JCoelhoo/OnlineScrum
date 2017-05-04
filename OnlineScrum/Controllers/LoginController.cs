@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Security;
 
 namespace OnlineScrum.Controllers
 {
@@ -16,6 +17,9 @@ namespace OnlineScrum.Controllers
         public ActionResult Login()
         {
             UserManager.RegisterUser(new Register { Email = "jk@gmail.com", Password = "jk", Username = "JK" });
+            UserManager.RegisterUser(new Register { Email = "a@gmail.com", Password = "a", Username = "A" });
+            UserManager.RegisterUser(new Register { Email = "b@gmail.com", Password = "b", Username = "B" });
+            //ProjectManager.AddProject(new Project { Name = "Mock", DevTeam = "a@gmail.com" }, "jk@gmail.com");
             return View();
         }
 
@@ -32,6 +36,7 @@ namespace OnlineScrum.Controllers
             else if (status == UserManager.LoginStatus.RegularUser)
             {
                 Session["UserInfo"] = UserManager.getUserByEmail(login.Email);
+                Session["Project"] = ProjectManager.getProjectByEmail(login.Email);
                 Session["TimeOfCreation"] = DateTime.Now;
                 return RedirectToAction("Home", "Dashboard");
             }
@@ -48,6 +53,15 @@ namespace OnlineScrum.Controllers
             else if (status == UserManager.LoginStatus.DBFail) ViewBag.Error = "Database error";
 
             return RedirectToAction("Login", new { errorMessage = ViewBag.Error });
+        }
+
+        [Route("logout")]
+        [HttpGet]
+        public ActionResult Logout()
+        {
+            FormsAuthentication.SignOut();
+            Session.Abandon();
+            return RedirectToAction("Login");
         }
     }
 }

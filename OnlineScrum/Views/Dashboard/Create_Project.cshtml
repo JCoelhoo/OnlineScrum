@@ -14,14 +14,14 @@
         @Html.ValidationMessageFor(model => model.Name)
         <br />
         <br />
-        @Html.LabelFor(model => model.DevTeam)
+        @Html.LabelFor(model => model.DevTeamList)
         <br />
         @for (var i = 0; i < 3; i++)
         {
-            @Html.EditorFor(model => model.DevTeam[i])
+            @Html.EditorFor(model => model.DevTeamList[i])
             <br/>
         }
-        @Html.ValidationMessageFor(model => model.DevTeam)
+        @Html.ValidationMessageFor(model => model.DevTeamList)
         <br />
         <br />
         <input type="submit" value="Submit" class="btn btn-primary" />
