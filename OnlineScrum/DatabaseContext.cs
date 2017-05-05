@@ -13,5 +13,6 @@ namespace OnlineScrum
 
         public DbSet<User> Users { get; set; }
         public DbSet<Project> Projects { get; set; }
+        public DbSet<Sprint> Sprints { get; set; }
     }
 }

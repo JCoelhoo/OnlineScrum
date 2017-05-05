@@ -1,0 +1,45 @@
+﻿@model OnlineScrum.Models.Sprint
+@{
+    ViewBag.Title = "Create_Sprint";
+}
+
+<h2>Create_Sprint</h2>
+
+
+
+@using (@Html.BeginForm("Project", "Create_Project", FormMethod.Post))
+{
+
+    <div class="login-editor">
+        @*@Html.EditorForModel()*@
+        @Html.LabelFor(model => model.SprintName)
+        <br />
+        @Html.EditorFor(model => model.SprintName)
+        @Html.ValidationMessageFor(model => model.SprintName)
+        <br />
+        @Html.LabelFor(model => model.StartDate)
+        <br />
+        @Html.EditorFor(model => model.StartDate)
+        @Html.ValidationMessageFor(model => model.StartDate)
+        <br />
+        @Html.LabelFor(model => model.FinishDate)
+        <br />
+        @Html.EditorFor(model => model.FinishDate)
+        @Html.ValidationMessageFor(model => model.FinishDate)
+        <br />
+        <br />
+        <input type="submit" value="Submit" class="btn btn-primary" />
+    </div>
+    <br />
+        @Html.ValidationSummary()
+        <br />
+    if (ViewBag.Error != "" && ViewBag.Error != null)
+    {
+        <div class="alert alert-danger fade in">
+            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+            <strong>Error!</strong> @ViewBag.Error
+        </div>
+
+    }
+}
+

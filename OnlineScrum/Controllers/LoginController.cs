@@ -16,10 +16,10 @@ namespace OnlineScrum.Controllers
         [Route("")]
         public ActionResult Login()
         {
-            UserManager.RegisterUser(new Register { Email = "jk@gmail.com", Password = "jk", Username = "JK" });
-            UserManager.RegisterUser(new Register { Email = "a@gmail.com", Password = "a", Username = "A" });
-            UserManager.RegisterUser(new Register { Email = "b@gmail.com", Password = "b", Username = "B" });
-            //ProjectManager.AddProject(new Project { Name = "Mock", DevTeam = "a@gmail.com" }, "jk@gmail.com");
+            UserManager.RegisterUser(new Register { Email = "1@g.c", Password = "1", Username = "1" });
+            UserManager.RegisterUser(new Register { Email = "2@g.c", Password = "2", Username = "2" });
+            UserManager.RegisterUser(new Register { Email = "3@g.c", Password = "3", Username = "3" });
+            ProjectManager.AddProject(new Project { Name = "Mock", DevTeamList = new List<string> { "1@g.c" } }, "2@g.c");
             return View();
         }
 
@@ -35,8 +35,9 @@ namespace OnlineScrum.Controllers
             }
             else if (status == UserManager.LoginStatus.RegularUser)
             {
-                Session["UserInfo"] = UserManager.getUserByEmail(login.Email);
-                Session["Project"] = ProjectManager.getProjectByEmail(login.Email);
+                var user = UserManager.GetUserByEmail(login.Email);
+                user.Password = null;
+                Session["UserInfo"] = user;
                 Session["TimeOfCreation"] = DateTime.Now;
                 return RedirectToAction("Home", "Dashboard");
             }
@@ -52,7 +53,7 @@ namespace OnlineScrum.Controllers
             if (status == UserManager.LoginStatus.Fail) ViewBag.Error = "Invalid credentials";
             else if (status == UserManager.LoginStatus.DBFail) ViewBag.Error = "Database error";
 
-            return RedirectToAction("Login", new { errorMessage = ViewBag.Error });
+            return View("Login");
         }
 
         [Route("logout")]

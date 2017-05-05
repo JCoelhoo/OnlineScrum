@@ -31,23 +31,17 @@ namespace OnlineScrum.BusinessLayer
                     {
                         //var sha = new SHA1CryptoServiceProvider();
                         //var password = Encoding.ASCII.GetBytes(lecturer.Password);    
-                        //lecturer.Password = Encoding.Default.GetString(sha.ComputeHash(password));
+                        //lecturer.Password = Encoding.Default.GetString(sha.ComputeHash(password));C:\Users\João\Desktop\OnlineScrum\OnlineScrum\BusinessLayer\UserManager.cs
                         var insertUser = new User { Username = user.Username, Password = Hash(user.Password), Email = user.Email, Role = -1 };
                         context.Users.Add(insertUser);
                         context.SaveChanges();
-                        return ""; 
+                        return "";
                     }
                 }
                 catch (Exception e)
                 {
-                    using (StreamWriter sw = File.AppendText(".\\log.txt"))
-                    {
-                        sw.Write("RegisterUser\t");
-                        sw.Write(e.GetBaseException());
-                        sw.Write('\t');
-                        sw.WriteLine(e.Message);
-                    }
-                    return "Database error";
+                    SharedManager.Log(e, "RegisterUser");
+                    return SharedManager.DatabaseError;
                 }
             }
         }
@@ -74,14 +68,9 @@ namespace OnlineScrum.BusinessLayer
             }
             catch (Exception e)
             {
-                using (StreamWriter sw = File.AppendText(".\\log.txt"))
-                {
-                    sw.Write("CheckExistingEmail\t");
-                    sw.Write(e.GetBaseException());
-                    sw.Write('\t');
-                    sw.WriteLine(e.Message);
-                }
-                return false;
+
+                    SharedManager.Log(e, "CheckExistingEmail");
+                    return false;
             }
         }
 
@@ -120,19 +109,12 @@ namespace OnlineScrum.BusinessLayer
             }
             catch (Exception e)
             {
-                using (StreamWriter sw = File.AppendText(".\\log.txt"))
-                {
-                    sw.Write("Login");
-                    sw.Write('\t');
-                    sw.Write(e.GetBaseException());
-                    sw.Write('\t');
-                    sw.WriteLine(e.Message);
-                }
+                SharedManager.Log(e, "Login");
                 return LoginStatus.DBFail;
             }
         }
 
-        public static User getUserByEmail(string Email)
+        public static User GetUserByEmail(string Email)
         {
             try
             {
@@ -155,13 +137,7 @@ namespace OnlineScrum.BusinessLayer
             }
             catch (Exception e)
             {
-                using (StreamWriter sw = File.AppendText(".\\log.txt"))
-                {
-                    sw.Write("getUserByUsername\t");
-                    sw.Write(e.GetBaseException());
-                    sw.Write('\t');
-                    sw.WriteLine(e.Message);
-                }
+                SharedManager.Log(e, "GetUserByUsername");
                 return null;
             }
 

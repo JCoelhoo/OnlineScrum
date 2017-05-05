@@ -24,20 +24,16 @@ namespace OnlineScrum.Models
         [ForeignKey("ScrumMasterUser")]
         public virtual string ScrumMaster { get; set; }
         
-        [Column("DevTeam")]
-        //[ForeignKey("ScrumMasterUser")]
-        public virtual string DevTeam { get; set; }
-
-        public List<string> DevTeamList { get; set; }
-
         public virtual User ScrumMasterUser { get; set; }
-        //public virtual ICollection<User> DevTeamUser { get; set; }
-        /*
-        [Column("Sprint")]
-        [ForeignKey("Sprint")]
-        public List<int> Sprints { get; set; }
 
-    */
+        [Column("DevTeam")]
+        public virtual string DevTeam { get; set; }
+        public List<string> DevTeamList { get; set; }
+        
+        [Column("Sprint")]
+        public string Sprints { get; set; }
+
+
     }
 }
  

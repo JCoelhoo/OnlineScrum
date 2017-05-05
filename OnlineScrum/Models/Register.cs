@@ -19,14 +19,15 @@ namespace OnlineScrum.Models
 
         [DataType(DataType.Password)]
         [MaxLength(50)]
-        [MinLength(8)]
+        [MinLength(8, ErrorMessage = "Password must be over 8 characters")]
         [Display(Name = "Password")]
-        [Required(AllowEmptyStrings = false)]
+        [Required]
         public string Password { get; set; }
 
         [DataType(DataType.Password)]
         [Display(Name = "Confirm password")]
         [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
-        public string ConfimrPassword { get; set; }
+        [Required]
+        public string ConfirmPassword { get; set; }
     }
 }

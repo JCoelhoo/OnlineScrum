@@ -22,6 +22,11 @@ namespace OnlineScrum.Controllers
         [HttpPost]
         public ActionResult Register(Register register)
         {
+            if (!ModelState.IsValid)
+            {
+                return View();
+            }
+
             var status = UserManager.RegisterUser(register);
             if ( status != "" )
             {
