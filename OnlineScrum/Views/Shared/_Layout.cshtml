@@ -1,5 +1,6 @@
 ﻿<!DOCTYPE html>
 <html>
+
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,7 +9,20 @@
     @Scripts.Render("~/bundles/modernizr")
 </head>
 <body>
-    <div class="navbar navbar-inverse navbar-fixed-top">
+    <style>
+        .navbar-default .navbar-brand:hover,
+        .navbar-default .navbar-brand:focus {
+            color: black;
+            text-decoration: none;
+        }
+
+        .navbar-default .navbar-nav > li > a:hover,
+        .navbar-default .navbar-nav > li > a:focus {
+            color: black;
+            text-decoration: none;
+        }
+    </style>
+    <div class="navbar navbar-default navbar-fixed-top">
         <div class="container">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -16,22 +30,26 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                @Html.ActionLink("Application name", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+                @Html.ActionLink("OnlineScrum", "Home", "Dashboard", new { area = "" }, new { @class = "navbar-brand" })
             </div>
-            <div class="navbar-collapse collapse">
+            <div class="navbar-collapse collapse" >
                 <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                    <li>@Html.ActionLink("About", "About", "Home")</li>
-                    <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
-                </ul>
-                <ul class="nav navbar-nav" style="margin-top:15px">
                     @if (Session["UserInfo"] != null)
                     {
-                        <a href="~/logout"><span class="glyphicon glyphicon-log-out"></span> Log Out</a>
+                        <li class="@(ViewBag.Link == "Home" ? "active" : "")">@Html.ActionLink("Home", "Home", "Dashboard")</li>
+                        <li class="@(ViewBag.Link == "Project" ? "active" : "")">@Html.ActionLink("Project", "Home", "Project")</li>
+                        <li class="@(ViewBag.Link == "About" ? "active" : "")">@Html.ActionLink("About", "About", "Dashboard")</li>
+                    }
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    @if (Session["UserInfo"] != null)
+                    {
+                        <li><a href="~/logout"><span class="glyphicon glyphicon-log-out"></span> Log Out</a></li>
                     }
                     else
                     {
-                        <a href="~/login"><span class="glyphicon glyphicon-log-in"></span> Login</a>
+                        <li><a href="~/register"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
+                        <li><a href="~/login"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
                     }
                 </ul>
 
@@ -40,10 +58,12 @@
     </div>
     <div class="container body-content">
         @RenderBody()
-        <hr />
-        <footer>
-            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
-        </footer>
+        <div class="navbar navbar-fixed-bottom">
+            <hr />
+            <footer align="center">
+                <p>@DateTime.Now.Year - OnlineScrum</p>
+            </footer>
+        </div>
     </div>
 
     @Scripts.Render("~/bundles/jquery")

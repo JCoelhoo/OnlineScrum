@@ -8,59 +8,65 @@ using System.Web.Mvc;
 
 namespace OnlineScrum.Controllers
 {
-    public class ProjectController : Controller
+    public class DashboardController : Controller
     {
-        [Route("project")]
+        [Route("dashboard")]
+        [Route("home")]
+        [HttpGet]
         public ActionResult Home()
         {
             var user = (User) Session["UserInfo"];
             if (user == null)
                 return RedirectToAction("Login", "Login");
+
+            ViewBag.Link = "Home";
             var proj = ProjectManager.GetProjectByEmail(user.Email);
             if (proj == null)
-                return RedirectToAction("New_Project", "Dashboard");
+                return View("New_Project");
 
-            //ViewBag.Project = proj;
-            ViewBag.Sprints = ProjectManager.GetSprintFromProject(proj.Sprints);
+            ViewBag.ProjectName = proj.Name;
             return View();
         }
 
-        [Route("project/create_sprint")]
-        public ActionResult Create_Sprint()
+        [Route("new_project")]
+        [HttpGet]
+        public ActionResult Create_Project()
         {
             var user = (User) Session["UserInfo"];
             if (user == null)
                 return RedirectToAction("Login", "Login");
+
+            ViewBag.Link = "Home";
             var proj = ProjectManager.GetProjectByEmail(user.Email);
-            if (proj == null)
-                return RedirectToAction("New_Project", "Dashboard");
+            if (proj != null)
+                return RedirectToAction("Home");
 
             return View();
         }
 
-        [Route("project/create_sprint")]
+        [Route("new_project")]
         [HttpPost]
-        public ActionResult Create_Sprint(Sprint sprint)
+        public ActionResult Create_Project(Project project)
         {
             var user = (User) Session["UserInfo"];
             if (user == null)
                 return RedirectToAction("Login", "Login");
+            ViewBag.Link = "Home";
             var proj = ProjectManager.GetProjectByEmail(user.Email);
-            if (proj == null)
-                return RedirectToAction("New_Project", "Dashboard");
+            if (proj != null)
+                return RedirectToAction("Home");
 
             if (!ModelState.IsValid)
             {
                 return View();
             }
 
-            var result = ProjectManager.AddSprint(sprint, ((Project)proj).ProjectID);
+            var result = ProjectManager.AddProject(project, user.Email);
+            ViewBag.Error = result;
+            if (!String.IsNullOrEmpty(result)) return View("Create_Project");
 
-            if (!String.IsNullOrEmpty(result))
-            {
-                ViewBag.Error = result;
-                return RedirectToAction("Create_Sprint", "Project");
-            }
+
+            Session["Project"] = project;
 
             return View("Home");
         }

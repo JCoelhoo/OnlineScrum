@@ -13,33 +13,44 @@
     {
 
         <div class="login-editor">
-            @*@Html.EditorForModel()*@
-            @Html.LabelFor(model => model.Email)
-            <br />
-            @Html.EditorFor(model => model.Email)
-            @Html.ValidationMessageFor(model => model.Email)
-            <br />
-            <br />
-            @Html.LabelFor(model => model.Password)
-            <br />
-            @Html.EditorFor(model => model.Password)
-            @Html.ValidationMessageFor(model => model.Password)
+            <div class="form-group row" style="display:inline">
+
+                @Html.LabelFor(model => model.Email, new {@class = "col-md-2 col-form-label" })
+            </div>
+            <div style="display:inline" class="col-md-6">
+                @Html.TextBoxFor(model => model.Email, new { @type = "email", @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Email)
+            </div>
             <br />
             <br />
+
+            <div class="form-group row" style="display:inline">
+                @Html.LabelFor(model => model.Password, new { @class = "col-md-2 col-form-label" })
+            </div>
+            <div style="display:inline" class="col-md-6">
+                @Html.TextBoxFor(model => model.Password, new { @type = "password", @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Password)
+            </div>
+            <br />
+            <br />
+            <br />
+
+            @if (@ViewBag.Error != "" && @ViewBag.Error != null)
+            {
+            <div class="alert alert-danger fade in">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <strong>Error!</strong> @ViewBag.Error
+            </div>
+
+            }
+            @Html.ValidationSummary()
+
             <input type="submit" value="Submit" class="btn btn-primary" />
+            <a href="/register" class="btn btn-link" role="button">Register</a>
         </div>
-        <br />
-        @Html.ValidationSummary()
     }
     <br />
-    @if (@ViewBag.Error != "" && @ViewBag.Error != null)
-    {
-        <div class="alert alert-danger fade in">
-            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-            <strong>Error!</strong> @ViewBag.Error
-        </div>
 
-    }
 </div>
 
 

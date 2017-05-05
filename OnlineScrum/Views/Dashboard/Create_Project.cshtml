@@ -7,35 +7,57 @@
 {
 
     <div class="login-editor">
-        @*@Html.EditorForModel()*@
-        @Html.LabelFor(model => model.Name)
+        <div class="form-group row" style="display:inline">
+
+            @Html.LabelFor(model => model.Name, new { @class = "col-md-2 col-form-label" })
+        </div>
+        <div style="display:inline" class="col-md-10">
+            @Html.TextBoxFor(model => model.Name, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.Name)
+        </div>
         <br />
-        @Html.EditorFor(model => model.Name)
-        @Html.ValidationMessageFor(model => model.Name)
         <br />
-        <br />
-        @Html.LabelFor(model => model.DevTeamList)
-        <br />
-        @for (var i = 0; i < 3; i++)
-        {
-            @Html.EditorFor(model => model.DevTeamList[i])
-            <br/>
+
+        <div class="form-group row" style="display:inline">
+
+            @Html.LabelFor(model => model.DevTeamList, new { @class = "col-md-2 col-form-label" })
+        </div>
+        @{
+            for (var i = 0; i < 20; i++)
+            {
+                <div style="display:@(i==0 ? "inline" : "none")" class="col-md-10" id="member@(i)">
+                    @Html.TextBoxFor(model => model.DevTeamList[i], new { @class = "form-control"})
+                    @Html.ValidationMessageFor(model => model.DevTeamList)
+                </div>
+            }
         }
-        @Html.ValidationMessageFor(model => model.DevTeamList)
+        
+        @if (ViewBag.Error != "" && ViewBag.Error != null)
+        {
+            <div class="alert alert-danger fade in">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <strong>Error!</strong> @ViewBag.Error
+            </div>
+
+        }
         <br />
         <br />
+        <br />
+        <br />
+        <br />
+        <br />
+
         <input type="submit" value="Submit" class="btn btn-primary" />
     </div>
-        <br />
-        @Html.ValidationSummary()
-    <br />
-    if (ViewBag.Error != "" && ViewBag.Error != null)
-    {
-        <div class="alert alert-danger fade in">
-            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-            <strong>Error!</strong> @ViewBag.Error
-        </div>
 
-    }
-}
+            }
 
+<button class="glyphicon glyphicon-plus" onclick="myFunction()"></button>
+<script>
+            var counter = 1;
+            function myFunction() {
+                document.getElementById('member' + counter).style.display = 'inline';
+                alert("member" + counter);
+                counter++;
+            }
+</script>

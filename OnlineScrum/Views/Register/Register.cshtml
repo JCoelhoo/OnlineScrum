@@ -8,32 +8,66 @@
 
 @using (@Html.BeginForm("Register", "Register", FormMethod.Post))
 {
-    <h1>Lecturer Signup</h1>
-        <div class="lecturer-editor">
-            @Html.EditorForModel()
-            @Html.ValidationSummary()
+    <div class="register-editor">
+        <div class="form-group row" style="display:inline">
 
-
-            <br />
-
-            <input type="submit" value="Submit" />
-            @if (@ViewBag.Error != "" && @ViewBag.Error != null)
-            {
-                <br />
-
-                <div class="alert alert-danger fade in">
-                    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                    <strong>Error!</strong> @ViewBag.Error
-                </div>
-            }
-
-            <br />
-
-            <div style="border-top: 1px solid#888; padding-top:17px; font-size:85%">
-                <a href="/">
-                    Log in
-                </a>
-            </div>
+            @Html.LabelFor(model => model.Username, new { @class = "col-md-2 col-form-label" })
         </div>
+        <div style="display:inline" class="col-md-6">
+            @Html.TextBoxFor(model => model.Username, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.Username)
+        </div>
+        <br />
+        <br />
+
+        <div class="form-group row" style="display:inline">
+
+            @Html.LabelFor(model => model.Email, new { @class = "col-md-2 col-form-label" })
+        </div>
+        <div style="display:inline" class="col-md-6">
+            @Html.TextBoxFor(model => model.Email, new { @type = "email",  @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.Email)
+        </div>
+        <br />
+        <br />
+
+        <div class="form-group row" style="display:inline">
+            @Html.LabelFor(model => model.Password, new { @class = "col-md-2 col-form-label" })
+        </div>
+        <div style="display:inline" class="col-md-6">
+            @Html.TextBoxFor(model => model.Password, new { @type = "password", @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.Password)
+        </div>
+        <br />
+        <br />
+
+        <div class="form-group row" style="display:inline">
+            @Html.LabelFor(model => model.ConfirmPassword, new { @class = "col-md-2 col-form-label" })
+        </div>
+        <div style="display:inline" class="col-md-6">
+            @Html.TextBoxFor(model => model.ConfirmPassword, new { @type = "password", @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.ConfirmPassword)
+        </div>
+        <br />
+        <br />
+        <br />
+
+        @if (@ViewBag.Error != "" && @ViewBag.Error != null)
+        {
+            <div class="alert alert-danger fade in">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <strong>Error!</strong> @ViewBag.Error
+            </div>
+
+        }
+        @Html.ValidationSummary()
+
+        <input type="submit" value="Submit" class="btn btn-primary" />
+        <a href="/Login" class="btn btn-link" role="button">Login</a>
+    </div>
+
 }
+<br />
+
+
 

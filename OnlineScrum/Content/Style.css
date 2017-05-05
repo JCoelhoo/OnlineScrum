@@ -1,0 +1,20 @@
+﻿thead, tbody { display: block; }
+
+tbody {
+    height: 200px;       /* Just for the demo          */
+    overflow-y: auto;    /* Trigger vertical scroll    */
+    overflow-x: hidden;  /* Hide the horizontal scroll */
+}
+
+table {
+    width: 100%; /* Optional */
+}
+
+tbody td, thead th {
+    width: 20%;  /* Optional */
+}
+
+.nav > li > a:hover, .nav > li > a:focus {
+  background-color: #EF92A5;
+  text-decoration: none;
+}
