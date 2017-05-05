@@ -19,7 +19,7 @@ namespace OnlineScrum.Controllers
             var proj = ProjectManager.GetProjectByEmail(user.Email);
             ViewBag.Link = "Project";
             if (proj == null)
-                return View();
+                return RedirectToAction("Home", "Dashboard");
 
             //ViewBag.Project = proj;
             ViewBag.Sprints = ProjectManager.GetSprintFromProject(proj.Sprints);

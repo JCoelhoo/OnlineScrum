@@ -20,7 +20,8 @@
 
         <div class="form-group row" style="display:inline">
 
-            @Html.LabelFor(model => model.DevTeamList, new { @class = "col-md-2 col-form-label" })
+        @Html.LabelFor(model => model.DevTeamList, new { @class = "col-md-2 col-form-label" })
+        <p class="glyphicon glyphicon-plus-sign" onclick="myFunction()"></p>
         </div>
         @{
             for (var i = 0; i < 20; i++)
@@ -44,20 +45,15 @@
         <br />
         <br />
         <br />
-        <br />
-        <br />
-
         <input type="submit" value="Submit" class="btn btn-primary" />
     </div>
 
             }
 
-<button class="glyphicon glyphicon-plus" onclick="myFunction()"></button>
 <script>
             var counter = 1;
             function myFunction() {
                 document.getElementById('member' + counter).style.display = 'inline';
-                alert("member" + counter);
                 counter++;
             }
 </script>

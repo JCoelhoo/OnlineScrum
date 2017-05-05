@@ -20,6 +20,7 @@ namespace OnlineScrum.Controllers
             UserManager.RegisterUser(new Register { Email = "2@g.c", Password = "2", Username = "2" });
             UserManager.RegisterUser(new Register { Email = "3@g.c", Password = "3", Username = "3" });
             UserManager.RegisterUser(new Register { Email = "4@g.c", Password = "4", Username = "4" });
+            UserManager.RegisterUser(new Register { Email = "5@g.c", Password = "5", Username = "5" });
             //ProjectManager.AddProject(new Project { Name = "Mock", DevTeamList = new List<string> { "1@g.c" } }, "2@g.c");
             return View();
         }
