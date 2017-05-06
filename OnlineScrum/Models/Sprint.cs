@@ -32,5 +32,11 @@ namespace OnlineScrum.Models
         [GreaterThan("StartDate")]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy}")]
         public DateTime FinishDate { get; set; }
+
+        [Column("Items")]
+        public string Items { get; set; }
+
+        //todo remove this
+        public List<string> ItemsList { get; set; }
     }
 }

@@ -14,12 +14,12 @@
 {
 
     <div class="login-editor">
-        
+
         <div class="form-group row" style="display:inline">
 
             @Html.LabelFor(model => model.SprintName, new { @class = "col-md-2 col-form-label" })
-            </div>
-        <div style="display:inline" class = "col-md-10">
+        </div>
+        <div style="display:inline" class="col-md-10">
             @Html.TextBoxFor(model => model.SprintName, new { @class = "form-control" })
             @Html.ValidationMessageFor(model => model.SprintName)
         </div>
@@ -45,22 +45,23 @@
             @Html.TextBoxFor(model => model.FinishDate, "{0:dd/MM/yyyy}", new { @type = "date", @Value = DateTime.Now.ToString("dd/MM/yyyy"), @class = "form-control" })
             @Html.ValidationMessageFor(model => model.FinishDate)
         </div>
-        <br />
-        <br />
-        <br />
-            <input type="submit" value="Submit" class="btn btn-primary" />
-        </div>
-    <br />
         @Html.ValidationSummary()
-        <br />
-    if (ViewBag.Error != "" && ViewBag.Error != null)
-    {
-        <div class="alert alert-danger fade in">
-            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-            <strong>Error!</strong> @ViewBag.Error
-        </div>
+        @if (ViewBag.Error != "" && ViewBag.Error != null)
+        {
+            <div class="alert alert-danger fade in">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <strong>Error!</strong> @ViewBag.Error
+            </div>
 
-    }
+        }
+        <br />
+        <br />
+        <br />
+        <input type="submit" value="Submit" class="btn btn-primary" />
+    </div>
+        <br />
+        <br />
+
 }
 
 

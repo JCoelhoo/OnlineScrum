@@ -58,7 +58,7 @@ namespace OnlineScrum.Controllers
                 return View();
             }
 
-            var result = ProjectManager.AddSprint(sprint, ((Project)proj).ProjectID);
+            var result = ProjectManager.AddSprint(sprint, ((Project)proj));
 
             if (!String.IsNullOrEmpty(result))
             {

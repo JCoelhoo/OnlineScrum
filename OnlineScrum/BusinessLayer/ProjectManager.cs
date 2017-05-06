@@ -71,7 +71,7 @@ namespace OnlineScrum.BusinessLayer
             }
         }
 
-        public static string AddSprint(Sprint sprint, int projectID)
+        public static string AddSprint(Sprint sprint, Project proj)
         {
             if (sprint == null)
             {
@@ -90,13 +90,14 @@ namespace OnlineScrum.BusinessLayer
                             //var password = Encoding.ASCII.GetBytes(lecturer.Password);    
                             //lecturer.Password = Encoding.Default.GetString(sha.ComputeHash(password));C:\Users\João\Desktop\OnlineScrum\OnlineScrum\BusinessLayer\UserManager.cs
                             //TODO check dates of start and finish
-                            var number = GetNewSprintNumber();
-                            if (number == -1) return SharedManager.DatabaseError;
+                            var number = (proj.Sprints == null) 
+                                ? 1 
+                                : (proj.Sprints.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries)).Count()+1;                            
                             sprint.SprintNumber = number;
                             context.Sprints.Add(sprint);
                             context.SaveChanges();
                             //FIXME sprintID is attributed when Add()
-                            AddSprintToProject(projectID, sprint.SprintID);
+                            AddSprintToProject(proj.ProjectID, sprint.SprintID);
                             dbTransaction.Commit();
 
                             return "";
@@ -112,24 +113,24 @@ namespace OnlineScrum.BusinessLayer
             }
         }
 
-        private static int GetNewSprintNumber()
-        {
-            try {
-                using (var context = new DatabaseContext())
-                {
-                    var count = context.Sprints.Count();
-                    if (count == 0)
-                        return 1;
+        //private static int GetNewSprintNumber()
+        //{
+        //    try {
+        //        using (var context = new DatabaseContext())
+        //        {
+        //            var count = context.Sprints.Count();
+        //            if (count == 0)
+        //                return 1;
 
-                    return count+1; 
-                }
-            }
-            catch (Exception e)
-            {
-                SharedManager.Log(e, "GetSprintNumber");
-                return -1;
-            }
-        }
+        //            return count+1; 
+        //        }
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        SharedManager.Log(e, "GetSprintNumber");
+        //        return -1;
+        //    }
+        //}
 
         public static string AddSprintToProject(int projectID, int sprintID)
         {
