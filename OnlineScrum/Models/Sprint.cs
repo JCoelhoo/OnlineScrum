@@ -35,8 +35,5 @@ namespace OnlineScrum.Models
 
         [Column("Items")]
         public string Items { get; set; }
-
-        //todo remove this
-        public List<string> ItemsList { get; set; }
     }
 }

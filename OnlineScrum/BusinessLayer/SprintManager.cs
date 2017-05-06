@@ -57,7 +57,7 @@ namespace OnlineScrum.BusinessLayer
                                 ? 1
                                 : (sprint.Items.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries)).Count()+1;
                             if (number == -1) return SharedManager.DatabaseError;
-                            item.ItemID = number;
+                            item.ItemNumber = number;
                             context.Items.Add(item);
                             context.SaveChanges();
                             //FIXME sprintID is attributed when Add()
@@ -118,5 +118,27 @@ namespace OnlineScrum.BusinessLayer
         //        return -1;
         //    }
         //}
+        public static List<Item> GetItemsFromSprint(string items)
+        {
+            try
+            {
+                using (var context = new DatabaseContext())
+                {
+                    var itemList = items.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries).ToList();
+                    var itemRet = (from item in context.Items
+                                   where itemList.Contains(item.ItemID.ToString())
+                                   select item).ToList();
+
+                    return itemRet;
+                }
+            }
+            catch (Exception e)
+            {
+                SharedManager.Log(e, "AddItemToSprint");
+                return new List<Item>() { };
+            }
+        }
     }
+
+    
 }

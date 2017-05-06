@@ -13,6 +13,7 @@ namespace OnlineScrum.BusinessLayer
         public static string AddProject(Project project, string scrumMaster)
         {
             //TODO: fix id
+            //TODO SM not in dev
             if (project == null)
             {
                 return "Error when adding. Please try again";
@@ -26,7 +27,7 @@ namespace OnlineScrum.BusinessLayer
                         var insertProject = new Project { Name = project.Name, ScrumMaster = scrumMaster, DevTeam = project.DevTeam };
                         if (!UserManager.CheckExistingEmail(insertProject.ScrumMaster))
                             return insertProject.ScrumMaster + " does not exist";
-                        insertProject.DevTeam = String.Join(",", project.DevTeamList);
+                        insertProject.DevTeam = String.Join(",", project.DevTeamList.Where(s => !String.IsNullOrWhiteSpace(s)));
                         foreach(var dev in insertProject.DevTeam.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
                         {
                             //if (String.IsNullOrEmpty(dev)) continue; 

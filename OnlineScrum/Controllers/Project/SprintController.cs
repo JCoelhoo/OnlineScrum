@@ -27,9 +27,8 @@ namespace OnlineScrum.Controllers
                 return RedirectToAction("Home", "Project");
             }
             var sprint = sprints.Where(m => m.SprintID == id).First();
-            ViewBag.Items = (sprint.Items == null) 
-                ? null 
-                : sprint.Items.Split(new char[] { ',' },StringSplitOptions.RemoveEmptyEntries).ToList();
+
+            ViewBag.Items = SprintManager.GetItemsFromSprint(sprint.Items);
             ViewBag.Sprint = sprint;
             return View();
         }
