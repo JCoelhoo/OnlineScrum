@@ -134,7 +134,7 @@ namespace OnlineScrum.BusinessLayer
             }
             catch (Exception e)
             {
-                SharedManager.Log(e, "AddItemToSprint");
+                SharedManager.Log(e, "GetItemsFromSprint");
                 return new List<Item>() { };
             }
         }

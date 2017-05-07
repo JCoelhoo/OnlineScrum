@@ -164,6 +164,7 @@
     <Compile Include="BusinessLayer\SharedManager.cs" />
     <Compile Include="BusinessLayer\SprintManager.cs" />
     <Compile Include="BusinessLayer\UserManager.cs" />
+    <Compile Include="Controllers\About\AboutController.cs" />
     <Compile Include="Controllers\Project\DashboardController.cs" />
     <Compile Include="Controllers\Login\LoginController.cs" />
     <Compile Include="Controllers\Project\ProjectController.cs" />
@@ -235,6 +236,7 @@
     <Content Include="Views\Project\Create_Sprint.cshtml" />
     <Content Include="Views\Sprint\Home.cshtml" />
     <Content Include="Views\Sprint\Create_Item.cshtml" />
+    <Content Include="Views\About\Home.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

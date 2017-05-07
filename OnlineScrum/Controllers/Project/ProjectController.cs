@@ -24,6 +24,9 @@ namespace OnlineScrum.Controllers
             //ViewBag.Project = proj;
             ViewBag.Sprints = ProjectManager.GetSprintFromProject(proj.Sprints);
             ViewBag.ProjectName = proj.Name;
+            var memberList = (List<string>)proj.DevTeam.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries).ToList();
+            memberList.Add(proj.ScrumMaster);
+            ViewBag.MemberList = memberList;
             return View();
         }
 
