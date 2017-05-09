@@ -71,5 +71,25 @@ namespace OnlineScrum.Controllers
 
             return RedirectToAction("Home", "Project");
         }
+
+        [Route("project/new_member")]
+        [HttpPost]
+        public ActionResult New_Member(string userEmail)
+        {
+            var user = (User)Session["UserInfo"];
+            if (user == null)
+                return RedirectToAction("Login", "Login");
+            ViewBag.Link = "Project";
+            var proj = ProjectManager.GetProjectByEmail(user.Email);
+            if (proj == null)
+                return RedirectToAction("New_Project", "Dashboard");
+
+            ViewBag.AddMemberError = ProjectManager.AddMember(userEmail, proj.ProjectID);
+            var project = ProjectManager.GetProjectByEmail(user.Email);
+            var memberList = project.DevTeam.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries).ToList();
+            memberList.Add(project.ScrumMaster);
+            ViewBag.MemberList = memberList;
+            return PartialView("MemberList");
+        }
     }
 }

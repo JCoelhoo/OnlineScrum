@@ -1,0 +1,17 @@
+﻿<div id="empList">
+    <ul class="list-group">
+        @foreach (var member in @ViewBag.MemberList)
+        {
+            <li class="list-group-item">@member</li>
+        }
+    </ul>
+    @if (@ViewBag.AddMemberError != "" && @ViewBag.AddMemberError != null)
+    {
+        <div class="alert alert-danger fade in">
+            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+            <strong>Error!</strong> @ViewBag.AddMemberError
+        </div>
+
+    }
+
+</div>

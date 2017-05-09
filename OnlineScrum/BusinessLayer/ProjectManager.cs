@@ -28,7 +28,7 @@ namespace OnlineScrum.BusinessLayer
                         if (!UserManager.CheckExistingEmail(insertProject.ScrumMaster))
                             return insertProject.ScrumMaster + " does not exist";
                         insertProject.DevTeam = String.Join(",", project.DevTeamList.Where(s => !String.IsNullOrWhiteSpace(s)));
-                        foreach(var dev in insertProject.DevTeam.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
+                        foreach (var dev in insertProject.DevTeam.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
                         {
                             //if (String.IsNullOrEmpty(dev)) continue; 
                             if (!UserManager.CheckExistingEmail(dev))
@@ -54,14 +54,14 @@ namespace OnlineScrum.BusinessLayer
                 using (var context = new DatabaseContext())
                 {
                     var projects = (from proj in context.Projects
-                                       select proj).ToList();
+                                    select proj).ToList();
                     Project project = null;
-                    foreach(var proj in projects)
+                    foreach (var proj in projects)
                     {
                         if (proj.ScrumMaster == email || proj.DevTeam.Contains(email))
                             project = proj;
                     }
-                    
+
                     return project;
                 }
             }
@@ -91,9 +91,9 @@ namespace OnlineScrum.BusinessLayer
                             //var password = Encoding.ASCII.GetBytes(lecturer.Password);    
                             //lecturer.Password = Encoding.Default.GetString(sha.ComputeHash(password));C:\Users\João\Desktop\OnlineScrum\OnlineScrum\BusinessLayer\UserManager.cs
                             //TODO check dates of start and finish
-                            var number = (proj.Sprints == null) 
-                                ? 1 
-                                : (proj.Sprints.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries)).Count()+1;                            
+                            var number = (proj.Sprints == null)
+                                ? 1
+                                : (proj.Sprints.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries)).Count() + 1;
                             sprint.SprintNumber = number;
                             context.Sprints.Add(sprint);
                             context.SaveChanges();
@@ -140,8 +140,8 @@ namespace OnlineScrum.BusinessLayer
                 using (var context = new DatabaseContext())
                 {
                     var proj = (from project in context.Projects
-                                      where project.ProjectID == projectID
-                                      select project).FirstOrDefault();
+                                where project.ProjectID == projectID
+                                select project).FirstOrDefault();
                     proj.Sprints += "," + sprintID;
                     context.SaveChanges();
 
@@ -167,7 +167,7 @@ namespace OnlineScrum.BusinessLayer
                     var sprintList = (from sprint in context.Sprints
                                       where sprints.Contains<string>(sprint.SprintID.ToString())
                                       select sprint).ToList<Sprint>();
-                    
+
                     return sprintList;
                 }
             }
@@ -176,6 +176,49 @@ namespace OnlineScrum.BusinessLayer
                 SharedManager.Log(e, "GetSprintFromProject");
                 return new List<Sprint>();
             }
+        }
+
+        //if memeber exists or differnet
+        public static string AddMember(string member, int projectID)
+        {
+            try
+            {
+                if (member == null) return "Email cannot be null";
+                using (var context = new DatabaseContext())
+                {
+                    var proj = (from project in context.Projects
+                                where project.ProjectID == projectID
+                                select project).First();
+                    if (proj == null)
+                    {
+                        return "Project not found";
+                    }
+
+                    if (SplitString(proj.DevTeam).Contains(member) || proj.ScrumMaster == member)
+                    {
+                        return "Member already exists";
+                    }
+
+                    if (!UserManager.CheckExistingEmail(member))
+                        return member + " does not exist";
+
+                    proj.DevTeam += "," + member;
+                    context.SaveChanges();
+
+                    return "";
+                }
+            }
+            catch (Exception e)
+            {
+                SharedManager.Log(e, "GetSprintFromProject");
+                return SharedManager.DatabaseError;
+            }
+        }
+
+
+        public static List<string> SplitString(string s)
+        {
+            return s.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries).ToList();
         }
     }
 }

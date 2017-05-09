@@ -21,13 +21,16 @@ namespace OnlineScrum.Models
         public int ItemNumber { get; set; }
 
         [Column("Name")]
+        [Required]
         public string ItemName { get; set; }
 
         [Column("AssignedTo")]
+        [Required]
         public string AssignedTo { get; set; }
 
         [Column("EstimatedEffort")]
         [Range(1,5)]
+        [Required]
         public int EstimatedEffort { get; set; }
     }
 }
