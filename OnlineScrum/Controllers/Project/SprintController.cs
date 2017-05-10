@@ -47,6 +47,7 @@ namespace OnlineScrum.Controllers
             if (sprint == null)
                 return RedirectToAction("Home", "Project");
 
+            ViewBag.Members = SharedManager.SplitString(proj.DevTeam);
             return View();            
         }
 

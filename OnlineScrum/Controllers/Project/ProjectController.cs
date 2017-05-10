@@ -24,8 +24,8 @@ namespace OnlineScrum.Controllers
             //ViewBag.Project = proj;
             ViewBag.Sprints = ProjectManager.GetSprintFromProject(proj.Sprints);
             ViewBag.ProjectName = proj.Name;
-            var memberList = (List<string>)proj.DevTeam.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries).ToList();
-            memberList.Add(proj.ScrumMaster);
+            var memberList = SharedManager.SplitString(proj.DevTeam);
+            memberList.Insert(0,proj.ScrumMaster);
             ViewBag.MemberList = memberList;
             return View();
         }
@@ -86,7 +86,7 @@ namespace OnlineScrum.Controllers
 
             ViewBag.AddMemberError = ProjectManager.AddMember(userEmail, proj.ProjectID);
             var project = ProjectManager.GetProjectByEmail(user.Email);
-            var memberList = project.DevTeam.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries).ToList();
+            var memberList = SharedManager.SplitString(project.DevTeam);
             memberList.Add(project.ScrumMaster);
             ViewBag.MemberList = memberList;
             return PartialView("MemberList");

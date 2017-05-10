@@ -55,8 +55,9 @@ namespace OnlineScrum.BusinessLayer
                             //TODO check dates of start and finish
                             var number = (sprint.Items == null) 
                                 ? 1
-                                : (sprint.Items.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries)).Count()+1;
+                                : (SharedManager.SplitString(sprint.Items)).Count()+1;
                             if (number == -1) return SharedManager.DatabaseError;
+                            //check assignedto member of sprint
                             item.ItemNumber = number;
                             context.Items.Add(item);
                             context.SaveChanges();
@@ -118,13 +119,14 @@ namespace OnlineScrum.BusinessLayer
         //        return -1;
         //    }
         //}
+
         public static List<Item> GetItemsFromSprint(string items)
         {
             try
             {
                 using (var context = new DatabaseContext())
                 {
-                    var itemList = items.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries).ToList();
+                    var itemList = SharedManager.SplitString(items);
                     var itemRet = (from item in context.Items
                                    where itemList.Contains(item.ItemID.ToString())
                                    select item).ToList();
@@ -137,6 +139,30 @@ namespace OnlineScrum.BusinessLayer
                 SharedManager.Log(e, "GetItemsFromSprint");
                 return new List<Item>() { };
             }
+        }
+
+        public static string AddMeetingToSprint(string meetingID, int sprintID)
+        {
+            try
+            {
+                using (var context = new DatabaseContext())
+                {
+                    var sprintResult = (from sprint in context.Sprints
+                                        where sprint.SprintID == sprintID
+                                        select sprint).First();
+
+                    sprintResult.Meetings = (sprintResult.Meetings == "") ? meetingID : ',' + sprintResult.Meetings;
+                    context.SaveChanges();
+
+                    return "";
+                }
+            }
+            catch (Exception e)
+            {
+                SharedManager.Log(e, "AddMeetingToSprint");
+                return SharedManager.DatabaseError;
+            }
+
         }
     }
 

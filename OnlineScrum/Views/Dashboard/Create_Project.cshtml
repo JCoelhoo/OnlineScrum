@@ -26,13 +26,15 @@
         @{
             for (var i = 0; i < 20; i++)
             {
-                <div style="display:@(i==0 ? "inline" : "none")" class="col-md-10" id="member@(i)">
-                    @Html.TextBoxFor(model => model.DevTeamList[i], new { @class = "form-control"})
+                <div style="display:@(i == 0 ? "inline" : "none")" class="col-md-10" id="member@(i)">
+                    @Html.TextBoxFor(model => model.DevTeamList[i], new { @class = "form-control", @placeholder = "Email"})
                     @Html.ValidationMessageFor(model => model.DevTeamList)
                 </div>
             }
         }
-        
+        <br />
+        <br />
+
         @if (ViewBag.Error != "" && ViewBag.Error != null)
         {
             <div class="alert alert-danger fade in">

@@ -23,5 +23,10 @@ namespace OnlineScrum.BusinessLayer
                 sw.Write("\n\n");
             }
         }
+
+        public static List<string> SplitString(string s)
+        {
+            return s.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries).ToList();
+        }
     }
 }

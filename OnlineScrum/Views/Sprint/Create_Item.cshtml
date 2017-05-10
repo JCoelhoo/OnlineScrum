@@ -25,19 +25,40 @@
             @Html.LabelFor(model => model.AssignedTo, new { @class = "col-md-2 col-form-label" })
         </div>
         <div style="display:inline" class="col-md-10">
-            @Html.TextBoxFor(model => model.AssignedTo, new { @type ="email", @class = "form-control" })
-            @Html.ValidationMessageFor(model => model.AssignedTo)
+            <div class="form-group">
+                <select data-val="true" data-val-required="Email Address is required" type="email" class="form-control" id="AssignedTo" name="AssignedTo">
+                    <option selected disabled>Select member of the team</option>
+                    @if (ViewBag.Members != null)
+                    {
+                        foreach (var member in ViewBag.Members)
+                        {
+                            <option>@member</option>
+                        }
+                    }
+                </select>
+                <span class="field-validation-valid" data-valmsg-for="Email" data-valmsg-replace="true"></span>
+                @Html.ValidationMessageFor(model => model.AssignedTo)
+            </div>
         </div>
         <br />
         <br />
+        
 
         <div class="form-group row" style="display:inline">
-
             @Html.LabelFor(model => model.EstimatedEffort, new { @class = "col-md-2 col-form-label" })
         </div>
         <div style="display:inline" class="col-md-10">
-            @Html.TextBoxFor(model => model.EstimatedEffort, new { @class = "form-control" })
-            @Html.ValidationMessageFor(model => model.EstimatedEffort)
+            <div class="form-group">
+                <select class="form-control" name="EstimatedEffort" id="EstimatedEffort">
+                    <option selected disabled>Select estimate for effort</option>
+                    <option>1</option>
+                    <option>2</option>
+                    <option>3</option>
+                    <option>4</option>
+                    <option>5</option>
+                </select>
+                @Html.ValidationMessageFor(model => model.EstimatedEffort)
+            </div>
         </div>
         <br />
         <br />
@@ -57,5 +78,5 @@
         <input type="submit" value="Submit" class="btn btn-primary" />
     </div>
 
-            }
+}
 

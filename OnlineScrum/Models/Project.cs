@@ -13,6 +13,7 @@ namespace OnlineScrum.Models
         [Column("Name")]
         [MaxLength(50)]
         [Required(AllowEmptyStrings = false)]
+        [Display(Name = "Project Name")]
         public string Name { get; set; }
 
         [Key]
@@ -28,12 +29,11 @@ namespace OnlineScrum.Models
 
         [Column("DevTeam")]
         public virtual string DevTeam { get; set; }
+        [Display(Name = "Development Team")]
         public List<string> DevTeamList { get; set; }
         
         [Column("Sprint")]
         public string Sprints { get; set; }
-
-
     }
 }
  

@@ -28,9 +28,11 @@ namespace OnlineScrum.BusinessLayer
                         if (!UserManager.CheckExistingEmail(insertProject.ScrumMaster))
                             return insertProject.ScrumMaster + " does not exist";
                         insertProject.DevTeam = String.Join(",", project.DevTeamList.Where(s => !String.IsNullOrWhiteSpace(s)));
-                        foreach (var dev in insertProject.DevTeam.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
+                        foreach (var dev in SharedManager.SplitString(insertProject.DevTeam))
                         {
                             //if (String.IsNullOrEmpty(dev)) continue; 
+                            if (scrumMaster == dev)
+                                return dev + " is the Scrum Master";
                             if (!UserManager.CheckExistingEmail(dev))
                                 return dev + " does not exist";
                         }
@@ -93,7 +95,7 @@ namespace OnlineScrum.BusinessLayer
                             //TODO check dates of start and finish
                             var number = (proj.Sprints == null)
                                 ? 1
-                                : (proj.Sprints.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries)).Count() + 1;
+                                : (SharedManager.SplitString(proj.Sprints)).Count() + 1;
                             sprint.SprintNumber = number;
                             context.Sprints.Add(sprint);
                             context.SaveChanges();
@@ -160,7 +162,7 @@ namespace OnlineScrum.BusinessLayer
             try
             {
                 if (sprintString == null) return new List<Sprint>();
-                var sprints = sprintString.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+                var sprints = SharedManager.SplitString(sprintString);
                 var returnSprint = new Project();
                 using (var context = new DatabaseContext())
                 {
@@ -194,7 +196,7 @@ namespace OnlineScrum.BusinessLayer
                         return "Project not found";
                     }
 
-                    if (SplitString(proj.DevTeam).Contains(member) || proj.ScrumMaster == member)
+                    if (SharedManager.SplitString(proj.DevTeam).Contains(member) || proj.ScrumMaster == member)
                     {
                         return "Member already exists";
                     }
@@ -213,12 +215,6 @@ namespace OnlineScrum.BusinessLayer
                 SharedManager.Log(e, "GetSprintFromProject");
                 return SharedManager.DatabaseError;
             }
-        }
-
-
-        public static List<string> SplitString(string s)
-        {
-            return s.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries).ToList();
         }
     }
 }

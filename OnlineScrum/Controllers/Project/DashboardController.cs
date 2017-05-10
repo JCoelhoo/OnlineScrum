@@ -68,7 +68,7 @@ namespace OnlineScrum.Controllers
 
             Session["Project"] = project;
 
-            return View("Home");
+            return RedirectToAction("Home", "Dashboard");
         }
     }
 }

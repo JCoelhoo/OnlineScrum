@@ -20,20 +20,29 @@ namespace OnlineScrum.Models
         public int SprintNumber { get; set; }
 
         [Column("Name")]
+        [Required]
+        [Display(Name = "Sprint Name")]
         public string SprintName { get; set; }
 
         [Column("StartDate")]
         [DataType(DataType.Date)]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy}")]
+        [Display(Name = "Start Date")]
+        [Required]
         public DateTime StartDate { get; set; }
 
         [Column("FinishDate")]
         [DataType(DataType.Date)]
         [GreaterThan("StartDate")]
+        [Required]
+        [Display(Name = "Start Date")]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy}")]
         public DateTime FinishDate { get; set; }
 
         [Column("Items")]
         public string Items { get; set; }
+
+        [Column("Meetings")]
+        public string Meetings { get; set; }
     }
 }

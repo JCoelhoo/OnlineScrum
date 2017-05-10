@@ -21,16 +21,21 @@ namespace OnlineScrum.Models
         public int ItemNumber { get; set; }
 
         [Column("Name")]
-        [Required]
+        [Display(Name = "Item Name")]
+        [Required(AllowEmptyStrings = false)]
         public string ItemName { get; set; }
 
         [Column("AssignedTo")]
-        [Required]
+        [Required(AllowEmptyStrings = false)]
+        [DataType(DataType.EmailAddress)]
+        [EmailAddress(ErrorMessage = "Needs to be an Email Adress")]
+        [Display(Name = "Assign Item")]
         public string AssignedTo { get; set; }
 
         [Column("EstimatedEffort")]
         [Range(1,5)]
         [Required]
+        [Display(Name = "Estimated Effort")]
         public int EstimatedEffort { get; set; }
     }
 }
