@@ -15,7 +15,12 @@ namespace OnlineScrum.Models
         [Column("Developer")]
         public string Developer { get; set; }
 
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy}")]
+        [Required]
+        [DataType(DataType.EmailAddress)]
+        [Column("ScrumMaster")]
+        public string ScrumMaster { get; set; }
+
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy hh:mm}")]
         [DataType(DataType.DateTime)]
         [Required]
         [Display(Name = "Time of Interview")]
@@ -46,5 +51,11 @@ namespace OnlineScrum.Models
         [Column("MeetingID")]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int MeetingID { get; set; }
+
+        [Column("SprintID")]
+        public int SprintID { get; set; }
+
+        [Column("ProjectID")]
+        public int ProjectID { get; set; }
     }
 }

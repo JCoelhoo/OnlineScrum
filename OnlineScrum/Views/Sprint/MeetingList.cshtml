@@ -1,0 +1,77 @@
+﻿@model OnlineScrum.Models.Meeting
+<div id="empList">
+        <h4>Meeting Table</h4>
+        <table class="table table-hover">
+            <thead class="thead-default">
+                <tr>
+                    <th>Time</th>
+                    <th>Scrum Master</th>
+                    <th>Developer</th>
+                    <th>Location</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @for (int i = ViewBag.Meetings.Count; i >= 1; i--)
+                {
+                    @*Colour of row*@
+                    <tr class="@(DateTime.Now<ViewBag.Meetings[i-1].Time ? "success" : "active")">
+                        <td>@ViewBag.Meetings[i - 1].Time</td>
+                        <td>@ViewBag.Meetings[i - 1].ScrumMaster</td>
+                        <td>@ViewBag.Meetings[i - 1].Developer</td>
+                        <td>@ViewBag.Meetings[i - 1].Location</td>
+                        <td><button type="button" class="btn btn-link" data-toggle="modal" data-target="#modal@((ViewBag.Meetings[i - 1]).MeetingID)">Details</button></td>
+                    </tr>
+                }
+
+
+                <tr>
+                    <td>
+                        @Html.TextBoxFor(model => model.Time, "{0:dd/MM/yyyy hh:mm}", new { @type = "datetime-local", @Value = DateTime.Now.ToString("dd/mm/yyyy"), @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.Time)
+                    </td>
+                    <td>
+                        <select data-val="true" data-val-required="Email Address is required" type="email" class="form-control" id="ScrumMaster" name="ScrumMaster">
+                            <option selected disabled>Select member of the team</option>
+                            @if (ViewBag.ScrumMaster != null)
+                            {
+                                    <option>@ViewBag.ScrumMaster</option>
+                            }
+                        </select>
+                        <span class="field-validation-valid" data-valmsg-for="Email" data-valmsg-replace="true"></span>
+                        @Html.ValidationMessageFor(model => model.ScrumMaster)
+                    </td>
+                    <td>
+                        <div class="form-group">
+                            <select data-val="true" data-val-required="Email Address is required" type="email" class="form-control" id="Developer" name="Developer">
+                                <option selected disabled>Select member of the team</option>
+                                @if (ViewBag.Members != null)
+                                {
+                                    foreach (var member in ViewBag.Members)
+                                    {
+                                        <option>@member</option>
+                                    }
+                                }
+                            </select>
+                            <span class="field-validation-valid" data-valmsg-for="Email" data-valmsg-replace="true"></span>
+                            @Html.ValidationMessageFor(model => model.Developer)
+                        </div>
+                    </td>
+                    <td>
+                        @Html.TextBoxFor(model => model.Location, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.Location)
+                    </td>
+
+                    <td><input class='col-md-12 btn btn-info' id='submitMember' type=submit value='Add'></td>
+                </tr>
+
+            </tbody>
+        </table>
+        @if (@ViewBag.CreateMeetingError != "" && @ViewBag.CreateMeetingError != null)
+        {
+            <div class="alert alert-danger fade in">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <strong>Error!</strong> @ViewBag.CreateMeetingError
+            </div>
+        }
+</div>

@@ -160,6 +160,7 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="BusinessLayer\MeetingManager.cs" />
     <Compile Include="BusinessLayer\ProjectManager.cs" />
     <Compile Include="BusinessLayer\SharedManager.cs" />
     <Compile Include="BusinessLayer\SprintManager.cs" />
@@ -241,6 +242,8 @@
     <Content Include="Views\Sprint\Create_Item.cshtml" />
     <Content Include="Views\About\Home.cshtml" />
     <Content Include="Views\Project\MemberList.cshtml" />
+    <Content Include="Views\Sprint\MeetingList.cshtml" />
+    <Content Include="Views\Sprint\Error.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

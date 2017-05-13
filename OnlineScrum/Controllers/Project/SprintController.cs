@@ -30,6 +30,9 @@ namespace OnlineScrum.Controllers
 
             ViewBag.Items = SprintManager.GetItemsFromSprint(sprint.Items);
             ViewBag.Sprint = sprint;
+            ViewBag.Meetings = MeetingManager.GetMeetingsByEmail(user.Email, sprint.SprintID).OrderBy(m => m.Time).ToList();
+            ViewBag.ScrumMaster = proj.ScrumMaster;
+            ViewBag.Members = SharedManager.SplitString(proj.DevTeam);
             return View();
         }
 
@@ -80,6 +83,48 @@ namespace OnlineScrum.Controllers
             }
 
             return RedirectToAction("Home", "Sprint");
+        }
+
+        [Route("project/sprint/{id:int}/create_meeting")]
+        [HttpPost]
+        public ActionResult Create_Meeting(int id, Meeting meeting)
+        {
+            var user = (User)Session["UserInfo"];
+            if (user == null)
+                return RedirectToAction("Login", "Login");
+            var proj = ProjectManager.GetProjectByEmail(user.Email);
+            ViewBag.Link = "Project";
+            if (proj == null)
+                return RedirectToAction("Home", "Dashboard");
+            var sprint = SprintManager.GetSprintFromID(id);
+            if (sprint == null)
+                return RedirectToAction("Home", "Project");
+
+            ViewBag.CreateMeetingError = MeetingManager.AddMeeting(meeting, id);
+            ViewBag.Meetings = (MeetingManager.GetMeetingsByEmail(user.Email, id)).OrderBy(m => m.Time).ToList();
+            ViewBag.Members = SharedManager.SplitString(proj.DevTeam);
+            ViewBag.ScrumMaster = proj.ScrumMaster;
+            //return RedirectToAction("Home", "Sprint");
+            return PartialView("MeetingList");
+        }
+
+        [Route("project/sprint/{id:int}/answer_questions")]
+        [HttpPost]
+        public ActionResult Answer_Questions(int id, Meeting meeting)
+        {
+            var user = (User)Session["UserInfo"];
+            if (user == null)
+                return RedirectToAction("Login", "Login");
+            var proj = ProjectManager.GetProjectByEmail(user.Email);
+            ViewBag.Link = "Project";
+            if (proj == null)
+                return RedirectToAction("Home", "Dashboard");
+            var sprint = SprintManager.GetSprintFromID(id);
+            if (sprint == null)
+                return RedirectToAction("Home", "Project");
+
+            ViewBag.Error = MeetingManager.AddMeetingQuestions(id, meeting);
+            return PartialView("Error");
         }
     }
 }
