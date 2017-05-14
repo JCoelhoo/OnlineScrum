@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 
 namespace OnlineScrum.BusinessLayer
 {
@@ -18,16 +17,17 @@ namespace OnlineScrum.BusinessLayer
                     var sprintResult = (from sprint in context.Sprints
                                       where sprint.SprintID == id
                                       select sprint).FirstOrDefault();
-                    if (sprintResult != null)
-                    {
-                        returnSprint.SprintID = sprintResult.SprintID;
-                        returnSprint.FinishDate = sprintResult.FinishDate;
-                        returnSprint.StartDate = sprintResult.StartDate;
-                        returnSprint.SprintNumber = sprintResult.SprintNumber;
-                        returnSprint.SprintName = sprintResult.SprintName;
-                        returnSprint.Items = sprintResult.Items;
-                        //returnSprint.ItemsList = sprintResult.Items.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries).ToList();
-                    }
+
+                    if (sprintResult == null)
+                        return returnSprint;
+
+                    returnSprint.SprintID = sprintResult.SprintID;
+                    returnSprint.FinishDate = sprintResult.FinishDate;
+                    returnSprint.StartDate = sprintResult.StartDate;
+                    returnSprint.SprintNumber = sprintResult.SprintNumber;
+                    returnSprint.SprintName = sprintResult.SprintName;
+                    returnSprint.Items = sprintResult.Items;
+                    //returnSprint.ItemsList = sprintResult.Items.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries).ToList();
                     return returnSprint;
                 }
             } catch (Exception e)
@@ -87,6 +87,9 @@ namespace OnlineScrum.BusinessLayer
                     var sprintReturn = (from sprint in context.Sprints
                                 where sprint.SprintID == sprintID
                                 select sprint).FirstOrDefault();
+                    if (sprintReturn == null)
+                        return "Sprint does not exist";
+
                     sprintReturn.Items += "," + itemID;
                     context.SaveChanges();
 

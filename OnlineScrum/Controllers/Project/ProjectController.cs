@@ -1,9 +1,5 @@
 ﻿using OnlineScrum.BusinessLayer;
 using OnlineScrum.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 
 namespace OnlineScrum.Controllers
@@ -39,7 +35,7 @@ namespace OnlineScrum.Controllers
             var proj = ProjectManager.GetProjectByEmail(user.Email);
             ViewBag.Link = "Project";
             if (proj == null)
-                return RedirectToAction("New_Project", "Dashboard");
+                return RedirectToAction("Create_Project", "Dashboard");
 
             return View();
         }
@@ -54,7 +50,7 @@ namespace OnlineScrum.Controllers
             ViewBag.Link = "Project";
             var proj = ProjectManager.GetProjectByEmail(user.Email);
             if (proj == null)
-                return RedirectToAction("New_Project", "Dashboard");
+                return RedirectToAction("Create_Project", "Dashboard");
 
             if (!ModelState.IsValid)
             {
@@ -63,13 +59,11 @@ namespace OnlineScrum.Controllers
 
             var result = ProjectManager.AddSprint(sprint, ((Project)proj));
 
-            if (!String.IsNullOrEmpty(result))
-            {
-                ViewBag.Error = result;
-                return RedirectToAction("Create_Sprint", "Project");
-            }
+            if (string.IsNullOrEmpty(result))
+                return RedirectToAction("Home", "Project");
 
-            return RedirectToAction("Home", "Project");
+            ViewBag.Error = result;
+            return RedirectToAction("Create_Sprint", "Project");
         }
 
         [Route("project/new_member")]
@@ -82,7 +76,7 @@ namespace OnlineScrum.Controllers
             ViewBag.Link = "Project";
             var proj = ProjectManager.GetProjectByEmail(user.Email);
             if (proj == null)
-                return RedirectToAction("New_Project", "Dashboard");
+                return RedirectToAction("Create_Project", "Dashboard");
 
             ViewBag.AddMemberError = ProjectManager.AddMember(userEmail, proj.ProjectID);
             var project = ProjectManager.GetProjectByEmail(user.Email);
