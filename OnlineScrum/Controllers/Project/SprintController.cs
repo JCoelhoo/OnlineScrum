@@ -60,6 +60,28 @@ namespace OnlineScrum.Controllers
             return View();
         }
 
+        [Route("project/sprint/{id:int}/items")]
+        public ActionResult Items(int id)
+        {
+            var user = (User)Session["UserInfo"];
+            if (user == null)
+                return RedirectToAction("Login", "Login");
+            var proj = ProjectManager.GetProjectByEmail(user.Email);
+            ViewBag.Link = "Project";
+            if (proj == null)
+                return RedirectToAction("Home", "Dashboard");
+            var sprints = ProjectManager.GetSprintFromProject(proj.Sprints);
+            if (sprints == null || sprints.Count(m => m.SprintID == id) == 0)
+            {
+                ViewBag.Error = "Sprint not found";
+                return RedirectToAction("Home", "Project");
+            }
+            var sprint = sprints.First(m => m.SprintID == id);
+
+            ViewBag.Items = SprintManager.GetItemsFromSprint(sprint.Items);
+            return View();
+        }
+
         [Route("project/sprint/{id:int}/new_item")]
         public ActionResult Create_Item(int id)
         {
@@ -159,6 +181,25 @@ namespace OnlineScrum.Controllers
 
             ViewBag.Error = MeetingManager.AddMeetingQuestions(id, meeting);
             return PartialView("Error");
+        }
+
+        [Route("project/sprint/{id:int}/change_status")]
+        [HttpPost]
+        public ActionResult Change_Status(int id, Item item)
+        {
+            var user = (User)Session["UserInfo"];
+            if (user == null)
+                return RedirectToAction("Login", "Login");
+            var proj = ProjectManager.GetProjectByEmail(user.Email);
+            ViewBag.Link = "Project";
+            if (proj == null)
+                return RedirectToAction("Home", "Dashboard");
+            var sprint = SprintManager.GetSprintFromID(id);
+            if (sprint == null)
+                return RedirectToAction("Home", "Project");
+
+            SprintManager.ChangeStatus(item);
+            return null;//View();//PartialView("ItemList");
         }
     }
 }

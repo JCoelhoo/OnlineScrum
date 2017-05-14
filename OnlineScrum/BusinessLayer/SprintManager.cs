@@ -59,6 +59,7 @@ namespace OnlineScrum.BusinessLayer
                             if (number == -1) return SharedManager.DatabaseError;
                             //check assignedto member of sprint
                             item.ItemNumber = number;
+                            item.ItemStatus = "Developing";
                             context.Items.Add(item);
                             context.SaveChanges();
                             //FIXME sprintID is attributed when Add()
@@ -166,6 +167,30 @@ namespace OnlineScrum.BusinessLayer
                 return SharedManager.DatabaseError;
             }
 
+        }
+
+        public static string ChangeStatus(Item item)
+        {
+
+            try
+            {
+                using (var context = new DatabaseContext())
+                {
+                    var itemRet = (from it in context.Items
+                        where it.ItemID == item.ItemID
+                        select it).First();
+
+                    itemRet.ItemStatus = item.ItemStatus;
+                    context.SaveChanges();
+
+                    return "";
+                }
+            }
+            catch (Exception e)
+            {
+                SharedManager.Log(e, "Change_Status");
+                return SharedManager.DatabaseError;
+            }
         }
     }
 
