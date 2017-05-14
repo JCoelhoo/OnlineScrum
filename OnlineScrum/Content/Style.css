@@ -13,8 +13,3 @@ table {
 tbody td, thead th {
     width: 20%;  /* Optional */
 }
-
-.nav > li > a:hover, .nav > li > a:focus {
-  background-color: #EF92A5;
-  text-decoration: none;
-}

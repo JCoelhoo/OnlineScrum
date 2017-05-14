@@ -19,15 +19,41 @@ namespace OnlineScrum.Controllers
             if (proj == null)
                 return RedirectToAction("Home", "Dashboard");
             var sprints = ProjectManager.GetSprintFromProject(proj.Sprints);
-            if(sprints == null || sprints.Where(m => m.SprintID == id).Count() == 0)
+            if(sprints == null || sprints.Count(m => m.SprintID == id) == 0)
             {
                 ViewBag.Error = "Sprint not found";
                 return RedirectToAction("Home", "Project");
             }
-            var sprint = sprints.Where(m => m.SprintID == id).First();
+            var sprint = sprints.First(m => m.SprintID == id);
 
             ViewBag.Items = SprintManager.GetItemsFromSprint(sprint.Items);
             ViewBag.Sprint = sprint;
+            ViewBag.Short = true;
+            ViewBag.Meetings = MeetingManager.GetMeetingsByEmail(user.Email, sprint.SprintID).OrderBy(m => m.Time).ToList();
+            ViewBag.ScrumMaster = proj.ScrumMaster;
+            ViewBag.Members = SharedManager.SplitString(proj.DevTeam);
+            return View();
+        }
+
+        [Route("project/sprint/{id:int}/meetings")]
+        public ActionResult Meetings(int id)
+        {
+            var user = (User)Session["UserInfo"];
+            if (user == null)
+                return RedirectToAction("Login", "Login");
+            var proj = ProjectManager.GetProjectByEmail(user.Email);
+            ViewBag.Link = "Project";
+            if (proj == null)
+                return RedirectToAction("Home", "Dashboard");
+            var sprints = ProjectManager.GetSprintFromProject(proj.Sprints);
+            if (sprints == null || sprints.Count(m => m.SprintID == id) == 0)
+            {
+                ViewBag.Error = "Sprint not found";
+                return RedirectToAction("Home", "Project");
+            }
+            var sprint = sprints.First(m => m.SprintID == id);
+
+            ViewBag.Short = false;
             ViewBag.Meetings = MeetingManager.GetMeetingsByEmail(user.Email, sprint.SprintID).OrderBy(m => m.Time).ToList();
             ViewBag.ScrumMaster = proj.ScrumMaster;
             ViewBag.Members = SharedManager.SplitString(proj.DevTeam);
@@ -98,10 +124,20 @@ namespace OnlineScrum.Controllers
             if (sprint == null)
                 return RedirectToAction("Home", "Project");
 
-            ViewBag.CreateMeetingError = MeetingManager.AddMeeting(meeting, id);
+            if (!ModelState.IsValid)
+            {
+                ViewBag.Meetings = (MeetingManager.GetMeetingsByEmail(user.Email, id)).OrderBy(m => m.Time).ToList();
+                ViewBag.Members = SharedManager.SplitString(proj.DevTeam);
+                ViewBag.ScrumMaster = proj.ScrumMaster;
+                ViewBag.Short = false;
+                return PartialView("MeetingList");
+            }
+
+            ViewBag.Error = MeetingManager.AddMeeting(meeting, id);
             ViewBag.Meetings = (MeetingManager.GetMeetingsByEmail(user.Email, id)).OrderBy(m => m.Time).ToList();
             ViewBag.Members = SharedManager.SplitString(proj.DevTeam);
             ViewBag.ScrumMaster = proj.ScrumMaster;
+            ViewBag.Short = false;
             //return RedirectToAction("Home", "Sprint");
             return PartialView("MeetingList");
         }

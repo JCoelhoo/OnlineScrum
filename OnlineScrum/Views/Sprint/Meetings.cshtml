@@ -1,0 +1,83 @@
+﻿
+@{
+    ViewBag.Title = "Meetings";
+}
+<script src="@Url.Content("~/Scripts/jquery.unobtrusive-ajax.min.js")" type="text/javascript"></script>
+<script src="~/Scripts/jquery.unobtrusive-ajax.min.js" type="text/javascript"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js" type="text/javascript"></script>
+<script src=@Url.Content("~/Scripts/jquery.unobtrusive-ajax.min.js") type="text/javascript"></script>
+<script>
+    $(function () {
+        $('[data-toggle="popover"]').popover()
+    })
+
+</script>
+<br />
+<div class="tab col-md-offset-3">
+    <ul class="nav nav-tabs" style="border-bottom:0px solid transparent">
+        <li role="presentation"><a href="@Url.Action("Home", "Sprint")">Overview</a></li>
+        <li role="presentation"><a href="#">Items</a></li>
+        <li role="presentation" class="active"><a href="@Url.Action("Meetings", "Sprint")">Meetings</a></li>
+        <li role="presentation"><a href="#">Stats</a></li>
+        <li role="presentation"><a href="#">Settings</a></li>
+    </ul>
+</div>
+
+<div>
+    <div class="col-md-9">
+        <h2>Meetings</h2>
+    </div>
+    <div class="pull-right">
+        <a data-trigger="focus" role="button" tabindex="0" data-placement="bottom" class="btn btn-info" data-toggle="popover" style="text-align: left;" title="Sprints" data-content="This is the Sprint Management page. Click to the left to create a new sprint or review your existing sprints">Help</a>
+    </div>
+</div>
+
+<br />
+<br />
+@using (Ajax.BeginForm("Create_Meeting", "Sprint", new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "empList" }))
+{
+    @Html.Partial("MeetingList")
+}
+
+@Html.Partial("ModalView");
+
+<style>
+    .nav > li > a:hover, .nav > li > a:focus {
+        /*background-color: #EF92A5;*/
+        text-decoration: none;
+    }
+
+    .tab .nav-tabs {
+        border-bottom 0px solid transparent;
+        margin-bottom: 1px;
+    }
+
+        .tab .nav-tabs > li {
+            padding: 0 20px;
+        }
+
+            .tab .nav-tabs > li a {
+                font-size: 14px;
+                color: #808080;
+            }
+
+                .tab .nav-tabs > li a:hover,
+                .tab .nav-tabs > li.active > a {
+                    background: #fff;
+                    color: #3498db;
+                    padding-bottom: 5px;
+                    border: 1px solid transparent;
+                    border-bottom: 1px solid #3498db;
+                }
+
+    .tab .tab-content {
+        color: #5a5c5d;
+        padding: 20px;
+    }
+
+    @@media only screen and (max-width: 480px) {
+        .tab .nav-tabs > li {
+            width: 100%;
+        }
+    }
+</style>

@@ -57,7 +57,7 @@ namespace OnlineScrum.Controllers
                 return View();
             }
 
-            var result = ProjectManager.AddSprint(sprint, ((Project)proj));
+            var result = ProjectManager.AddSprint(sprint, proj);
 
             if (string.IsNullOrEmpty(result))
                 return RedirectToAction("Home", "Project");
