@@ -33,5 +33,8 @@ namespace OnlineScrum.Models
         [Required]
         [Display(Name = "Estimated Effort")]
         public int EstimatedEffort { get; set; }
+
+        [Column("ItemNotes")]
+        public string ItemNotes { get; set; }
     }
 }

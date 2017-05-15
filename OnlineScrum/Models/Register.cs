@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using Foolproof;
 
 namespace OnlineScrum.Models
 {
@@ -25,5 +26,8 @@ namespace OnlineScrum.Models
         [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         [Required]
         public string ConfirmPassword { get; set; }
+
+        [Required]
+        public string Role { get; set; }
     }
 }

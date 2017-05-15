@@ -25,7 +25,7 @@
             @Html.LabelFor(model => model.Email, new { @class = "col-md-2 col-form-label" })
         </div>
         <div style="display:inline" class="col-md-6">
-            @Html.TextBoxFor(model => model.Email, new { @type = "email",  @class = "form-control" })
+            @Html.TextBoxFor(model => model.Email, new { @type = "email", @class = "form-control" })
             @Html.ValidationMessageFor(model => model.Email)
         </div>
         <br />
@@ -48,6 +48,18 @@
             @Html.TextBoxFor(model => model.ConfirmPassword, new { @type = "password", @class = "form-control" })
             @Html.ValidationMessageFor(model => model.ConfirmPassword)
         </div>
+        <br />
+        <br />
+
+        <div class="form-group row" style="display:inline">
+            @Html.LabelFor(model => model.Role, new { @class = "col-md-2 col-form-label" })
+        </div>
+        <div style="display:inline" class="col-md-6">
+            @Html.RadioButtonFor(model => model.Role, "ScrumMaster") <span>Scrum Master</span> <br />
+            @Html.RadioButtonFor(model => model.Role, "Developer") <span>Developer</span> <br />
+            @Html.ValidationMessageFor(model => model.Role)
+        </div>
+        <br />
         <br />
         <br />
         <br />

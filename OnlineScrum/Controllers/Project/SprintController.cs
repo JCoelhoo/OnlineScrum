@@ -31,6 +31,7 @@ namespace OnlineScrum.Controllers
             ViewBag.Short = true;
             ViewBag.Meetings = MeetingManager.GetMeetingsByEmail(user.Email, sprint.SprintID).OrderBy(m => m.Time).ToList();
             ViewBag.ScrumMaster = proj.ScrumMaster;
+            ViewBag.Type = user.Role;
             ViewBag.Members = SharedManager.SplitString(proj.DevTeam);
             return View();
         }
@@ -56,6 +57,7 @@ namespace OnlineScrum.Controllers
             ViewBag.Short = false;
             ViewBag.Meetings = MeetingManager.GetMeetingsByEmail(user.Email, sprint.SprintID).OrderBy(m => m.Time).ToList();
             ViewBag.ScrumMaster = proj.ScrumMaster;
+            ViewBag.Type = user.Role;
             ViewBag.Members = SharedManager.SplitString(proj.DevTeam);
             return View();
         }

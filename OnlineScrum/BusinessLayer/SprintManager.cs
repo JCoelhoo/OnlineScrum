@@ -181,6 +181,7 @@ namespace OnlineScrum.BusinessLayer
                         select it).First();
 
                     itemRet.ItemStatus = item.ItemStatus;
+                    itemRet.ItemNotes = item.ItemNotes;
                     context.SaveChanges();
 
                     return "";

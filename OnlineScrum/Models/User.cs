@@ -29,6 +29,6 @@ namespace OnlineScrum.Models
         [Column("Role")]
         [HiddenInput(DisplayValue = false)]
         [Required]
-        public int Role { get; set; }
+        public string Role { get; set; }
     }
 }

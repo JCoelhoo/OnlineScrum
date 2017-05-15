@@ -1,6 +1,6 @@
 ﻿@using OnlineScrum.Models
 @* TODO role *@
-@if (ViewBag.Type != -1)
+@if (ViewBag.Type == "ScrumMaster")
 {
     foreach (var meeting in ViewBag.Meetings)
     {

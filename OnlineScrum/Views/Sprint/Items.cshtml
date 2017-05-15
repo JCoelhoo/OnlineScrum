@@ -32,7 +32,7 @@
     </div>
     <div class="pull-right">
         @* TODO WTF IS THIS *@
-        @*<a href="/project/sprint/@ViewBag.Sprint.SprintID/new_item" class="btn btn-primary" role="button">New Item</a>*@
+        <a href="@Url.Action("Create_Item","Sprint")" class="btn btn-primary" role="button">New Item</a>
         <a data-trigger="focus" role="button" tabindex="0" data-placement="bottom" class="btn btn-info" data-toggle="popover" style="text-align: left;" title="Sprints" data-content="This is the Sprint Management page. Click to the left to create a new sprint or review your existing sprints">Help</a>
     </div>
 </div>
@@ -87,33 +87,61 @@
 </script>
 
 <style>
-    .nav > li > a:hover, .nav > li > a:focus {
-        /*background-color: #EF92A5;*/
-        text-decoration: none;
-    }
+    .label-transparent,
+    .badge-transparent { background-color: transparent!important }
+    .label-grey,
+    .badge-grey { background-color: #a0a0a0!important }
+    .label-info,
+    .badge-info { background-color: #3a87ad!important }
+    .label-primary,
+    .badge-primary { background-color: #2283c5!important }
+    .label-success,
+    .badge-success { background-color: #82af6f!important }
+    .label-important,
+    .badge-important { background-color: #d15b47!important }
+    .label-inverse,
+    .badge-inverse { background-color: #333!important }
+    .label-warning,
+    .badge-warning { background-color: #f89406!important }
+    .label-pink,
+    .badge-pink { background-color: #d6487e!important }
+    .label-purple,
+    .badge-purple { background-color: #9585bf!important }
+    .label-yellow,
+    .badge-yellow { background-color: #fee188!important }
+    .label-light,
+    .badge-light { background-color: #e7e7e7!important }
+    .badge-yellow,
+    .label-yellow { color: #963!important; border-color: #fee188 }
+    .badge-light
+
+     .nav > li > a:hover, .nav > li > a:focus {
+         /*background-color: #EF92A5;*/
+         text-decoration: none;
+     }
 
     .tab .nav-tabs {
         border-bottom 0px solid transparent;
         margin-bottom: 1px;
     }
 
-        .tab .nav-tabs > li {
-            padding: 0 20px;
-        }
+    .tab .nav-tabs > li {
+        padding: 0 20px;
+    }
 
-            .tab .nav-tabs > li a {
-                font-size: 14px;
-                color: #808080;
-            }
+    .tab .nav-tabs > li a {
+        font-size: 14px;
+        color: #808080;
+    }
 
-                .tab .nav-tabs > li a:hover,
-                .tab .nav-tabs > li.active > a {
-                    background: #fff;
-                    color: #3498db;
-                    padding-bottom: 5px;
-                    border: 1px solid transparent;
-                    border-bottom: 1px solid #3498db;
-                }
+    .tab .nav-tabs > li a:hover,
+    .tab .nav-tabs > li.active > a {
+        background: #fff;
+        color: #3498db;
+        padding-bottom: 5px;
+        border: 1px solid transparent;
+        border-bottom: 1px solid #3498db;
+    }
 
     .tab .tab-content {
         color: #5a5c5d;
@@ -130,30 +158,30 @@
         margin-top: 15px;
     }
 
-        .filterable .panel-heading .pull-right {
-            margin-top: -20px;
-        }
+    .filterable .panel-heading .pull-right {
+        margin-top: -20px;
+    }
 
-        .filterable .filters input[disabled] {
-            background-color: transparent;
-            border: none;
-            cursor: auto;
-            box-shadow: none;
-            padding: 0;
-            height: auto;
-        }
+    .filterable .filters input[disabled] {
+        background-color: transparent;
+        border: none;
+        cursor: auto;
+        box-shadow: none;
+        padding: 0;
+        height: auto;
+    }
 
-            .filterable .filters input[disabled]::-webkit-input-placeholder {
-                color: #333;
-            }
+    .filterable .filters input[disabled]::-webkit-input-placeholder {
+        color: #333;
+    }
 
-            .filterable .filters input[disabled]::-moz-placeholder {
-                color: #333;
-            }
+    .filterable .filters input[disabled]::-moz-placeholder {
+        color: #333;
+    }
 
-            .filterable .filters input[disabled]:-ms-input-placeholder {
-                color: #333;
-            }
+    .filterable .filters input[disabled]:-ms-input-placeholder {
+        color: #333;
+    }
 </style>
 
 <br />
@@ -185,41 +213,23 @@
                     <td>@item.AssignedTo</td>
                     <td>@item.EstimatedEffort</td>
 
-                    @using (Ajax.BeginForm("Change_Status", "Sprint", new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "empList" }))
+                    @using (Ajax.BeginForm("Change_Status", "Sprint", new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "empList"}, new {@id = "form"+item.ItemID}))
                     {
+                        <input style="display:none" id="ItemID" value="@item.ItemID" name="ItemID" />
                         <td>
-                            <select class="selectpicker" id="ItemStatus" name="ItemStatus">
-                                @if (@item.ItemStatus == "Developing" || @item.ItemStatus == null)
-                                {
-                                    <option data-content="<span class='label label-primary' selected>Developing</span>">Developing</option>
-                                        <option data-content="<span class='label label-info'>Testing</span>">Testing</option>
-                                        <option data-content="<span class='label label-warning'>Delayed</span>">Delayed</option>
-                                        <option data-content="<span class='label label-danger'>Closed</span>">Closed</option>
-                                }
-                                else if (@item.ItemStatus == "Testing")
-                                {
-                                    <option data-content="<span class='label label-primary'>Developing</span>">Developing</option>
-                                        <option data-content="<span class='label label-info' selected>Testing</span>">Testing</option>
-                                        <option data-content="<span class='label label-warning'>Delayed</span>">Delayed</option>
-                                        <option data-content="<span class='label label-danger'>Closed</span>">Closed</option>
-                                }
-                                else if (@item.ItemStatus == "Delayed")
-                                {
-                                    <option data-content="<span class='label label-primary'>Developing</span>">Developing</option>
-                                        <option data-content="<span class='label label-info'>Testing</span>">Testing</option>
-                                        <option data-content="<span class='label label-warning' selected>Delayed</span>">Delayed</option>
-                                        <option data-content="<span class='label label-danger'>Closed</span>">Closed</option>
-                                }
-                                else if (@item.ItemStatus == "Closed")
-                                {
-                                    <option data-content="<span class='label label-primary'>Developing</span>">Developing</option>
-                                        <option data-content="<span class='label label-info'>Testing</span>">Testing</option>
-                                        <option data-content="<span class='label label-warning'>Delayed</span>">Delayed</option>
-                                        <option data-content="<span class='label label-danger' selected>Closed</span>">Closed</option>
-                                }
+                            <select class="selectpicker" id="ItemStatus" name="ItemStatus" form="form@(item.ItemID)">
+                                <option value="Developing" data-content="<span class='badge badge-primary'>Developing</span>" @((item.ItemStatus == "Developing" || @item.ItemStatus == null) ? "selected" : "")></option>
+                                <option value="Testing" data-content="<span class='badge badge-success'>Testing</span>" @((item.ItemStatus == "Testing") ? "selected" : "")></option>
+                                <option value="Delayed" data-content="<span class='badge badge-warning'>Delayed</span>" @((item.ItemStatus == "Delayed") ? "selected" : "")></option>
+                                <option value="Closed" data-content="<span class='badge badge-red'>Closed</span>" @((item.ItemStatus == "Closed") ? "selected" : "")></option>
                             </select>
                         </td>
-                            <td><input type=submit value="Save" class="btn btn-link pull-right" /></td>
+                        <td>
+                            <input type=submit value="Save" class="btn btn-link pull-right" />
+                            <a id="ItemNotes" form='form@(item.ItemID)' name="ItemNotes" class="btn btn-link pull-right" href="#" data-placement="bottom" role="button" data-html="true" title="Header" data-toggle="popover" 
+                               data-content="<textarea form='form@(item.ItemID)' class='form-control' rows='5' id='ItemNotes'>@item.ItemNotes</textarea>">Add
+                            </a>
+                        </td>
                     }
 
                 </tr>

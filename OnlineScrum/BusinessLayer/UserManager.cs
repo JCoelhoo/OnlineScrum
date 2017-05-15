@@ -29,7 +29,7 @@ namespace OnlineScrum.BusinessLayer
                         //var sha = new SHA1CryptoServiceProvider();
                         //var password = Encoding.ASCII.GetBytes(lecturer.Password);    
                         //lecturer.Password = Encoding.Default.GetString(sha.ComputeHash(password));C:\Users\João\Desktop\OnlineScrum\OnlineScrum\BusinessLayer\UserManager.cs
-                        var insertUser = new User { Username = user.Username, Password = Hash(user.Password), Email = user.Email, Role = -1 };
+                        var insertUser = new User { Username = user.Username, Password = Hash(user.Password), Email = user.Email, Role = user.Role};
                         context.Users.Add(insertUser);
                         context.SaveChanges();
                         return "";
@@ -92,7 +92,7 @@ namespace OnlineScrum.BusinessLayer
 
                         if (record.Email.Equals(log.Email) && result_password.Equals(record.Password))
                         {
-                            if (record.Role == 0)
+                            if (record.Role == "Developer" || record.Role =="ScrumMaster")
                             {
                                 return LoginStatus.RegularUser;
                             }

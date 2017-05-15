@@ -23,7 +23,14 @@ namespace OnlineScrum.Controllers
                 return View();
             }
 
+            if (register.Role != "Developer" || register.Role != "ScrumMaster")
+            {
+                ViewBag.Error = "Role not valid";
+                return RedirectToAction("register");
+            }
+
             var status = UserManager.RegisterUser(register);
+
             if ( status != "" )
             {
                 ViewBag.Error = status;
