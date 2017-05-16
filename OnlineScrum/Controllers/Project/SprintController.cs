@@ -19,7 +19,7 @@ namespace OnlineScrum.Controllers
             if (proj == null)
                 return RedirectToAction("Home", "Dashboard");
             var sprints = ProjectManager.GetSprintFromProject(proj.Sprints);
-            if(sprints == null || sprints.Count(m => m.SprintID == id) == 0)
+            if (sprints == null || sprints.Count(m => m.SprintID == id) == 0)
             {
                 ViewBag.Error = "Sprint not found";
                 return RedirectToAction("Home", "Project");
@@ -33,6 +33,7 @@ namespace OnlineScrum.Controllers
             ViewBag.ScrumMaster = proj.ScrumMaster;
             ViewBag.Type = user.Role;
             ViewBag.Members = SharedManager.SplitString(proj.DevTeam);
+            ViewBag.Email = user.Email;
             return View();
         }
 
@@ -80,7 +81,7 @@ namespace OnlineScrum.Controllers
             }
             var sprint = sprints.First(m => m.SprintID == id);
 
-            ViewBag.Items = SprintManager.GetItemsFromSprint(sprint.Items);
+            ViewBag.Items = SprintManager.GetItemsFromSprint(sprint.Items).OrderByDescending(m => m.AssignedTo == user.Email).ThenBy(m => m);
             return View();
         }
 
@@ -99,7 +100,7 @@ namespace OnlineScrum.Controllers
                 return RedirectToAction("Home", "Project");
 
             ViewBag.Members = SharedManager.SplitString(proj.DevTeam);
-            return View();            
+            return View();
         }
 
         [Route("project/sprint/{id:int}/new_item")]
@@ -203,5 +204,27 @@ namespace OnlineScrum.Controllers
             SprintManager.ChangeStatus(item);
             return null;//View();//PartialView("ItemList");
         }
+
+        [Route("project/sprint/{id:int}/add_notes")]
+        [HttpPost]
+        public ActionResult Add_Notes(int id, Item item)
+        {
+            var user = (User)Session["UserInfo"];
+            if (user == null)
+                return RedirectToAction("Login", "Login");
+            var proj = ProjectManager.GetProjectByEmail(user.Email);
+            ViewBag.Link = "Project";
+            if (proj == null)
+                return RedirectToAction("Home", "Dashboard");
+            var sprint = SprintManager.GetSprintFromID(id);
+            if (sprint == null)
+                return RedirectToAction("Home", "Project");
+
+            ViewBag.Items = SprintManager.GetItemsFromSprint(sprint.Items);
+            SprintManager.Add_Notes(item.ItemID, item.ItemNotes);
+            return PartialView("ItemNoteModal");
+        }
     }
+
+
 }

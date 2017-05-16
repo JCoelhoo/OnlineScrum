@@ -247,6 +247,7 @@
     <Content Include="Views\Sprint\Meetings.cshtml" />
     <Content Include="Views\Sprint\ModalView.cshtml" />
     <Content Include="Views\Sprint\Items.cshtml" />
+    <Content Include="Views\Sprint\ItemNoteModal.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

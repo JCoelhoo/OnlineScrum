@@ -193,6 +193,31 @@ namespace OnlineScrum.BusinessLayer
                 return SharedManager.DatabaseError;
             }
         }
+
+
+        //TODO check itemid matches user
+        public static string Add_Notes(int itemID, string note)
+        {
+            try
+            {
+                using (var context = new DatabaseContext())
+                {
+                    var itemRet = (from it in context.Items
+                        where it.ItemID == itemID
+                        select it).First();
+
+                    itemRet.ItemNotes += ".NOTE_SEPARATOR." + note;
+                    context.SaveChanges();
+
+                    return "";
+                }
+            }
+            catch (Exception e)
+            {
+                SharedManager.Log(e, "Add_Notes");
+                return SharedManager.DatabaseError;
+            }
+        }
     }
 
     
