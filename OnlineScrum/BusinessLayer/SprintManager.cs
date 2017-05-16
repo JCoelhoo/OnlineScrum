@@ -181,7 +181,6 @@ namespace OnlineScrum.BusinessLayer
                         select it).First();
 
                     itemRet.ItemStatus = item.ItemStatus;
-                    itemRet.ItemNotes = item.ItemNotes;
                     context.SaveChanges();
 
                     return "";
@@ -196,7 +195,7 @@ namespace OnlineScrum.BusinessLayer
 
 
         //TODO check itemid matches user
-        public static string Add_Notes(int itemID, string note)
+        public static Item Add_Notes(int itemID, string note)
         {
             try
             {
@@ -209,13 +208,13 @@ namespace OnlineScrum.BusinessLayer
                     itemRet.ItemNotes += ".NOTE_SEPARATOR." + note;
                     context.SaveChanges();
 
-                    return "";
+                    return itemRet;
                 }
             }
             catch (Exception e)
             {
                 SharedManager.Log(e, "Add_Notes");
-                return SharedManager.DatabaseError;
+                return null;
             }
         }
     }

@@ -81,7 +81,7 @@ namespace OnlineScrum.Controllers
             }
             var sprint = sprints.First(m => m.SprintID == id);
 
-            ViewBag.Items = SprintManager.GetItemsFromSprint(sprint.Items).OrderByDescending(m => m.AssignedTo == user.Email).ThenBy(m => m);
+            ViewBag.Items = SprintManager.GetItemsFromSprint(sprint.Items).OrderByDescending(m => m.AssignedTo == user.Email).ThenBy(m => m.ItemStatus);
             return View();
         }
 
@@ -220,9 +220,8 @@ namespace OnlineScrum.Controllers
             if (sprint == null)
                 return RedirectToAction("Home", "Project");
 
-            ViewBag.Items = SprintManager.GetItemsFromSprint(sprint.Items);
-            SprintManager.Add_Notes(item.ItemID, item.ItemNotes);
-            return PartialView("ItemNoteModal");
+            ViewBag.Item = SprintManager.Add_Notes(item.ItemID, item.ItemNotes);
+            return PartialView("ItemModalBody");
         }
     }
 

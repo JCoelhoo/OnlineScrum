@@ -248,6 +248,7 @@
     <Content Include="Views\Sprint\ModalView.cshtml" />
     <Content Include="Views\Sprint\Items.cshtml" />
     <Content Include="Views\Sprint\ItemNoteModal.cshtml" />
+    <Content Include="Views\Sprint\ItemModalBody.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
