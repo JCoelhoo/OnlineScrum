@@ -180,6 +180,8 @@ namespace OnlineScrum.BusinessLayer
                         where it.ItemID == item.ItemID
                         select it).First();
 
+                    if (item.ItemStatus == "Closed")
+                        itemRet.DateClosed = DateTime.Now;
                     itemRet.ItemStatus = item.ItemStatus;
                     context.SaveChanges();
 

@@ -80,8 +80,31 @@ namespace OnlineScrum.Controllers
                 return RedirectToAction("Home", "Project");
             }
             var sprint = sprints.First(m => m.SprintID == id);
+            ViewBag.Sprint = sprint;
+            ViewBag.Items = SprintManager.GetItemsFromSprint(sprint.Items).ToList();
+            return View();
+        }
 
-            ViewBag.Items = SprintManager.GetItemsFromSprint(sprint.Items).OrderByDescending(m => m.AssignedTo == user.Email).ThenBy(m => m.ItemStatus);
+        [Route("project/sprint/{id:int}/statistics")]
+        public ActionResult Statistics(int id)
+        {
+            var user = (User)Session["UserInfo"];
+            if (user == null)
+                return RedirectToAction("Login", "Login");
+            var proj = ProjectManager.GetProjectByEmail(user.Email);
+            ViewBag.Link = "Project";
+            if (proj == null)
+                return RedirectToAction("Home", "Dashboard");
+            var sprints = ProjectManager.GetSprintFromProject(proj.Sprints);
+            if (sprints == null || sprints.Count(m => m.SprintID == id) == 0)
+            {
+                ViewBag.Error = "Sprint not found";
+                return RedirectToAction("Home", "Project");
+            }
+            var sprint = sprints.First(m => m.SprintID == id);
+            ViewBag.Sprint = sprint;
+            ViewBag.Members = SharedManager.SplitString(proj.DevTeam);
+            ViewBag.Items = SprintManager.GetItemsFromSprint(sprint.Items).OrderByDescending(m => m.AssignedTo == user.Email).ThenBy(m => m.ItemStatus).ToList();
             return View();
         }
 
@@ -131,7 +154,7 @@ namespace OnlineScrum.Controllers
                 return View();
             }
 
-            return RedirectToAction("Home", "Sprint");
+            return RedirectToAction("Items", "Sprint");
         }
 
         [Route("project/sprint/{id:int}/create_meeting")]

@@ -18,7 +18,7 @@
         <li role="presentation"><a href="@Url.Action("Home", "Sprint")">Overview</a></li>
         <li role="presentation"><a href="@Url.Action("Items", "Sprint")">Items</a></li>
         <li role="presentation" class="active"><a href="@Url.Action("Meetings", "Sprint")">Meetings</a></li>
-        <li role="presentation"><a href="#">Stats</a></li>
+        <li role="presentation"><a href="@Url.Action("Statistics", "Sprint")">Statistics</a></li>
         <li role="presentation"><a href="#">Settings</a></li>
     </ul>
 </div>
@@ -41,43 +41,5 @@
 
 @Html.Partial("ModalView")
 
-<style>
-    .nav > li > a:hover, .nav > li > a:focus {
-        /*background-color: #EF92A5;*/
-        text-decoration: none;
-    }
+<link href="@Url.Content("~/Content/SprintMenu.css")" rel="stylesheet" />
 
-    .tab .nav-tabs {
-        border-bottom 0px solid transparent;
-        margin-bottom: 1px;
-    }
-
-        .tab .nav-tabs > li {
-            padding: 0 20px;
-        }
-
-            .tab .nav-tabs > li a {
-                font-size: 14px;
-                color: #808080;
-            }
-
-                .tab .nav-tabs > li a:hover,
-                .tab .nav-tabs > li.active > a {
-                    background: #fff;
-                    color: #3498db;
-                    padding-bottom: 5px;
-                    border: 1px solid transparent;
-                    border-bottom: 1px solid #3498db;
-                }
-
-    .tab .tab-content {
-        color: #5a5c5d;
-        padding: 20px;
-    }
-
-    @@media only screen and (max-width: 480px) {
-        .tab .nav-tabs > li {
-            width: 100%;
-        }
-    }
-</style>

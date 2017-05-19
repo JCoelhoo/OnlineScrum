@@ -1,0 +1,140 @@
+﻿.label-transparent,
+ .badge-transparent {
+     background-color: transparent !important;
+ }
+
+.label-grey,
+.badge-grey {
+    background-color: #a0a0a0 !important;
+}
+
+.label-info,
+.badge-info {
+    background-color: #3a87ad !important;
+}
+
+.label-primary,
+.badge-primary {
+    background-color: #2283c5 !important;
+}
+
+.label-success,
+.badge-success {
+    background-color: #82af6f !important;
+}
+
+.label-important,
+.badge-important {
+    background-color: #d15b47 !important;
+}
+
+.label-inverse,
+.badge-inverse {
+    background-color: #333 !important;
+}
+
+.label-warning,
+.badge-warning {
+    background-color: #f89406 !important;
+}
+
+.label-pink,
+.badge-pink {
+    background-color: #d6487e !important;
+}
+
+.label-purple,
+.badge-purple {
+    background-color: #9585bf !important;
+}
+
+.label-yellow,
+.badge-yellow {
+    background-color: #fee188 !important;
+}
+
+.label-light,
+.badge-light {
+    background-color: #e7e7e7 !important;
+}
+
+.badge-yellow,
+.label-yellow {
+    color: #963 !important;
+    border-color: #fee188;
+}
+
+.badge-light .nav > li > a:hover, .nav > li > a:focus {
+    /*background-color: #EF92A5;*/
+    text-decoration: none;
+}
+
+.tab .nav-tabs {
+    border-bottom 0px solid transparent;
+    margin-bottom: 1px;
+}
+
+.tab .nav-tabs > li {
+    padding: 0 20px;
+}
+
+.tab .nav-tabs > li a {
+    font-size: 14px;
+    color: #808080;
+}
+
+.tab .nav-tabs > li a:hover,
+.tab .nav-tabs > li.active > a {
+    background: #fff;
+    color: #3498db;
+    padding-bottom: 5px;
+    border: 1px solid transparent;
+    border-bottom: 1px solid #3498db;
+}
+
+.tab .tab-content {
+    color: #5a5c5d;
+    padding: 20px;
+}
+
+@@media only screen and (max-width: 480px) {
+     .tab .nav-tabs > li {
+         width: 100%;
+     }
+ }
+
+.filterable {
+    margin-top: 15px;
+}
+
+.filterable .panel-heading .pull-right {
+    margin-top: -20px;
+}
+
+.filterable .filters input[disabled] {
+    background-color: transparent;
+    border: none;
+    cursor: auto;
+    box-shadow: none;
+    padding: 0;
+    height: auto;
+}
+
+.filterable .filters input[disabled]::-webkit-input-placeholder {
+    color: #333;
+}
+
+.filterable .filters input[disabled]::-moz-placeholder {
+    color: #333;
+}
+
+.filterable .filters input[disabled]:-ms-input-placeholder {
+    color: #333;
+}
+
+textarea {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+

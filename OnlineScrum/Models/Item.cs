@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace OnlineScrum.Models
@@ -36,5 +37,8 @@ namespace OnlineScrum.Models
 
         [Column("ItemNotes")]
         public string ItemNotes { get; set; }
+
+        [Column("DateClosed")]
+        public DateTime? DateClosed { get; set; }
     }
 }

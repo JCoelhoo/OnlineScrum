@@ -22,24 +22,87 @@
         <li role="presentation"><a href="@Url.Action("Home", "Sprint")">Overview</a></li>
         <li role="presentation" class="active"><a href="@Url.Action("Items", "Sprint")">Items</a></li>
         <li role="presentation"><a href="@Url.Action("Meetings", "Sprint")">Meetings</a></li>
-        <li role="presentation"><a href="#">Stats</a></li>
+        <li role="presentation"><a href="@Url.Action("Statistics", "Sprint")">Statistics</a></li>
         <li role="presentation"><a href="#">Settings</a></li>
     </ul>
 </div>
 
-<div>
-    <div class="col-md-9">
-        <h2>Items</h2>
+@if (ViewBag.Items == null || ViewBag.Items.Count == 0)
+{
+    <h3 align="center">
+        You have yet to create a <a href="/project/sprint/@ViewBag.Sprint.SprintID/new_item">Item</a>
+    </h3>
+}
+else
+{
+    <div>
+        <div class="col-md-9">
+            <h2>Items</h2>
+        </div>
+        <div class="pull-right">
+            <a href="@Url.Action("Create_Item", "Sprint")" class="btn btn-primary" role="button">New Item</a>
+            <a data-trigger="focus" role="button" tabindex="0" data-placement="bottom" class="btn btn-info" data-toggle="popover" style="text-align: left;" title="Sprints" data-content="This is the Sprint Management page. Click to the left to create a new sprint or review your existing sprints">Help</a>
+        </div>
     </div>
-    <div class="pull-right">
-        @* TODO WTF IS THIS *@
-        <a href="@Url.Action("Create_Item","Sprint")" class="btn btn-primary" role="button">New Item</a>
-        <a data-trigger="focus" role="button" tabindex="0" data-placement="bottom" class="btn btn-info" data-toggle="popover" style="text-align: left;" title="Sprints" data-content="This is the Sprint Management page. Click to the left to create a new sprint or review your existing sprints">Help</a>
-    </div>
-</div>
-<script>
 
-</script>
+
+
+    <br />
+    <br />
+    <br />
+
+    <div class="panel panel-primary filterable">
+        <div class="panel-heading">
+            <h3 class="panel-title">Items</h3>
+            <div class="pull-right">
+                <button class="btn btn-default btn-xs btn-filter"><span class="glyphicon glyphicon-filter"></span> Filter</button>
+            </div>
+        </div>
+        <table class="table">
+            <thead>
+                <tr class="filters">
+                    <th><input type="text" placeholder="Name" disabled></th>
+                    <th><input type="text" placeholder="Assigned To" disabled></th>
+                    <th><input type="text" placeholder="Estimated Effort" disabled></th>
+                    <th><input type="text" placeholder="Status" disabled></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (Item item in ViewBag.Items)
+                {
+                    <tr>
+                        <td>@item.ItemName</td>
+                        <td>@item.AssignedTo</td>
+                        <td>@item.EstimatedEffort</td>
+
+                        @using (Ajax.BeginForm("Change_Status", "Sprint", new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "empList" }, new { @id = "form" + item.ItemID }))
+                        {
+                            <input style="display: none" id="ItemID" value="@item.ItemID" name="ItemID" />
+                            <td>
+                                <select class="selectpicker" id="ItemStatus" name="ItemStatus" form="form@(item.ItemID)">
+                                    <option value="Developing" data-content="<span class='badge badge-primary'>Developing</span>" @((item.ItemStatus == "Developing" || @item.ItemStatus == null) ? "selected" : "")></option>
+                                    <option value="Testing" data-content="<span class='badge badge-success'>Testing</span>" @((item.ItemStatus == "Testing") ? "selected" : "")></option>
+                                    <option value="Delayed" data-content="<span class='badge badge-warning'>Delayed</span>" @((item.ItemStatus == "Delayed") ? "selected" : "")></option>
+                                    <option value="Closed" data-content="<span class='badge badge-red'>Closed</span>" @((item.ItemStatus == "Closed") ? "selected" : "")></option>
+                                </select>
+                            </td>
+                            <td>
+                                <input type=submit value="Save" class="btn btn-link pull-right" />
+                                <button id="modalButton@(item.ItemID)" type="button" class="btn btn-link pull-right" data-toggle="modal" data-target="#modal@(item.ItemID)">Notes</button>
+                            </td>
+                        }
+
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    @Html.Partial("ItemNoteModal")
+}
+
+<link href="@Url.Content("~/Content/SprintMenu.css")" rel="stylesheet" />
 
 <script>
     $(document).ready(function () {
@@ -81,205 +144,10 @@
             $filteredRows.hide();
             /* Prepend no-result row if all rows are filtered */
             if ($filteredRows.length === $rows.length) {
-                $table.find('tbody').prepend($('<tr class="no-result text-center"><td colspan="' + $table.find('.filters th').length + '">No result found</td></tr>'));
+                $table.find('tbody').prepend($('<tr class="no-result text-center"><td colspan="' +
+                    $table.find('.filters th').length +
+                    '">No result found</td></tr>'));
             }
         });
     });
 </script>
-
-<style>
-    .label-transparent,
-    .badge-transparent {
-        background-color: transparent !important;
-    }
-
-    .label-grey,
-    .badge-grey {
-        background-color: #a0a0a0 !important;
-    }
-
-    .label-info,
-    .badge-info {
-        background-color: #3a87ad !important;
-    }
-
-    .label-primary,
-    .badge-primary {
-        background-color: #2283c5 !important;
-    }
-
-    .label-success,
-    .badge-success {
-        background-color: #82af6f !important;
-    }
-
-    .label-important,
-    .badge-important {
-        background-color: #d15b47 !important;
-    }
-
-    .label-inverse,
-    .badge-inverse {
-        background-color: #333 !important;
-    }
-
-    .label-warning,
-    .badge-warning {
-        background-color: #f89406 !important;
-    }
-
-    .label-pink,
-    .badge-pink {
-        background-color: #d6487e !important;
-    }
-
-    .label-purple,
-    .badge-purple {
-        background-color: #9585bf !important;
-    }
-
-    .label-yellow,
-    .badge-yellow {
-        background-color: #fee188 !important;
-    }
-
-    .label-light,
-    .badge-light {
-        background-color: #e7e7e7 !important;
-    }
-
-    .badge-yellow,
-    .label-yellow {
-        color: #963 !important;
-        border-color: #fee188;
-    }
-
-    .badge-light .nav > li > a:hover, .nav > li > a:focus {
-        /*background-color: #EF92A5;*/
-        text-decoration: none;
-    }
-
-    .tab .nav-tabs {
-        border-bottom 0px solid transparent;
-        margin-bottom: 1px;
-    }
-
-        .tab .nav-tabs > li {
-            padding: 0 20px;
-        }
-
-            .tab .nav-tabs > li a {
-                font-size: 14px;
-                color: #808080;
-            }
-
-                .tab .nav-tabs > li a:hover,
-                .tab .nav-tabs > li.active > a {
-                    background: #fff;
-                    color: #3498db;
-                    padding-bottom: 5px;
-                    border: 1px solid transparent;
-                    border-bottom: 1px solid #3498db;
-                }
-
-    .tab .tab-content {
-        color: #5a5c5d;
-        padding: 20px;
-    }
-
-    @@media only screen and (max-width: 480px) {
-        .tab .nav-tabs > li {
-            width: 100%;
-        }
-    }
-
-    .filterable {
-        margin-top: 15px;
-    }
-
-        .filterable .panel-heading .pull-right {
-            margin-top: -20px;
-        }
-
-        .filterable .filters input[disabled] {
-            background-color: transparent;
-            border: none;
-            cursor: auto;
-            box-shadow: none;
-            padding: 0;
-            height: auto;
-        }
-
-            .filterable .filters input[disabled]::-webkit-input-placeholder {
-                color: #333;
-            }
-
-            .filterable .filters input[disabled]::-moz-placeholder {
-                color: #333;
-            }
-
-            .filterable .filters input[disabled]:-ms-input-placeholder {
-                color: #333;
-            }
-
-    textarea {
-        display: block;
-        margin-left: auto;
-        margin-right: auto;
-    }
-</style>
-
-<br />
-<br />
-<br />
-
-<div class="panel panel-primary filterable">
-    <div class="panel-heading">
-        <h3 class="panel-title">Items</h3>
-        <div class="pull-right">
-            <button class="btn btn-default btn-xs btn-filter"><span class="glyphicon glyphicon-filter"></span> Filter</button>
-        </div>
-    </div>
-    <table class="table">
-        <thead>
-            <tr class="filters">
-                <th><input type="text" placeholder="Name" disabled></th>
-                <th><input type="text" placeholder="Assigned To" disabled></th>
-                <th><input type="text" placeholder="Estimated Effort" disabled></th>
-                <th><input type="text" placeholder="Status" disabled></th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (Item item in ViewBag.Items)
-            {
-                <tr>
-                    <td>@item.ItemName</td>
-                    <td>@item.AssignedTo</td>
-                    <td>@item.EstimatedEffort</td>
-
-                    @using (Ajax.BeginForm("Change_Status", "Sprint", new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "empList" }, new { @id = "form" + item.ItemID }))
-                    {
-                        <input style="display:none" id="ItemID" value="@item.ItemID" name="ItemID" />
-                        <td>
-                            <select class="selectpicker" id="ItemStatus" name="ItemStatus" form="form@(item.ItemID)">
-                                <option value="Developing" data-content="<span class='badge badge-primary'>Developing</span>" @((item.ItemStatus == "Developing" || @item.ItemStatus == null) ? "selected" : "")></option>
-                                <option value="Testing" data-content="<span class='badge badge-success'>Testing</span>" @((item.ItemStatus == "Testing") ? "selected" : "")></option>
-                                <option value="Delayed" data-content="<span class='badge badge-warning'>Delayed</span>" @((item.ItemStatus == "Delayed") ? "selected" : "")></option>
-                                <option value="Closed" data-content="<span class='badge badge-red'>Closed</span>" @((item.ItemStatus == "Closed") ? "selected" : "")></option>
-                            </select>
-                        </td>
-                        <td>
-                            <input type=submit value="Save" class="btn btn-link pull-right" />
-                            <button id="modalButton@(item.ItemID)"type="button" class="btn btn-link pull-right" data-toggle="modal" data-target="#modal@(item.ItemID)">Notes</button>
-                        </td>
-                    }
-
-                </tr>
-            }
-        </tbody>
-    </table>
-</div>
-
-@Html.Partial("ItemNoteModal")
-
