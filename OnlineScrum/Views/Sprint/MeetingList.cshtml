@@ -13,13 +13,31 @@
         <tbody>
             @for (var i = 0; i < (((ViewBag.Meetings.Count < 5) || (ViewBag.Meetings.Count > 5 && !ViewBag.Short)) ? ViewBag.Meetings.Count : 5); i++)
             {
+                var answered = (!String.IsNullOrEmpty(@ViewBag.Meetings[i].YesterdayQuestion) &&
+                                !String.IsNullOrEmpty(@ViewBag.Meetings[i].TodayQuestion) &&
+                                !String.IsNullOrEmpty(@ViewBag.Meetings[i].ObstaclesQuestion))
+                    ? true
+                    : false;
                 @*Colour of row*@
                 <tr class="@(ViewBag.Meetings[i].Time < DateTime.Now.AddDays(1) ? "danger" : "")">
                     <td>@ViewBag.Meetings[i].Time</td>
                     <td>@ViewBag.Meetings[i].ScrumMaster</td>
                     <td>@ViewBag.Meetings[i].Developer</td>
                     <td>@ViewBag.Meetings[i].Location</td>
-                    <td><button type="button" class="btn btn-link" data-toggle="modal" data-target="#modal@((ViewBag.Meetings[i]).MeetingID)">Details</button></td>
+                    <td>
+                        @if (answered)
+                        {
+                            <button type="button" class="btn btn-link" data-toggle="modal" data-target="#modal@((ViewBag.Meetings[i]).MeetingID)">
+                                Details
+                            </button>
+                        }
+                        else
+                        {
+                            <button type="button" class="btn btn-link @((ViewBag.Type == "ScrumMaster") ? "disabled" : "")" data-toggle="modal" data-target="#modal@((ViewBag.Meetings[i]).MeetingID)">
+                                Questions not answered
+                            </button>
+                        }
+                    </td>
                 </tr>
             }
             @if (!ViewBag.Short)

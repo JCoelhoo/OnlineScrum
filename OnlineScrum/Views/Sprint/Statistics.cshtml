@@ -3,18 +3,9 @@
 @{
     ViewBag.Title = "Statistics";
 }
-
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js" type="text/javascript"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.2/js/bootstrap-select.min.js"></script>
 <script src="http://code.highcharts.com/highcharts.js"></script>
 <script src="http://code.highcharts.com/modules/exporting.js"></script>
 
-<script>
-    $(function () {
-        $('[data-toggle="popover"]').popover()
-    })
-
-</script>
 <br />
 <div class="tab col-md-offset-3">
     <ul class="nav nav-tabs" style="border-bottom:0px solid transparent">
@@ -35,7 +26,7 @@
     <br />
     <svg class="row" id="visualisation" width="1000" height="500" class="chart col-md-offset-1"></svg>
 </div>
-
+@*TODO use business days*@
 <script>
     var categories = "[";
     var dictionary = [];
@@ -93,10 +84,66 @@
     var counter = 1;
     (Object.keys(dictionary)).forEach(function (element) {
         chart.addSeries({
+            type: 'line',
             name: element,
             data: dictionary[element]
         },
             false);
     });
     chart.redraw();
+
+    @*var flow = new Highcharts.Chart({
+        chart: {
+            renderTo: 'container',
+            type: 'area'
+        },
+        title: {
+            text: 'Cumulative Flow Diagram'
+        },
+        xAxis: {
+            categories: Array.from(Array(
+                @((((Sprint) ViewBag.Sprint).FinishDate - ((Sprint) ViewBag.Sprint).StartDate).TotalDays)).keys()),
+            title: {
+                text: '#Days'
+            },
+            tickInterval: 1
+        },
+        tooltip: {
+            formatter: function () {
+                return '' + this.series.name + ': ' + this.y + '';
+            }
+        },
+        yAxis: {
+            title: {
+                text: '#Items'
+            },
+            tickInterval: 1
+        },
+        credits: {
+            enabled: false
+        },
+        series: [{
+            name: 'Total',
+            data: array
+        }]
+    });
+    var counter = 1;
+    (Object.keys(dictionary)).forEach(function (element) {
+        flow.addSeries({
+                type: 'line',
+                name: element,
+                data: dictionary[element]
+            },
+            false);
+    });
+    flow.redraw();*@
+</script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js" type="text/javascript"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.2/js/bootstrap-select.min.js"></script>
+
+<script>
+    $(function () {
+        $('[data-toggle="popover"]').popover()
+    })
+
 </script>
