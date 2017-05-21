@@ -51,7 +51,6 @@ namespace OnlineScrum.BusinessLayer
                 {
                     Developer = member,
                     Location = "X",
-                    Notes = "Daily Scrum Meeting.NOTE_SEPARATOR.",
                     Time = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 8, 0, 0).AddDays(1),
                     ScrumMaster = project.ScrumMaster,
                     SprintID = sprintID

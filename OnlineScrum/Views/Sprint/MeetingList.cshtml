@@ -19,7 +19,7 @@
                     ? true
                     : false;
                 @*Colour of row*@
-                <tr class="@(ViewBag.Meetings[i].Time < DateTime.Now.AddDays(1) ? "danger" : "")">
+                <tr class="@(ViewBag.Meetings[i].Time < DateTime.Now.AddDays(1) ? "warning" : "") @(ViewBag.Meetings[i].Time < DateTime.Now ? "danger" : "")">
                     <td>@ViewBag.Meetings[i].Time</td>
                     <td>@ViewBag.Meetings[i].ScrumMaster</td>
                     <td>@ViewBag.Meetings[i].Developer</td>
@@ -27,14 +27,21 @@
                     <td>
                         @if (answered)
                         {
-                            <button type="button" class="btn btn-link" data-toggle="modal" data-target="#modal@((ViewBag.Meetings[i]).MeetingID)">
+                            <button type="button" class="btn btn-link pull-right" data-toggle="modal" data-target="#modal@((ViewBag.Meetings[i]).MeetingID)">
                                 Details
                             </button>
                         }
                         else
                         {
-                            <button type="button" class="btn btn-link @((ViewBag.Type == "ScrumMaster") ? "disabled" : "")" data-toggle="modal" data-target="#modal@((ViewBag.Meetings[i]).MeetingID)">
-                                Questions not answered
+                            <button type="button" class="btn btn-link pull-right @((ViewBag.Type == "ScrumMaster") ? "disabled" : "")" data-toggle="modal" data-target="#modal@((ViewBag.Meetings[i]).MeetingID)">
+                                @if (ViewBag.Type == "ScrumMaster")
+                                {
+                                    <p>Questions not answered</p>
+                                }
+                                else
+                                {
+                                    <b>Questions not answered</b>
+                                }
                             </button>
                         }
                     </td>

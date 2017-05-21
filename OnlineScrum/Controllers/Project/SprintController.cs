@@ -270,6 +270,25 @@ namespace OnlineScrum.Controllers
             ViewBag.Item = SprintManager.Add_Notes(item.ItemID, item.ItemNotes);
             return PartialView("ItemModalBody");
         }
+
+        [Route("project/sprint/{id:int}/add_meeting_notes")]
+        [HttpPost]
+        public ActionResult Add_Meeting_Notes(int id, Meeting meeting)
+        {
+            var user = (User)Session["UserInfo"];
+            if (user == null)
+                return RedirectToAction("Login", "Login");
+            var proj = ProjectManager.GetProjectByEmail(user.Email);
+            ViewBag.Link = "Project";
+            if (proj == null)
+                return RedirectToAction("Home", "Dashboard");
+            var sprint = SprintManager.GetSprintFromID(id);
+            if (sprint == null)
+                return RedirectToAction("Home", "Project");
+
+            SprintManager.Add_Meeting_Notes(meeting);
+            return null;
+        }
     }
 
 

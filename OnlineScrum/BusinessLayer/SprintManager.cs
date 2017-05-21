@@ -104,6 +104,31 @@ namespace OnlineScrum.BusinessLayer
             }
         }
 
+        public static void Add_Meeting_Notes(Meeting meeting)
+        {
+            try
+            {
+                using (var context = new DatabaseContext())
+                {
+                    var meetingReturn = (from meet in context.Meetings
+                        where meet.MeetingID == meeting.MeetingID
+                        select meet).FirstOrDefault();
+                    if (meetingReturn == null)
+                        return;
+
+                    meetingReturn.Notes = meeting.Notes;
+                    context.SaveChanges();
+
+                    return;
+                }
+            }
+            catch (Exception e)
+            {
+                SharedManager.Log(e, "Add_Meeting_Notes");
+                return;
+            }
+        }
+
         //private static int GetNewItemNumber()
         //{
         //    try
@@ -126,7 +151,7 @@ namespace OnlineScrum.BusinessLayer
 
         public static List<Item> GetItemsFromSprint(string items)
         {
-            if (items == null) new List<Item>() { };
+            if (items == null) return new List<Item>() { };
             try
             {
                 using (var context = new DatabaseContext())

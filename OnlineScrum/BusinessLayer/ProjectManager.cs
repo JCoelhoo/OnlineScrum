@@ -202,6 +202,9 @@ namespace OnlineScrum.BusinessLayer
                     if (!UserManager.CheckExistingEmail(member))
                         return member + " does not exist";
 
+                    if (UserManager.GetUserByEmail(member).Role == "ScrumMaster")
+                        return member + " is a Scrum Master";
+
                     proj.DevTeam += "," + member;
                     context.SaveChanges();
 
