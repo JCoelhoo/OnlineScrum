@@ -1,6 +1,7 @@
 ﻿using OnlineScrum.BusinessLayer;
 using OnlineScrum.Models;
 using System;
+using System.Threading.Tasks;
 using System.Web.Mvc;
 using System.Web.Security;
 
@@ -41,20 +42,12 @@ namespace OnlineScrum.Controllers
                 user.Password = null;
                 Session["UserInfo"] = user;
                 Session["TimeOfCreation"] = DateTime.Now;
+                SharedManager.repeatMethod = false;
                 return RedirectToAction("Home", "Dashboard");
             }
-            //else if (status == CommonManager.LoginStatus.Student)
-            //{
-            //    Session["IsStudent"] = true;
-            //    Session["Email"] = login.Email;
-            //    Session["TimeOfCreation"] = DateTime.Now;
-            //    Session["Id"] = StudentManager.GetStudentIdByEmail(login.Email);
-            //    return RedirectToAction("Manager", "Dashboard");
-            //}
 
             if (status == UserManager.LoginStatus.Fail) ViewBag.Error = "Invalid credentials";
             else if (status == UserManager.LoginStatus.DBFail) ViewBag.Error = "Database error";
-
             return View("Login");
         }
 

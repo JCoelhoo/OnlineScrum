@@ -29,6 +29,8 @@ namespace OnlineScrum.BusinessLayer
                         {
                             return "Time for meeting invalid";
                         }
+                        if (meeting.Time.DayOfWeek == DayOfWeek.Saturday || meeting.Time.DayOfWeek == DayOfWeek.Sunday)
+                            return "Not a week day";
 
                         context.Meetings.Add(meeting);
                         context.SaveChanges();

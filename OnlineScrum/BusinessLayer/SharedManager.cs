@@ -3,12 +3,21 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Web;
+using OnlineScrum.Models;
 
 namespace OnlineScrum.BusinessLayer
 {
     public class SharedManager
     {
-        public static string DatabaseError { get { return SharedManager.DatabaseError; } }
+        public static DateTime DailyMeetingTime { get; set; } =
+            new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 8, 0, 0);
+
+        public static int MeetingInterval { get; set; } = 1;
+
+        public static bool repeatMethod { get; set; }
+
+
+        public static string DatabaseError { get { return DatabaseError; } }
 
         public static void Log(Exception e, string function)
         {
@@ -29,7 +38,28 @@ namespace OnlineScrum.BusinessLayer
             return s.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries).ToList();
         }
 
-
+        public static void DailyScrumMeeting(Project project, int sprintID, bool timeTrigger = true)
+        {
+            if (!timeTrigger && repeatMethod) return;
+            var meetings = MeetingManager.GetMeetingsByEmail(project.ScrumMaster, sprintID);
+            foreach (var member in SharedManager.SplitString(project.DevTeam))
+            {
+                if (meetings.Count(
+                        m => m.Time == new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day+1, 8, 0, 0)
+                             && m.Developer == member) != 0) continue;
+                var meeting = new Meeting
+                {
+                    Developer = member,
+                    Location = "X",
+                    Notes = "Daily Scrum Meeting.NOTE_SEPARATOR.",
+                    Time = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 8, 0, 0).AddDays(1),
+                    ScrumMaster = project.ScrumMaster,
+                    SprintID = sprintID
+                };
+                MeetingManager.AddMeeting(meeting, sprintID);
+            }
+            repeatMethod = true;
+        }
     }
 
     public static class Extension
@@ -67,7 +97,7 @@ namespace OnlineScrum.BusinessLayer
             // subtract the weekends during the full weeks in the interval
             businessDays -= fullWeekCount + fullWeekCount;
 
-            
+
 
             return businessDays;
         }

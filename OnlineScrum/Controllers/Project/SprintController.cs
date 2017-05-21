@@ -2,6 +2,7 @@
 using OnlineScrum.Models;
 using System;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web.Mvc;
 
 namespace OnlineScrum.Controllers
@@ -26,10 +27,31 @@ namespace OnlineScrum.Controllers
             }
             var sprint = sprints.First(m => m.SprintID == id);
 
+
+            var DailyTime = "08:00:00";
+            var timeParts = DailyTime.Split(new char[1] { ':' });
+
+            var dateNow = DateTime.Now;
+            var date = new DateTime(dateNow.Year, dateNow.Month, dateNow.Day,
+                int.Parse(timeParts[0]), int.Parse(timeParts[1]), int.Parse(timeParts[2]));
+            TimeSpan ts;
+            if (date > dateNow)
+                ts = date - dateNow;
+            else
+            {
+                date = date.AddDays(1);
+                ts = date - dateNow;
+            }
+
+            SharedManager.DailyScrumMeeting(proj, sprint.SprintID, false);
+            var meetings = MeetingManager.GetMeetingsByEmail(user.Email, sprint.SprintID).OrderBy(m => m.Time).ToList();
+            //waits certan time and run the code
+            Task.Delay(ts).ContinueWith((x) => SharedManager.DailyScrumMeeting(proj, sprint.SprintID));
+            
             ViewBag.Items = SprintManager.GetItemsFromSprint(sprint.Items);
             ViewBag.Sprint = sprint;
             ViewBag.Short = true;
-            ViewBag.Meetings = MeetingManager.GetMeetingsByEmail(user.Email, sprint.SprintID).OrderBy(m => m.Time).ToList();
+            ViewBag.Meetings = meetings;
             ViewBag.ScrumMaster = proj.ScrumMaster;
             ViewBag.Type = user.Role;
             ViewBag.Members = SharedManager.SplitString(proj.DevTeam);
@@ -54,6 +76,8 @@ namespace OnlineScrum.Controllers
                 return RedirectToAction("Home", "Project");
             }
             var sprint = sprints.First(m => m.SprintID == id);
+
+            SharedManager.DailyScrumMeeting(proj, sprint.SprintID, false);
 
             ViewBag.Short = false;
             ViewBag.Meetings = MeetingManager.GetMeetingsByEmail(user.Email, sprint.SprintID).OrderBy(m => m.Time).ToList();

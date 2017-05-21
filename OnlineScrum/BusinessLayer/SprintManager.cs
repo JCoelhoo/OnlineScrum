@@ -126,6 +126,7 @@ namespace OnlineScrum.BusinessLayer
 
         public static List<Item> GetItemsFromSprint(string items)
         {
+            if (items == null) new List<Item>() { };
             try
             {
                 using (var context = new DatabaseContext())
