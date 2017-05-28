@@ -5,6 +5,7 @@
 }
 <script src="http://code.highcharts.com/highcharts.js"></script>
 <script src="http://code.highcharts.com/modules/exporting.js"></script>
+<script src="@Url.Content("~/Client Scripts/regression.js")"></script>
 
 <br />
 <div class="tab col-md-offset-3">
@@ -35,7 +36,7 @@
         for (var date = ((Sprint) ViewBag.Sprint).StartDate; date <= ((Sprint) ViewBag.Sprint).FinishDate; date = date.AddDays(1))
         {
             @:array.push(@(((List<Item>)ViewBag.Items).Count(m => m.ItemStatus != "Closed" && (m.DateClosed >= date || m.DateClosed == null))));
-                foreach (var dev in ((List<string>) ViewBag.Members))
+                    foreach (var dev in ((List<string>) ViewBag.Members))
             {
                 <text>
     if (!dictionary["@dev"])
@@ -70,7 +71,8 @@
             title: {
                 text: '#Items'
             },
-            tickInterval: 1
+            tickInterval: 1,
+            min: 0
         },
         credits: {
             enabled: false
@@ -78,7 +80,17 @@
         series: [{
             name: 'Total',
             data: array
-        }]
+        },
+        {
+            name: 'Trendline',
+            type: 'line',
+            marker: { enabled: false },
+            /* function returns data for trend-line */
+            data: (function() {
+                return fitData(array).data;
+            })()
+    }]
+            
     });
     var counter = 1;
     (Object.keys(dictionary)).forEach(function (element) {
