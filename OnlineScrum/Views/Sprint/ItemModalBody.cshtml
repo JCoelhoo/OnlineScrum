@@ -13,7 +13,7 @@
                             {
                                 foreach (var note in @ViewBag.Item.ItemNotes.Split(new string[] { ".NOTE_SEPARATOR." }, StringSplitOptions.RemoveEmptyEntries))
                                 {
-                                    <p>@note</p>
+                                    <p class="container" style="word-break: break-all">@note</p>
                                     <hr />
                                 }
                             }

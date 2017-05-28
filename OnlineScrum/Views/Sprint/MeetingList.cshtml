@@ -1,4 +1,5 @@
-﻿@model OnlineScrum.Models.Meeting
+﻿@using OnlineScrum.Models
+@model OnlineScrum.Models.Meeting
 <div id="empList">
     <table class="table table-hover">
         <thead class="thead-default">
@@ -19,7 +20,7 @@
                     ? true
                     : false;
                 @*Colour of row*@
-                <tr class="@(ViewBag.Meetings[i].Time < DateTime.Now.AddDays(1) ? "warning" : "") @(ViewBag.Meetings[i].Time < DateTime.Now ? "danger" : "")">
+                <tr class="@((ViewBag.Meetings[i].Time < DateTime.Now.AddDays(1) && ViewBag.Meetings[i].Time > DateTime.Now) ? "warning" : "") @(ViewBag.Meetings[i].Time < DateTime.Now ? "danger" : "")">
                     <td>@ViewBag.Meetings[i].Time</td>
                     <td>@ViewBag.Meetings[i].ScrumMaster</td>
                     <td>@ViewBag.Meetings[i].Developer</td>
@@ -28,13 +29,24 @@
                         @if (answered)
                         {
                             <button type="button" class="btn btn-link pull-right" data-toggle="modal" data-target="#modal@((ViewBag.Meetings[i]).MeetingID)">
-                                Details
+                                @if (((Meeting) ViewBag.Meetings[i]).Time < DateTime.Now)
+                                {
+                                    <p>Review Meeting</p>
+                                }
+                                else
+                                {
+                                    <p>Details</p>
+                                }
                             </button>
                         }
                         else
                         {
-                            <button type="button" class="btn btn-link pull-right @((ViewBag.Type == "ScrumMaster") ? "disabled" : "")" data-toggle="modal" data-target="#modal@((ViewBag.Meetings[i]).MeetingID)">
-                                @if (ViewBag.Type == "ScrumMaster")
+                            <button type="button" class="btn btn-link pull-right" data-toggle="modal" data-target="#modal@((ViewBag.Meetings[i]).MeetingID)">
+                                @if (((Meeting)ViewBag.Meetings[i]).Time < DateTime.Now)
+                                {
+                                    <p>Review Meeting</p>
+                                }
+                                else if (ViewBag.Type == "ScrumMaster")
                                 {
                                     <p>Questions not answered</p>
                                 }

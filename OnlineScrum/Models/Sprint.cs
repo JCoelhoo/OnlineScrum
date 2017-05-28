@@ -41,5 +41,13 @@ namespace OnlineScrum.Models
 
         [Column("Meetings")]
         public string Meetings { get; set; }
+
+        [Column("MeetingInterval")]
+        [Required]
+        public string MeetingInterval { get; set; }
+
+        [Column("MeetingLocation")]
+        [Required]
+        public string MeetingLocation { get; set; }
     }
 }

@@ -12,9 +12,8 @@ namespace OnlineScrum.BusinessLayer
         public static DateTime DailyMeetingTime { get; set; } =
             new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 8, 0, 0);
 
+        public static bool RepeatMethod { get; set; }
         public static int MeetingInterval { get; set; } = 1;
-
-        public static bool repeatMethod { get; set; }
 
 
         public static string DatabaseError { get { return DatabaseError; } }
@@ -37,10 +36,13 @@ namespace OnlineScrum.BusinessLayer
         {
             return s.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries).ToList();
         }
-
+        //TODO MeetingInterval
         public static void DailyScrumMeeting(Project project, int sprintID, bool timeTrigger = true)
         {
-            if (!timeTrigger && repeatMethod) return;
+            if (!timeTrigger && RepeatMethod)
+            {
+                return;
+            }
             var meetings = MeetingManager.GetMeetingsByEmail(project.ScrumMaster, sprintID);
             foreach (var member in SharedManager.SplitString(project.DevTeam))
             {
@@ -57,7 +59,7 @@ namespace OnlineScrum.BusinessLayer
                 };
                 MeetingManager.AddMeeting(meeting, sprintID);
             }
-            repeatMethod = true;
+            RepeatMethod = true;
         }
     }
 

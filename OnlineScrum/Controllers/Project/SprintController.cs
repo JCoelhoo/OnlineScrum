@@ -132,6 +132,26 @@ namespace OnlineScrum.Controllers
             return View();
         }
 
+        [Route("project/sprint/{id:int}/settings")]
+        public ActionResult Settings(int id)
+        {
+            var user = (User)Session["UserInfo"];
+            if (user == null)
+                return RedirectToAction("Login", "Login");
+            var proj = ProjectManager.GetProjectByEmail(user.Email);
+            ViewBag.Link = "Project";
+            if (proj == null)
+                return RedirectToAction("Home", "Dashboard");
+            var sprints = ProjectManager.GetSprintFromProject(proj.Sprints);
+            if (sprints == null || sprints.Count(m => m.SprintID == id) == 0)
+            {
+                ViewBag.Error = "Sprint not found";
+                return RedirectToAction("Home", "Project");
+            }
+
+            return View();
+        }
+
         [Route("project/sprint/{id:int}/new_item")]
         public ActionResult Create_Item(int id)
         {
