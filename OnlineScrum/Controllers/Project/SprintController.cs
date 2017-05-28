@@ -43,10 +43,10 @@ namespace OnlineScrum.Controllers
                 ts = date - dateNow;
             }
 
-            SharedManager.DailyScrumMeeting(proj, sprint.SprintID, false);
+            SharedManager.DailyScrumMeeting(proj, sprint, false);
             var meetings = MeetingManager.GetMeetingsByEmail(user.Email, sprint.SprintID).OrderBy(m => m.Time).ToList();
             //waits certan time and run the code
-            Task.Delay(ts).ContinueWith((x) => SharedManager.DailyScrumMeeting(proj, sprint.SprintID));
+            Task.Delay(ts).ContinueWith((x) => SharedManager.DailyScrumMeeting(proj, sprint));
             
             ViewBag.Items = SprintManager.GetItemsFromSprint(sprint.Items);
             ViewBag.Sprint = sprint;
@@ -77,7 +77,7 @@ namespace OnlineScrum.Controllers
             }
             var sprint = sprints.First(m => m.SprintID == id);
 
-            SharedManager.DailyScrumMeeting(proj, sprint.SprintID, false);
+            SharedManager.DailyScrumMeeting(proj, sprint, false);
 
             ViewBag.Short = false;
             ViewBag.Meetings = MeetingManager.GetMeetingsByEmail(user.Email, sprint.SprintID).OrderBy(m => m.Time).ToList();

@@ -45,6 +45,31 @@
             @Html.TextBoxFor(model => model.FinishDate, "{0:dd/MM/yyyy}", new { @type = "date", @Value = DateTime.Now.ToString("dd/MM/yyyy"), @class = "form-control" })
             @Html.ValidationMessageFor(model => model.FinishDate)
         </div>
+        <br />
+        <br/>
+        
+        <div class="form-group row" style="display:inline">
+
+            @Html.LabelFor(model => model.MeetingLocation, new { @class = "col-md-2 col-form-label" })
+        </div>
+        <div style="display:inline" class="col-md-10">
+            @Html.TextBoxFor(model => model.MeetingLocation, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.MeetingLocation)
+        </div>
+        <br />
+        <br />
+        
+        <div class="form-group row" style="display:inline">
+
+            @Html.LabelFor(model => model.MeetingInterval, new { @class = "col-md-2 col-form-label" })
+        </div>
+        <div style="display:inline" class="col-md-10">
+            @Html.TextBoxFor(model => model.MeetingInterval, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.MeetingInterval)
+        </div>
+        <br />
+        <br />
+
         @Html.ValidationSummary()
         @if (ViewBag.Error != "" && ViewBag.Error != null)
         {

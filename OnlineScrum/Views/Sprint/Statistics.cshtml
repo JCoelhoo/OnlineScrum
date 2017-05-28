@@ -22,7 +22,7 @@
 <div class="grid">
     <div class="row" id="container" style="min-width: 400px; height: 400px; margin: 0 auto"></div>
     <br />
-    Maybe add some warnings (dev closing issues, sprint slow pace, towards the end of sprint -> advise reprioritasation/delaying/fix estimations, 
+    Maybe add some warnings (dev closing issues, sprint slow pace, towards the end of sprint -> advise reprioritasation/delaying/fix estimations,
     if dev is done assing different issues from slow dev, a lot of days without closing (maybe facing obstacle(ask in meeting)))
 </div>
 @*TODO use business days*@
@@ -137,6 +137,41 @@
     });
     flow.redraw();*@
 </script>
+
+<h3>Tips</h3>
+@{
+    var itemlessDev = new List<String>();
+    var devevoper = "";
+    var itemTemp = 0;
+    var items = 0;
+    foreach (var member in @ViewBag.Members)
+    {
+        if ((itemTemp = ((List<Item>)ViewBag.Items).Count(m => m.AssignedTo == member && (m.ItemStatus == "Developing" || m.ItemStatus == "Testing"))) == 0)
+        {
+            itemlessDev.Add(member);
+        }
+        else
+        {
+            if (items < itemTemp)
+            {
+                items = itemTemp;
+                devevoper = member;
+            }
+        }
+    }
+    <ul>
+        @if (itemlessDev.Count > 0)
+        {
+            <li>
+                <p>@String.Join(",", itemlessDev) have no items pending. @((items != 0) ? " \nConsider helping " + @devevoper + " with " + @items + " remaining item." : "")</p>
+            </li>
+        }
+    </ul>
+}
+
+
+
+
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js" type="text/javascript"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.2/js/bootstrap-select.min.js"></script>
 

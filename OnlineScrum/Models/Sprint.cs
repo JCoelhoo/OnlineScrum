@@ -43,11 +43,11 @@ namespace OnlineScrum.Models
         public string Meetings { get; set; }
 
         [Column("MeetingInterval")]
-        [Required]
-        public string MeetingInterval { get; set; }
+        //TODO above 1
+        public int MeetingInterval { get; set; }
 
         [Column("MeetingLocation")]
-        [Required]
+        [Required(AllowEmptyStrings = false)]
         public string MeetingLocation { get; set; }
     }
 }

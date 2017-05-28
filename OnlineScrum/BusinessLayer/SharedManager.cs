@@ -37,13 +37,13 @@ namespace OnlineScrum.BusinessLayer
             return s.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries).ToList();
         }
         //TODO MeetingInterval
-        public static void DailyScrumMeeting(Project project, int sprintID, bool timeTrigger = true)
+        public static void DailyScrumMeeting(Project project, Sprint sprint, bool timeTrigger = true)
         {
             if (!timeTrigger && RepeatMethod)
             {
                 return;
             }
-            var meetings = MeetingManager.GetMeetingsByEmail(project.ScrumMaster, sprintID);
+            var meetings = MeetingManager.GetMeetingsByEmail(project.ScrumMaster, sprint.SprintID);
             foreach (var member in SharedManager.SplitString(project.DevTeam))
             {
                 if (meetings.Count(
@@ -52,12 +52,12 @@ namespace OnlineScrum.BusinessLayer
                 var meeting = new Meeting
                 {
                     Developer = member,
-                    Location = "X",
+                    Location = sprint.MeetingLocation,
                     Time = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 8, 0, 0).AddDays(1),
                     ScrumMaster = project.ScrumMaster,
-                    SprintID = sprintID
+                    SprintID = sprint.SprintID
                 };
-                MeetingManager.AddMeeting(meeting, sprintID);
+                MeetingManager.AddMeeting(meeting, sprint.SprintID);
             }
             RepeatMethod = true;
         }

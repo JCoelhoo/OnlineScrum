@@ -83,6 +83,7 @@ namespace OnlineScrum.Controllers
             var memberList = SharedManager.SplitString(project.DevTeam);
             memberList.Add(project.ScrumMaster);
             ViewBag.MemberList = memberList;
+            SharedManager.RepeatMethod = false;
             return PartialView("MemberList");
         }
     }

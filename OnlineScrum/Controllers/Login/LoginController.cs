@@ -42,7 +42,7 @@ namespace OnlineScrum.Controllers
                 user.Password = null;
                 Session["UserInfo"] = user;
                 Session["TimeOfCreation"] = DateTime.Now;
-                SharedManager.repeatMethod = false;
+                SharedManager.RepeatMethod = false;
                 return RedirectToAction("Home", "Dashboard");
             }
 
