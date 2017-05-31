@@ -33,7 +33,7 @@
                 </button>
                 @Html.ActionLink("OnlineScrum", "Home", "Dashboard", new { area = "" }, new { @class = "navbar-brand" })
             </div>
-            <div class="navbar-collapse collapse" >
+            <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     @if (Session["UserInfo"] != null)
                     {
@@ -45,7 +45,7 @@
                 <ul class="nav navbar-nav navbar-right">
                     @if (Session["UserInfo"] != null)
                     {
-                        <li><a>@(((User)Session["UserInfo"])?.Username) - @(((User)Session["UserInfo"])?.Role)</a></li> 
+                        <li><a>@(((User)Session["UserInfo"])?.Username) - @(((User)Session["UserInfo"])?.Role)</a></li>
                         <li><a href="~/logout"><span class="glyphicon glyphicon-log-out"></span> Log Out</a></li>
                     }
                     else
@@ -58,19 +58,20 @@
             </div>
         </div>
     </div>
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+
     <div class="container body-content">
         @RenderBody()
         @* TODO FIXME FOOTER *@
         @*<div style="height: 70px; bottom:0;position:fixed;" class="navbar navbar-bottom">
-            <hr />
-            <footer align="center">
-                <p>@DateTime.Now.Year - OnlineScrum</p>
-            </footer>
-        </div>*@
+                <hr />
+                <footer align="center">
+                    <p>@DateTime.Now.Year - OnlineScrum</p>
+                </footer>
+            </div>*@
     </div>
 
-    @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/bootstrap")
-    @RenderSection("scripts", required: false)
 </body>
 </html>

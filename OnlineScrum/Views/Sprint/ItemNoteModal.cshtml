@@ -15,3 +15,12 @@
         }
     }
 </div>
+
+<script>
+    $(document).ready(function() {
+        $("textarea").each(function () {
+            //Or: $.each( $("p"), function() {
+            $(this).val('');
+        });
+    });
+</script>

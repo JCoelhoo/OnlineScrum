@@ -46,8 +46,9 @@ namespace OnlineScrum.BusinessLayer
             var meetings = MeetingManager.GetMeetingsByEmail(project.ScrumMaster, sprint.SprintID);
             foreach (var member in SharedManager.SplitString(project.DevTeam))
             {
+                var tomorrow = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 8, 0, 0).AddDays(1);
                 if (meetings.Count(
-                        m => m.Time == new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day+1, 8, 0, 0)
+                        m => m.Time == tomorrow
                              && m.Developer == member) != 0) continue;
                 var meeting = new Meeting
                 {

@@ -6,6 +6,8 @@
 <script src="http://code.highcharts.com/highcharts.js"></script>
 <script src="http://code.highcharts.com/modules/exporting.js"></script>
 <script src="@Url.Content("~/Client Scripts/regression.js")"></script>
+<link href="@Url.Content("~/Content/SprintMenu.css")" rel="stylesheet" />
+<script src="https://rawgithub.com/laff/technical-indicators/master/technical-indicators.src.js"></script>
 
 <br />
 <div class="tab col-md-offset-3">
@@ -18,7 +20,6 @@
     </ul>
 </div>
 
-<link href="@Url.Content("~/Content/SprintMenu.css")" rel="stylesheet" />
 
 <div class="grid">
     <div class="row" id="container" style="min-width: 400px; height: 400px; margin: 0 auto"></div>
@@ -31,20 +32,34 @@
     var categories = "[";
     var dictionary = [];
     var array = [];
+    var array2 = [];
+    var offset = 0;
+    var projection = 0;
 
     @{
+        @:offset = @(((DateTime.Now.Date.AddDays(1)) - ((Sprint)ViewBag.Sprint).StartDate.Date).TotalDays);
+        @:projection =  @(((List<Item>) ViewBag.Items).Count(x => x.ItemStatus == "Closed" && x.DateClosed < DateTime.Now));
         for (var date = ((Sprint) ViewBag.Sprint).StartDate; date <= ((Sprint) ViewBag.Sprint).FinishDate; date = date.AddDays(1))
         {
-            @:array.push(@(((List<Item>)ViewBag.Items).Count(m => m.ItemStatus != "Closed" && (m.DateClosed >= date || m.DateClosed == null))));
-                    foreach (var dev in ((List<string>) ViewBag.Members))
+            @:array.push(@(((List<Item>)ViewBag.Items).Count(m => m.ItemStatus != "Closed" || m.DateClosed >= date)));
+            if (date.Date > DateTime.Now.Date.AddDays(1))
+            {
+                    continue;
+            }
+
+            foreach (var dev in ((List<string>) ViewBag.Members))
             {
                 <text>
     if (!dictionary["@dev"])
         dictionary["@dev"] = [];
-    dictionary["@dev"].push(@(((List<Item>)ViewBag.Items).Count(m => m.AssignedTo == @dev && m.ItemStatus != "Closed" && (m.DateClosed >= date || m.DateClosed == null))));
+    dictionary["@dev"].push(@(((List<Item>)ViewBag.Items).Count(m => m.AssignedTo == @dev && (m.ItemStatus != "Closed" || m.DateClosed >= date))));
     </text>
             }
         }
+    }
+    projection = projection / offset;
+    for (var i = 0; i < array.length; i++) {
+        array2.push(array[0]-projection * i);
     }
     var chart = new Highcharts.Chart({
         chart: {
@@ -60,8 +75,9 @@
             title: {
                 text: '#Days'
             },
-            tickInterval: 1
-        },
+            tickInterval: 1,
+            max: @((((Sprint) ViewBag.Sprint).FinishDate - ((Sprint) ViewBag.Sprint).StartDate).TotalDays)
+            },
         tooltip: {
             formatter: function () {
                 return '' + this.series.name + ': ' + this.y + '';
@@ -79,18 +95,55 @@
         },
         series: [{
             name: 'Total',
-            data: array
+            data: array,
+            id: 'primary',
+            zoneAxis: 'x',
+            zones: [
+                {
+                    value: offset
+                },
+                {
+                    dashStyle: 'longdash',
+                    color: '#D0D0D0'
+                }
+            ]
         },
+        //{
+        //    name: 'Projection',
+        //    data: array2,
+        //    id: 'sec',
+        //    dashStyle: 'dot',
+        //    color: '#4572A7',
+        //    visible: false
+        //},
         {
-            name: 'Trendline',
-            type: 'line',
-            marker: { enabled: false },
-            /* function returns data for trend-line */
-            data: (function() {
-                return fitData(array).data;
-            })()
-    }]
-            
+            name: 'Projection',
+            data:array2,
+            showInLegend: true,
+            enableMouseTracking: false,
+            type: 'trendline',
+            algorithm: 'linear',
+            zoneAxis: 'x',
+            zones: [
+                {
+                    value: offset
+                },
+                {
+                    dashStyle: 'longdash',
+                    color: '#888888'
+                }
+            ]
+        }
+        //{
+        //    name: 'Proj Trendline',
+        //    linkedTo: 'sec',
+        //    showInLegend: true,
+        //    enableMouseTracking: false,
+        //    type: 'trendline',
+        //    algorithm: 'linear'
+        //}
+        ]
+
     });
     var counter = 1;
     (Object.keys(dictionary)).forEach(function (element) {
@@ -175,21 +228,14 @@
         @if (itemlessDev.Count > 0)
         {
             <li>
-                <p>@String.Join(",", itemlessDev) have no items pending. @((items != 0) ? " \nConsider helping " + @devevoper + " with " + @items + " remaining item." : "")</p>
+                <p>@String.Join(",", itemlessDev) @(itemlessDev.Count == 1 ? " has " : " have " ) no items pending. @((items != 0) ? " \nConsider helping " + @devevoper + " with " + @items + " remaining item." : "")</p>
             </li>
         }
     </ul>
 }
 
-
-
-
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js" type="text/javascript"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.2/js/bootstrap-select.min.js"></script>
-
 <script>
-    $(function () {
-        $('[data-toggle="popover"]').popover()
-    })
-
+    $(function() {
+        $('[data-toggle="popover"]').popover();
+    });
 </script>
