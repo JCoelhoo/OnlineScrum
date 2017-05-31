@@ -38,22 +38,22 @@
 
     @{
         @:offset = @(((DateTime.Now.Date.AddDays(1)) - ((Sprint)ViewBag.Sprint).StartDate.Date).TotalDays);
-        @:projection =  @(((List<Item>) ViewBag.Items).Count(x => x.ItemStatus == "Closed" && x.DateClosed < DateTime.Now));
+        @:projection =  @(((List<Item>) ViewBag.Items).Count(x => x.ItemStatus == "Closed" && ((DateTime)x.DateClosed).Date <= DateTime.Now.Date));
         for (var date = ((Sprint) ViewBag.Sprint).StartDate; date <= ((Sprint) ViewBag.Sprint).FinishDate; date = date.AddDays(1))
         {
-            @:array.push(@(((List<Item>)ViewBag.Items).Count(m => m.ItemStatus != "Closed" || m.DateClosed >= date)));
+            @:array.push(@(((List<Item>)ViewBag.Items).Count(m => m.ItemStatus != "Closed" || ((DateTime)m.DateClosed).Date > date.Date)));
             if (date.Date > DateTime.Now.Date.AddDays(1))
             {
-                    continue;
+                continue;
             }
 
             foreach (var dev in ((List<string>) ViewBag.Members))
             {
                 <text>
-    if (!dictionary["@dev"])
-        dictionary["@dev"] = [];
-    dictionary["@dev"].push(@(((List<Item>)ViewBag.Items).Count(m => m.AssignedTo == @dev && (m.ItemStatus != "Closed" || m.DateClosed >= date))));
-    </text>
+                if (!dictionary["@dev"])
+                    dictionary["@dev"] = [];
+                dictionary["@dev"].push(@(((List<Item>)ViewBag.Items).Count(m => m.AssignedTo == @dev && (m.ItemStatus != "Closed" || ((DateTime)m.DateClosed).Date > date.Date))));
+                </text>
             }
         }
     }
@@ -64,7 +64,8 @@
     var chart = new Highcharts.Chart({
         chart: {
             renderTo: 'container',
-            type: 'area'
+            type: 'area',
+            height: 400 + @(ViewBag.Items.Count*10)
         },
         title: {
             text: 'Burndown Chart'

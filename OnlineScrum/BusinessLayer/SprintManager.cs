@@ -59,7 +59,7 @@ namespace OnlineScrum.BusinessLayer
                             if (number == -1) return SharedManager.DatabaseError;
                             //check assignedto member of sprint
                             item.ItemNumber = number;
-                            item.ItemStatus = "Developing";
+                            item.ItemStatus = item.ItemStatus == null ? "Developing" : item.ItemStatus;
                             context.Items.Add(item);
                             context.SaveChanges();
                             //FIXME sprintID is attributed when Add()
