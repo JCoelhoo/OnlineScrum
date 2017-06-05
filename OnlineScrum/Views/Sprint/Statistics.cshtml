@@ -22,7 +22,10 @@
 
 
 <div class="grid">
-    <div class="row" id="container" style="min-width: 400px; height: 400px; margin: 0 auto"></div>
+    <div class="row" id="container" style="min-width: 400px; height: (400 + @(ViewBag.Items.Count*10))px; margin: 0 auto"></div>
+    <br />
+    <h4 class="text-center">Item Effort Distribution</h4>
+    <div id="sankey" class="col-md-offset-3" style="width: 900px; height: @(300+(ViewBag.Items.Count*15))px;"></div>
     <br />
     Maybe add some warnings (dev closing issues, sprint slow pace, towards the end of sprint -> advise reprioritasation/delaying/fix estimations,
     if dev is done assing different issues from slow dev, a lot of days without closing (maybe facing obstacle(ask in meeting)))
@@ -38,11 +41,11 @@
 
     @{
         @:offset = @(((DateTime.Now.Date.AddDays(1)) - ((Sprint)ViewBag.Sprint).StartDate.Date).TotalDays);
-        @:projection =  @(((List<Item>) ViewBag.Items).Count(x => x.ItemStatus == "Closed" && ((DateTime)x.DateClosed).Date <= DateTime.Now.Date));
-        for (var date = ((Sprint) ViewBag.Sprint).StartDate; date <= ((Sprint) ViewBag.Sprint).FinishDate; date = date.AddDays(1))
+            @:projection =  @(((List<Item>) ViewBag.Items).Count(x => x.ItemStatus == "Closed" && ((DateTime)x.DateClosed).Date <= DateTime.Now.Date));
+            for (var date = ((Sprint) ViewBag.Sprint).StartDate; date <= ((Sprint) ViewBag.Sprint).FinishDate; date = date.AddDays(1))
         {
-            @:array.push(@(((List<Item>)ViewBag.Items).Count(m => m.ItemStatus != "Closed" || ((DateTime)m.DateClosed).Date > date.Date)));
-            if (date.Date > DateTime.Now.Date.AddDays(1))
+            @:array.push(@(((List<Item>)ViewBag.Items).Count(m => m.ItemStatus != "Closed" || ((DateTime)m.DateClosed).Date >= date.Date)));
+                if (date.Date > DateTime.Now.Date.AddDays(1))
             {
                 continue;
             }
@@ -50,10 +53,10 @@
             foreach (var dev in ((List<string>) ViewBag.Members))
             {
                 <text>
-                if (!dictionary["@dev"])
-                    dictionary["@dev"] = [];
-                dictionary["@dev"].push(@(((List<Item>)ViewBag.Items).Count(m => m.AssignedTo == @dev && (m.ItemStatus != "Closed" || ((DateTime)m.DateClosed).Date > date.Date))));
-                </text>
+    if (!dictionary["@dev"])
+        dictionary["@dev"] = [];
+    dictionary["@dev"].push(@(((List<Item>)ViewBag.Items).Count(m => m.AssignedTo == @dev && (m.ItemStatus != "Closed" || ((DateTime)m.DateClosed).Date >= date.Date))));
+    </text>
             }
         }
     }
@@ -66,9 +69,9 @@
             renderTo: 'container',
             type: 'area',
             height: 400 + @(ViewBag.Items.Count*10)
-        },
+            },
         title: {
-            text: 'Burndown Chart'
+            text: 'Burndown Chart - Sprint Progression'
         },
         xAxis: {
             categories: Array.from(Array(
@@ -156,53 +159,10 @@
             false);
     });
     chart.redraw();
-
-    @*var flow = new Highcharts.Chart({
-        chart: {
-            renderTo: 'container',
-            type: 'area'
-        },
-        title: {
-            text: 'Cumulative Flow Diagram'
-        },
-        xAxis: {
-            categories: Array.from(Array(
-                @((((Sprint) ViewBag.Sprint).FinishDate - ((Sprint) ViewBag.Sprint).StartDate).TotalDays)).keys()),
-            title: {
-                text: '#Days'
-            },
-            tickInterval: 1
-        },
-        tooltip: {
-            formatter: function () {
-                return '' + this.series.name + ': ' + this.y + '';
-            }
-        },
-        yAxis: {
-            title: {
-                text: '#Items'
-            },
-            tickInterval: 1
-        },
-        credits: {
-            enabled: false
-        },
-        series: [{
-            name: 'Total',
-            data: array
-        }]
-    });
-    var counter = 1;
-    (Object.keys(dictionary)).forEach(function (element) {
-        flow.addSeries({
-                type: 'line',
-                name: element,
-                data: dictionary[element]
-            },
-            false);
-    });
-    flow.redraw();*@
 </script>
+
+
+
 
 <h3>Tips</h3>
 @{
@@ -212,7 +172,7 @@
     var items = 0;
     foreach (var member in @ViewBag.Members)
     {
-        if ((itemTemp = ((List<Item>)ViewBag.Items).Count(m => m.AssignedTo == member && (m.ItemStatus == "Developing" || m.ItemStatus == "Testing"))) == 0)
+        if ((itemTemp = ((List<Item>)ViewBag.Items).Count(m => m.AssignedTo == member && (m.ItemStatus != "Closed"))) == 0)
         {
             itemlessDev.Add(member);
         }
@@ -235,8 +195,55 @@
     </ul>
 }
 
+
 <script>
     $(function() {
         $('[data-toggle="popover"]').popover();
     });
+</script>
+
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<script type="text/javascript">
+    google.charts.load('current', {'packages':['sankey']});
+    google.charts.setOnLoadCallback(drawChart);
+
+    function drawChart() {
+        var data = new google.visualization.DataTable();
+        data.addColumn('string', 'From');
+        data.addColumn('string', 'To');
+        data.addColumn('number', 'Weight');
+        data.addRows([
+            @{
+                var l = ((List<Item>) ViewBag.Items).GroupBy(m => m.AssignedTo).Select(g => new
+                {
+                    Name = g.Key,
+                    Sum = g.Sum(x => x.EstimatedEffort)
+                });
+                foreach (var i in ((List<Item>) ViewBag.Items))
+                {
+                    <text>
+                        ['Items', '@(i.ItemName)', @(i.EstimatedEffort)],
+                        @foreach (var name in l)
+                        {
+                            if (name.Name != i.AssignedTo) { continue;}
+                            <text>
+                                [
+                                    '@(i.ItemName)',
+                                    '@(name.Name + " - " + name.Sum)',
+                                    @(i.EstimatedEffort)
+                                ],
+                            </text>
+                        }
+                    </text>
+                }
+            }
+        ]);
+
+        var options = {
+            width: 600,
+        };
+
+        var chart = new google.visualization.Sankey(document.getElementById('sankey'));
+        chart.draw(data, options);
+    }
 </script>

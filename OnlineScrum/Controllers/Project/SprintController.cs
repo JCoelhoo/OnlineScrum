@@ -105,7 +105,7 @@ namespace OnlineScrum.Controllers
             }
             var sprint = sprints.First(m => m.SprintID == id);
             ViewBag.Sprint = sprint;
-            ViewBag.Items = SprintManager.GetItemsFromSprint(sprint.Items).ToList();
+            ViewBag.Items = SprintManager.GetItemsFromSprint(sprint.Items).OrderByDescending(m => m.AssignedTo == user.Email).ThenBy(m => m.ItemStatus).ToList();
             return View();
         }
 

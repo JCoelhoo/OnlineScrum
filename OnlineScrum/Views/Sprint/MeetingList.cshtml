@@ -68,7 +68,7 @@
                     </td>
                     <td>
                         <select data-val="true" data-val-required="Email Address is required" type="email" class="form-control" id="ScrumMaster" name="ScrumMaster">
-                            <option selected disabled>Select member of the team</option>
+                            <option selected disabled>Select Scrum Master</option>
                             @if (ViewBag.ScrumMaster != null)
                             {
                                 <option>@ViewBag.ScrumMaster</option>
@@ -80,7 +80,7 @@
                     <td>
                         <div class="form-group">
                             <select data-val="true" data-val-required="Email Address is required" type="email" class="form-control" id="Developer" name="Developer">
-                                <option selected disabled>Select member of the team</option>
+                                <option selected disabled>Select Developer</option>
                                 @if (ViewBag.Members != null)
                                 {
                                     foreach (var member in ViewBag.Members)

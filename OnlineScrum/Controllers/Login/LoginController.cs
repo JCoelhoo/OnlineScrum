@@ -76,21 +76,21 @@ namespace OnlineScrum.Controllers
                 var proj = new Project
                 {
                     Name = "Mock",
-                    DevTeamList = new List<string> {"2@g.c", "3@g.c"},
+                    DevTeamList = new List<string> {"2@g.c", "3@g.c", "5@g.c"},
                     ProjectID = 1,
                     Sprints = "1",
                     ScrumMaster = "1@g.c"
                 };
                 var sprint = new Sprint
                 {
-                    StartDate = new DateTime(2017, 05, 01),
+                    StartDate = DateTime.Now.AddDays(-15),
                     MeetingInterval = 1,
                     MeetingLocation = "X",
                     SprintID = 1,
                     SprintName = "Example Sprint",
                     SprintNumber = 1,
-                    FinishDate = new DateTime(2017, 05, 31),
-                    Meetings=""
+                    FinishDate = DateTime.Now.AddDays(15),
+                    Meetings =""
                 };
                 var item1 = new Item
                 {
@@ -110,7 +110,7 @@ namespace OnlineScrum.Controllers
                 };
                 var item3 = new Item
                 {
-                    AssignedTo = "2@g.c",
+                    AssignedTo = "5@g.c",
                     EstimatedEffort = 4,
                     ItemID = 3,
                     ItemName = "Item#3",
@@ -126,12 +126,12 @@ namespace OnlineScrum.Controllers
                 };
                 var item5 = new Item
                 {
-                    AssignedTo = "2@g.c",
-                    EstimatedEffort = 1,
+                    AssignedTo = "5@g.c",
+                    EstimatedEffort = 5,
                     ItemID = 5,
-                    ItemName = "Item#3",
+                    ItemName = "Item#5",
                     ItemStatus = "Closed",
-                    DateClosed = new DateTime(2017,05,05)
+                    DateClosed = DateTime.Now.AddDays(-13),
                 };
                 var item6 = new Item
                 {
@@ -148,7 +148,7 @@ namespace OnlineScrum.Controllers
                     ItemID = 7,
                     ItemName = "Item#7",
                     ItemStatus = "Closed",
-                    DateClosed = new DateTime(2017, 05, 8)
+                    DateClosed = DateTime.Now.AddDays(-11),
                 };
                 var item8 = new Item
                 {
@@ -160,8 +160,8 @@ namespace OnlineScrum.Controllers
                 };
                 var item9 = new Item
                 {
-                    AssignedTo = "3@g.c",
-                    EstimatedEffort = 1,
+                    AssignedTo = "5@g.c",
+                    EstimatedEffort =3,
                     ItemID = 9,
                     ItemName = "Item#9",
                     ItemStatus = "Delayed"
@@ -173,7 +173,7 @@ namespace OnlineScrum.Controllers
                     ItemID = 10,
                     ItemName = "Item#10",
                     ItemStatus = "Closed",
-                    DateClosed = new DateTime(2017, 05, 7)
+                    DateClosed = DateTime.Now.AddDays(-10),
                 };
                 var item11 = new Item
                 {
@@ -188,7 +188,7 @@ namespace OnlineScrum.Controllers
                     AssignedTo = "2@g.c",
                     EstimatedEffort = 3,
                     ItemID = 12,
-                    ItemName = "Item#11",
+                    ItemName = "Item#12",
                     ItemStatus = "Testing"
                 };
                 var item13 = new Item
@@ -198,7 +198,7 @@ namespace OnlineScrum.Controllers
                     ItemID = 13,
                     ItemName = "Item#13",
                     ItemStatus = "Closed",
-                    DateClosed = new DateTime(2017, 05, 18)
+                    DateClosed = DateTime.Now.AddDays(-7),
                 };
                 var item14 = new Item
                 {
@@ -207,7 +207,7 @@ namespace OnlineScrum.Controllers
                     ItemID = 14,
                     ItemName = "Item#14",
                     ItemStatus = "Closed",
-                    DateClosed = new DateTime(2017, 05, 15)
+                    DateClosed = DateTime.Now.AddDays(-6),
                 };
                 var item15 = new Item
                 {
@@ -224,7 +224,7 @@ namespace OnlineScrum.Controllers
                     ItemID = 16,
                     ItemName = "Item#16",
                     ItemStatus = "Closed",
-                    DateClosed = new DateTime(2017, 05, 11)
+                    DateClosed = DateTime.Now.AddDays(-4),
                 };
                 var item17 = new Item
                 {
@@ -233,7 +233,7 @@ namespace OnlineScrum.Controllers
                     ItemID = 17,
                     ItemName = "Item#17",
                     ItemStatus = "Closed",
-                    DateClosed = new DateTime(2017, 05, 28)
+                    DateClosed = DateTime.Now.AddDays(-4),
                 };
                 var item18 = new Item
                 {
@@ -242,7 +242,7 @@ namespace OnlineScrum.Controllers
                     ItemID = 18,
                     ItemName = "Item#18",
                     ItemStatus = "Closed",
-                    DateClosed = new DateTime(2017, 05, 27)
+                    DateClosed = DateTime.Now.AddDays(-2),
                 };
                 var item19 = new Item
                 {
@@ -251,7 +251,7 @@ namespace OnlineScrum.Controllers
                     ItemID = 19,
                     ItemName = "Item#19",
                     ItemStatus = "Closed",
-                    DateClosed = new DateTime(2017, 05, 22)
+                    DateClosed = DateTime.Now.AddDays(-2),
                 };
                 var item20 = new Item
                 {
@@ -260,7 +260,7 @@ namespace OnlineScrum.Controllers
                     ItemID = 20,
                     ItemName = "Item#20",
                     ItemStatus = "Closed",
-                    DateClosed = new DateTime(2017, 05, 22)
+                    DateClosed = DateTime.Now.AddDays(-1),
                 };
 
 
