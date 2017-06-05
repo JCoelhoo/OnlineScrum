@@ -1,4 +1,6 @@
-﻿using OnlineScrum.BusinessLayer;
+﻿using System.Collections.Generic;
+using System.Linq;
+using OnlineScrum.BusinessLayer;
 using OnlineScrum.Models;
 using System.Web.Mvc;
 
@@ -24,6 +26,56 @@ namespace OnlineScrum.Controllers
             memberList.Insert(0,proj.ScrumMaster);
             ViewBag.MemberList = memberList;
             return View();
+        }
+
+        [Route("project/items")]
+        public ActionResult Items()
+        {
+            var user = (User)Session["UserInfo"];
+            if (user == null)
+                return RedirectToAction("Login", "Login");
+            var proj = ProjectManager.GetProjectByEmail(user.Email);
+            ViewBag.Link = "Project";
+            if (proj == null)
+                return RedirectToAction("Home", "Dashboard");
+
+           
+
+
+            var sprint = new Dictionary<Sprint, List<Item>>();
+            var sprints = ProjectManager.GetSprintFromProject(proj.Sprints);
+            foreach (var s in sprints)
+            {
+                sprint.Add(s, SprintManager.GetItemsFromSprint(s.Items).OrderByDescending(m => m.AssignedTo == user.Email).ThenBy(m => m.ItemStatus).ToList());
+            }
+            ViewBag.Sprints = sprint;
+            return View();
+        }
+
+        [Route("project/items")]
+        [HttpPost]
+        public ActionResult Items2(List<SprintItem> item)
+        {
+            var user = (User)Session["UserInfo"];
+            if (user == null)
+                return RedirectToAction("Login", "Login");
+            var proj = ProjectManager.GetProjectByEmail(user.Email);
+            ViewBag.Link = "Project";
+            if (proj == null)
+                return RedirectToAction("Home", "Dashboard");
+
+            ProjectManager.ChangeSprintInItem(item);
+
+
+            var sprint = new Dictionary<Sprint, List<Item>>();
+            var sprints = ProjectManager.GetSprintFromProject(proj.Sprints);
+            foreach (var s in sprints)
+            {
+                sprint.Add(s, SprintManager.GetItemsFromSprint(s.Items).OrderByDescending(m => m.AssignedTo == user.Email).ThenBy(m => m.ItemStatus).ToList());
+            }
+            ViewBag.Sprints = sprint;
+
+            return View("Items");
         }
 
         [Route("project/create_sprint")]

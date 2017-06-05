@@ -1,10 +1,17 @@
 ﻿using Foolproof;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace OnlineScrum.Models
 {
+    public class SprintItem
+    {
+        public string Sprint { get; set; }
+        public string Item { get; set; }
+    }
+
     [Table("Sprint")]
     public class Sprint
     {

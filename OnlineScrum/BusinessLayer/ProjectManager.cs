@@ -73,6 +73,34 @@ namespace OnlineScrum.BusinessLayer
             }
         }
 
+        public static string ChangeSprintInItem(List<SprintItem> item)
+        {
+            try
+            {
+                using (var context = new DatabaseContext())
+                {
+                    foreach (var i in item)
+                    {
+                        var s = (from sprint in context.Sprints
+                            where sprint.SprintName == i.Sprint
+                            select sprint).FirstOrDefault();
+
+                        if (SharedManager.SplitString(s.Items).Contains(i.Item))
+                        {
+                            s.Items += i.Item + ",";
+                        }
+                    }
+                    context.SaveChanges();
+                    return "";
+                }
+            }
+            catch (Exception e)
+            {
+                SharedManager.Log(e, "ChangeSprintInItem");
+                return SharedManager.DatabaseError;
+            }
+        }
+
         public static string AddSprint(Sprint sprint, Project proj)
         {
             if (sprint == null)

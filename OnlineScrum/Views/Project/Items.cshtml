@@ -1,0 +1,205 @@
+﻿@using OnlineScrum.BusinessLayer
+@using OnlineScrum.Models
+
+@{
+    ViewBag.Title = "Product Backlog";
+}
+
+<h2>Product Backlog</h2>
+
+@using (@Html.BeginForm("Items2", "Project", FormMethod.Post))
+{
+    int i = 0;
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-6 container">
+                
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h1 class="panel-title">Items open</h1>
+                    </div>
+                    @foreach (KeyValuePair<Sprint, List<Item>> sprint in ViewBag.Sprints)
+                    {
+                        <h4>@sprint.Key.SprintName</h4>
+                        <div id="container" class="panel-body">
+                            @foreach (var item in sprint.Value)
+                            {
+                                if (item.ItemStatus != "Closed")
+                                {
+                                    <input type="hidden" name="item[@i].Item" value="@item.ItemID"/>
+                                    <div class="col-md-6 btn btn-default">
+                                        @item.ItemName
+                                    </div>
+                                    <div class="col-md-6">
+                                        <select data-val="true" data-val-required="Email Address is required" type="email" class="form-control" name="item[@i].Sprint">
+                                            <option selected disabled>Select sprint</option>
+                                            @if (ViewBag.Sprints != null)
+                                            {
+                                                foreach (var s in ((Dictionary<Sprint, List<Item>>) ViewBag.Sprints).Keys.ToList())
+                                                {
+                                                    <option @(SharedManager.SplitString(s.Items).Contains(item.ItemID.ToString()) ? "selected" : "")>@s.SprintName</option>
+                                                }
+                                            }
+                                        </select>
+                                        <span class="field-validation-valid" data-valmsg-for="Email" data-valmsg-replace="true"></span>
+                                    </div>
+                                    i++;
+                                }
+                            }
+                        </div>
+                    }
+                </div>
+            </div>
+            <input type="submit" value="Save" class="btn btn-link" />
+        </div>
+    </div>
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@*<style>
+        input[type="text"] {
+            border: none;
+            background: transparent;
+            color: #000;
+            overflow: visible;
+            pointer-events: none;
+            background: none !important;
+        }
+    </style>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.11.4/themes/ui-lightness/jquery-ui.css" />
+
+    <script type="text/javascript" src="https://code.jquery.com/jquery-2.2.3.min.js"></script>
+    <script type="text/javascript" src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
+
+    @using (@Html.BeginForm("Items2", "Project", FormMethod.Post))
+    {
+        <div class="container-fluid">
+            <div class="row">
+                @{
+                    int i = 0;
+                    int j = 0;
+                    foreach (KeyValuePair<string, List<Item>> sprint in ViewBag.Sprints)
+                    {
+                        int x = 0;
+                        <div class="col-xs-3" style="resize:both;">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <h1 class="panel-title">@sprint.Key</h1>
+                                </div>
+                                <div id="container@(i + 1)" class="panel-body box-container">
+                                    <div itemid="itm" style="pointer-events: none;" class="col-md-12 btn btn-default box-item">
+                                        Drag and drop!
+                                    </div>
+                                    <input type="hidden" value="@sprint.Key" name="item[@i].Name"/>
+                                    @foreach (Item value in @sprint.Value)
+                                    {
+                                        <div itemid="itm-@(j + 1)" class="btn btn-default box-item">
+                                            <input value="@value.ItemName" name="item[@i].Items[@x]" type="hidden"/>
+                                            itm-@(j + 1) @*<input type="text" disabled="disabled" value="@value.ItemName" name="item[@i].Items[@j]"/>*@
+@*</div>
+                                        x++;
+                                        j++;
+                                    }
+                                    @{ i++; }
+                                </div>
+
+                            </div>
+                        </div>
+                    }
+                }
+            </div>
+        </div>
+        <input type="submit" value="Submit"/>
+
+    }
+
+    <script>
+        $(document).ready(function () {
+
+            $('.box-item').draggable({
+                cursor: 'move',
+                helper: "clone"
+            });
+
+            $("#container1").droppable({
+                drop: function (event, ui) {
+                    var itemid = $(event.originalEvent.toElement).attr("itemid");
+                    $('.box-item').each(function () {
+                        if ($(this).attr("itemid") === itemid) {
+                            $(this).appendTo("#container1");
+                            alert("moved 1 " + $(this).attr("itemid"))
+                        }
+                    });
+                }
+            });
+
+            $("#container2").droppable({
+                drop: function (event, ui) {
+                    var itemid = $(event.originalEvent.toElement).attr("itemid");
+                    $('.box-item').each(function () {
+                        if ($(this).attr("itemid") === itemid) {
+                            $(this).appendTo("#container2");
+                            alert("moved 2 " + $(this).attr("itemid"))
+                        }
+                    });
+                }
+            });
+
+            $("#container3").droppable({
+                drop: function (event, ui) {
+                    var itemid = $(event.originalEvent.toElement).attr("itemid");
+                    $('.box-item').each(function () {
+                        if ($(this).attr("itemid") === itemid) {
+                            $(this).appendTo("#container3");
+                            alert("moved 3 " + $(this).attr("itemid"))
+                        }
+                    });
+                }
+            });
+
+        });
+    </script>
+
+    @*@@*using (@Html.BeginForm("Items2", "Project", FormMethod.Post))
+    {
+        int i = 0;
+        foreach (KeyValuePair<string, List<Item>> sprint in ViewBag.Sprints)
+        {
+            int j = 0;
+            <ul id="sortable+@i">
+                <input type="hidden" value="@sprint.Key" name="item[@i].Name" />*@
+    @*@foreach (Item value in @sprint.Value)
+                {
+                    <li><input value="@value.ItemID" name="item[@i].Items[@j]" /></li>
+                    j++;
+                }
+            </ul>
+            i++;
+        }*@
+
+    @*<ul id="sortable2">
+            <li value="imte1" class="ui-state-highlight">Item 1</li>
+            <li class="ui-state-highlight">Item 2</li>
+            <li class="ui-state-highlight">Item 3</li>
+            <li class="ui-state-highlight">Item 4</li>
+            <li class="ui-state-highlight">Item 5</li>
+        </ul>*@
+    @*<input type="submit" value="Submit" />
+        }*@
