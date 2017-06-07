@@ -29,6 +29,11 @@ namespace OnlineScrum.Models
         [Column("Location")]
         public string Location { get; set; }
 
+        [Required]
+        [Display(Name = "Type of Interview")]
+        [Column("Type")]
+        public string MeetingType { get; set; }
+
         [Display(Name = "What was done yesterday?")]
         [Column("YesterdayQuestion")]
         public string YesterdayQuestion { get; set; }

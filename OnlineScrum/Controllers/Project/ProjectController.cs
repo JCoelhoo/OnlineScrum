@@ -143,6 +143,11 @@ namespace OnlineScrum.Controllers
             if (proj == null)
                 return RedirectToAction("Home", "Dashboard");
 
+            if (!ModelState.IsValid)
+            {
+                return View();
+            }
+
             SprintManager.AddItem(null, item);
 
             return RedirectToAction("Items", "Project");

@@ -56,6 +56,7 @@ namespace OnlineScrum.BusinessLayer
                              && m.Developer == member) != 0) continue;
                 var meeting = new Meeting
                 {
+                    MeetingType = "Scrum Meeting",
                     Developer = member,
                     Location = sprint.MeetingLocation,
                     Time = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 8, 0, 0).AddDays(1),
