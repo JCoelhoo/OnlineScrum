@@ -65,7 +65,7 @@ namespace OnlineScrum.Controllers
 
             var result = ProjectManager.AddProject(project, user.Email);
             ViewBag.Error = result;
-            if (!String.IsNullOrEmpty(result)) return View("Create_Project");
+            if (!String.IsNullOrEmpty(result)) return View();
 
 
             Session["Project"] = project;

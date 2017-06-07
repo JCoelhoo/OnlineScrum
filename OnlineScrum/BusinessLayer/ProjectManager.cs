@@ -22,6 +22,9 @@ namespace OnlineScrum.BusinessLayer
                 {
                     using (var context = new DatabaseContext())
                     {
+                        var proj = (from p in context.Projects where p.Name == project.Name select p).First();
+                        if (proj == null)
+                            return project.Name + " is already being used";
                         scrumMaster = project.ScrumMaster != null ? project.ScrumMaster : scrumMaster;
                         var insertProject = new Project { Name = project.Name, ScrumMaster = scrumMaster, DevTeam = project.DevTeam };
                         if (!UserManager.CheckExistingEmail(insertProject.ScrumMaster))
