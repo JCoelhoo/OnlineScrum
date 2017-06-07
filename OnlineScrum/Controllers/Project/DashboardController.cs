@@ -21,7 +21,7 @@ namespace OnlineScrum.Controllers
             if (proj == null)
                 return View("New_Project");
 
-            ViewBag.ProjectName = proj.Name;
+            ViewBag.Projects = ProjectManager.GetProjectsByEmail(user.Email);
             return View();
         }
 
@@ -55,6 +55,11 @@ namespace OnlineScrum.Controllers
 
             if (!ModelState.IsValid)
             {
+                return View();
+            }
+            if ("ScrumMaster" != UserManager.GetUserByEmail(user.Email).Role)
+            {
+                ViewBag.Error = "Only Scrum Masters can create Projects";
                 return View();
             }
 

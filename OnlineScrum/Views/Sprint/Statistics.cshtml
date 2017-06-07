@@ -75,12 +75,12 @@
         },
         xAxis: {
             categories: Array.from(Array(
-                @((((Sprint) ViewBag.Sprint).FinishDate - ((Sprint) ViewBag.Sprint).StartDate).TotalDays)).keys()),
+                @((int)(((Sprint) ViewBag.Sprint).FinishDate - ((Sprint) ViewBag.Sprint).StartDate).TotalDays)).keys()),
             title: {
                 text: '#Days'
             },
             tickInterval: 1,
-            max: @((((Sprint) ViewBag.Sprint).FinishDate - ((Sprint) ViewBag.Sprint).StartDate).TotalDays)
+            max: @((int)(((Sprint) ViewBag.Sprint).FinishDate - ((Sprint) ViewBag.Sprint).StartDate).TotalDays)
             },
         tooltip: {
             formatter: function () {

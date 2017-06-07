@@ -257,6 +257,7 @@
     <Content Include="Views\Sprint\Statistics.cshtml" />
     <Content Include="Views\Sprint\Settings.cshtml" />
     <Content Include="Views\Project\Items.cshtml" />
+    <Content Include="Views\Project\Create_Item.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

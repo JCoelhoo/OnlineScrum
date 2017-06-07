@@ -1,11 +1,18 @@
-﻿
+﻿@using OnlineScrum.Models
+
 @{
     ViewBag.Title = "Home";
 }
 <div class="col-md-9">
     <br />
-    <h2>@ViewBag.ProjectName</h2>
-    <br />
-    <h3><a href="/project">Access project</a> </h3>
-
+    @foreach (Project proj in ViewBag.Projects)
+    {
+        <div class="row">
+            <form action="/project" method="POST">
+                <h2 class="col-md-4">@proj.Name</h2>
+                <input style="margin-top: 15px" type="submit" class="btn col-md-2 btn-default" value="Access project" />
+                <input type="hidden" name="projectName" value="@proj.Name" />
+            </form>
+        </div>
+    }
 </div>

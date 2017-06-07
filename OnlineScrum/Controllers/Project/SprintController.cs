@@ -15,7 +15,7 @@ namespace OnlineScrum.Controllers
             var user = (User)Session["UserInfo"];
             if (user == null)
                 return RedirectToAction("Login", "Login");
-            var proj = ProjectManager.GetProjectByEmail(user.Email);
+            var proj = (Project)Session["Project"];
             ViewBag.Link = "Project";
             if (proj == null)
                 return RedirectToAction("Home", "Dashboard");
@@ -65,7 +65,7 @@ namespace OnlineScrum.Controllers
             var user = (User)Session["UserInfo"];
             if (user == null)
                 return RedirectToAction("Login", "Login");
-            var proj = ProjectManager.GetProjectByEmail(user.Email);
+            var proj = (Project)Session["Project"];
             ViewBag.Link = "Project";
             if (proj == null)
                 return RedirectToAction("Home", "Dashboard");
@@ -93,7 +93,7 @@ namespace OnlineScrum.Controllers
             var user = (User)Session["UserInfo"];
             if (user == null)
                 return RedirectToAction("Login", "Login");
-            var proj = ProjectManager.GetProjectByEmail(user.Email);
+            var proj = (Project)Session["Project"];
             ViewBag.Link = "Project";
             if (proj == null)
                 return RedirectToAction("Home", "Dashboard");
@@ -115,7 +115,7 @@ namespace OnlineScrum.Controllers
             var user = (User)Session["UserInfo"];
             if (user == null)
                 return RedirectToAction("Login", "Login");
-            var proj = ProjectManager.GetProjectByEmail(user.Email);
+            var proj = (Project) Session["Project"];
             ViewBag.Link = "Project";
             if (proj == null)
                 return RedirectToAction("Home", "Dashboard");
@@ -138,7 +138,7 @@ namespace OnlineScrum.Controllers
             var user = (User)Session["UserInfo"];
             if (user == null)
                 return RedirectToAction("Login", "Login");
-            var proj = ProjectManager.GetProjectByEmail(user.Email);
+            var proj = (Project) Session["Project"];
             ViewBag.Link = "Project";
             if (proj == null)
                 return RedirectToAction("Home", "Dashboard");
@@ -158,7 +158,7 @@ namespace OnlineScrum.Controllers
             var user = (User)Session["UserInfo"];
             if (user == null)
                 return RedirectToAction("Login", "Login");
-            var proj = ProjectManager.GetProjectByEmail(user.Email);
+            var proj = (Project) Session["Project"];
             ViewBag.Link = "Project";
             if (proj == null)
                 return RedirectToAction("Home", "Dashboard");
@@ -177,7 +177,7 @@ namespace OnlineScrum.Controllers
             var user = (User)Session["UserInfo"];
             if (user == null)
                 return RedirectToAction("Login", "Login");
-            var proj = ProjectManager.GetProjectByEmail(user.Email);
+            var proj = (Project) Session["Project"];
             ViewBag.Link = "Project";
             if (proj == null)
                 return RedirectToAction("Home", "Dashboard");
@@ -208,7 +208,7 @@ namespace OnlineScrum.Controllers
             var user = (User)Session["UserInfo"];
             if (user == null)
                 return RedirectToAction("Login", "Login");
-            var proj = ProjectManager.GetProjectByEmail(user.Email);
+            var proj = (Project) Session["Project"];
             ViewBag.Link = "Project";
             if (proj == null)
                 return RedirectToAction("Home", "Dashboard");
@@ -221,6 +221,16 @@ namespace OnlineScrum.Controllers
                 ViewBag.Meetings = (MeetingManager.GetMeetingsByEmail(user.Email, id)).OrderBy(m => m.Time).ToList();
                 ViewBag.Members = SharedManager.SplitString(proj.DevTeam);
                 ViewBag.ScrumMaster = proj.ScrumMaster;
+                ViewBag.Short = false;
+                return PartialView("MeetingList");
+            }
+
+            if (meeting.Time.Date > sprint.FinishDate)
+            {
+                ViewBag.Meetings = (MeetingManager.GetMeetingsByEmail(user.Email, id)).OrderBy(m => m.Time).ToList();
+                ViewBag.Members = SharedManager.SplitString(proj.DevTeam);
+                ViewBag.ScrumMaster = proj.ScrumMaster;
+                ViewBag.Error = "Meeting date after sprint finish date";
                 ViewBag.Short = false;
                 return PartialView("MeetingList");
             }
@@ -241,7 +251,7 @@ namespace OnlineScrum.Controllers
             var user = (User)Session["UserInfo"];
             if (user == null)
                 return RedirectToAction("Login", "Login");
-            var proj = ProjectManager.GetProjectByEmail(user.Email);
+            var proj = (Project) Session["Project"];
             ViewBag.Link = "Project";
             if (proj == null)
                 return RedirectToAction("Home", "Dashboard");
@@ -260,7 +270,7 @@ namespace OnlineScrum.Controllers
             var user = (User)Session["UserInfo"];
             if (user == null)
                 return RedirectToAction("Login", "Login");
-            var proj = ProjectManager.GetProjectByEmail(user.Email);
+            var proj = (Project) Session["Project"];
             ViewBag.Link = "Project";
             if (proj == null)
                 return RedirectToAction("Home", "Dashboard");
@@ -279,7 +289,7 @@ namespace OnlineScrum.Controllers
             var user = (User)Session["UserInfo"];
             if (user == null)
                 return RedirectToAction("Login", "Login");
-            var proj = ProjectManager.GetProjectByEmail(user.Email);
+            var proj = (Project) Session["Project"];
             ViewBag.Link = "Project";
             if (proj == null)
                 return RedirectToAction("Home", "Dashboard");
@@ -298,7 +308,7 @@ namespace OnlineScrum.Controllers
             var user = (User)Session["UserInfo"];
             if (user == null)
                 return RedirectToAction("Login", "Login");
-            var proj = ProjectManager.GetProjectByEmail(user.Email);
+            var proj = (Project) Session["Project"];
             ViewBag.Link = "Project";
             if (proj == null)
                 return RedirectToAction("Home", "Dashboard");

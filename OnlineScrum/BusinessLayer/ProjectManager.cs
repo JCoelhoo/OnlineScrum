@@ -84,8 +84,8 @@ namespace OnlineScrum.BusinessLayer
                         var s = (from sprint in context.Sprints
                             where sprint.SprintName == i.Sprint
                             select sprint).FirstOrDefault();
-
-                        if (SharedManager.SplitString(s.Items).Contains(i.Item))
+                        if (s == null) continue;
+                        if (!SharedManager.SplitString(s.Items).Contains(i.Item))
                         {
                             s.Items += i.Item + ",";
                         }
@@ -244,6 +244,63 @@ namespace OnlineScrum.BusinessLayer
             {
                 SharedManager.Log(e, "GetSprintFromProject");
                 return SharedManager.DatabaseError;
+            }
+        }
+
+        public static List<Item> GetSprintlessItems()
+        {
+            try
+            {
+                using (var context = new DatabaseContext())
+                {
+                    var sprints = (from s in context.Sprints
+                        select s).ToList();
+                    var items = (from i in context.Items
+                        select i.ItemID).ToList();
+                    var dictionary = new Dictionary<string, bool>();
+                    foreach (var sprint in sprints)
+                    {
+                        foreach (var item in SharedManager.SplitString(sprint.Items))
+                        {
+                            if (!dictionary.ContainsKey(item))
+                                dictionary.Add(item, true);
+                        }
+                    }
+
+                    var itemString = "";
+                    foreach(var item in items)
+                    {
+                        if (!dictionary.ContainsKey(item.ToString()))
+                            itemString += item.ToString() + ",";
+
+                    }
+
+                    return SprintManager.GetItemsFromSprint(itemString);
+                }
+            }
+            catch (Exception e)
+            {
+                SharedManager.Log(e, "GetSprintlessItems");
+                return new List<Item>();
+            }
+        }
+
+        public static List<Project> GetProjectsByEmail(string userEmail)
+        {
+            try
+            {
+                using (var context = new DatabaseContext())
+                {
+                    var projects = (from proj in context.Projects
+                        select proj).ToList();
+
+                    return projects.Where(m => SharedManager.SplitString(m.DevTeam).Contains(userEmail) || m.ScrumMaster == userEmail).ToList();
+                }
+            }
+            catch (Exception e)
+            {
+                SharedManager.Log(e, "GetProjectsByEmail");
+                return new List<Project>();
             }
         }
     }

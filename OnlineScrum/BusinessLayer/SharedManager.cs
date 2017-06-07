@@ -39,6 +39,10 @@ namespace OnlineScrum.BusinessLayer
         //TODO MeetingInterval
         public static void DailyScrumMeeting(Project project, Sprint sprint, bool timeTrigger = true)
         {
+            if (sprint.StartDate.Date > DateTime.Now.Date)
+            {
+                return;
+            }
             if (!timeTrigger && RepeatMethod)
             {
                 return;

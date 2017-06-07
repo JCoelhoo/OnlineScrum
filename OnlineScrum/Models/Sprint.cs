@@ -39,7 +39,7 @@ namespace OnlineScrum.Models
         [DataType(DataType.Date)]
         [GreaterThan("StartDate")]
         [Required]
-        [Display(Name = "Start Date")]
+        [Display(Name = "Finish Date")]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy}")]
         public DateTime FinishDate { get; set; }
 

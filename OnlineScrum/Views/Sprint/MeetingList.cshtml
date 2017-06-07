@@ -12,95 +12,105 @@
             </tr>
         </thead>
         <tbody>
-            @for (var i = 0; i < (((ViewBag.Meetings.Count < 5) || (ViewBag.Meetings.Count > 5 && !ViewBag.Short)) ? ViewBag.Meetings.Count : 5); i++)
+        @{ var j = 0;}
+        @for (var i = 0; i < (((ViewBag.Meetings.Count < 5) || (ViewBag.Meetings.Count > 5 && !ViewBag.Short)) ? ViewBag.Meetings.Count : 5 + j); i++)
+        {
+            if (i > ViewBag.Meetings.Count-1)
             {
-                var answered = (!String.IsNullOrEmpty(@ViewBag.Meetings[i].YesterdayQuestion) &&
-                                !String.IsNullOrEmpty(@ViewBag.Meetings[i].TodayQuestion) &&
-                                !String.IsNullOrEmpty(@ViewBag.Meetings[i].ObstaclesQuestion))
-                    ? true
-                    : false;
-                @*Colour of row*@
-                <tr class="@((ViewBag.Meetings[i].Time < DateTime.Now.AddDays(1) && ViewBag.Meetings[i].Time > DateTime.Now) ? "warning" : "") @(ViewBag.Meetings[i].Time < DateTime.Now ? "danger" : "")">
-                    <td>@ViewBag.Meetings[i].Time</td>
-                    <td>@ViewBag.Meetings[i].ScrumMaster</td>
-                    <td>@ViewBag.Meetings[i].Developer</td>
-                    <td>@ViewBag.Meetings[i].Location</td>
-                    <td>
-                        @if (answered)
-                        {
-                            <button type="button" class="btn btn-link pull-right" data-toggle="modal" data-target="#modal@((ViewBag.Meetings[i]).MeetingID)">
-                                @if (((Meeting) ViewBag.Meetings[i]).Time < DateTime.Now)
-                                {
-                                    <p>Review Meeting</p>
-                                }
-                                else
-                                {
-                                    <p>Details</p>
-                                }
-                            </button>
-                        }
-                        else
-                        {
-                            <button type="button" class="btn btn-link pull-right" data-toggle="modal" data-target="#modal@((ViewBag.Meetings[i]).MeetingID)">
-                                @if (((Meeting)ViewBag.Meetings[i]).Time < DateTime.Now)
-                                {
-                                    <p>Review Meeting</p>
-                                }
-                                else if (ViewBag.Type == "ScrumMaster")
-                                {
-                                    <p>Questions not answered</p>
-                                }
-                                else
-                                {
-                                    <b>Questions not answered</b>
-                                }
-                            </button>
-                        }
-                    </td>
-                </tr>
+                break;
             }
-            @if (!ViewBag.Short)
+            var answered = (!String.IsNullOrEmpty(@ViewBag.Meetings[i].YesterdayQuestion) &&
+                            !String.IsNullOrEmpty(@ViewBag.Meetings[i].TodayQuestion) &&
+                            !String.IsNullOrEmpty(@ViewBag.Meetings[i].ObstaclesQuestion))
+                ? true
+                : false;
+            if (ViewBag.Meetings[i].Time.Date < DateTime.Now.Date && ViewBag.Short)
             {
-                <tr>
-                    <td>
-                        @Html.TextBoxFor(model => model.Time, "{0:dd/MM/yyyy hh:mm}", new { @type = "datetime-local", @Value = DateTime.Now.ToString("dd/mm/yyyy"), @class = "form-control" })
-                        @Html.ValidationMessageFor(model => model.Time)
-                    </td>
-                    <td>
-                        <select data-val="true" data-val-required="Email Address is required" type="email" class="form-control" id="ScrumMaster" name="ScrumMaster">
-                            <option selected disabled>Select Scrum Master</option>
-                            @if (ViewBag.ScrumMaster != null)
+                j++;
+                continue;
+            }
+                @*Colour of row*@
+            <tr class="@((ViewBag.Meetings[i].Time < DateTime.Now.AddDays(1) && ViewBag.Meetings[i].Time > DateTime.Now) ? "warning" : "") @(ViewBag.Meetings[i].Time < DateTime.Now ? "danger" : "")">
+                <td>@ViewBag.Meetings[i].Time</td>
+                <td>@ViewBag.Meetings[i].ScrumMaster</td>
+                <td>@ViewBag.Meetings[i].Developer</td>
+                <td>@ViewBag.Meetings[i].Location</td>
+                <td>
+                    @if (answered)
+                    {
+                        <button type="button" class="btn btn-link pull-right" data-toggle="modal" data-target="#modal@((ViewBag.Meetings[i]).MeetingID)">
+                            @if (((Meeting) ViewBag.Meetings[i]).Time < DateTime.Now)
                             {
-                                <option>@ViewBag.ScrumMaster</option>
+                                <p>Review Meeting</p>
+                            }
+                            else
+                            {
+                                <p>Details</p>
+                            }
+                        </button>
+                    }
+                    else
+                    {
+                        <button type="button" class="btn btn-link pull-right" data-toggle="modal" data-target="#modal@((ViewBag.Meetings[i]).MeetingID)">
+                            @if (((Meeting) ViewBag.Meetings[i]).Time < DateTime.Now)
+                            {
+                                <p>Review Meeting</p>
+                            }
+                            else if (ViewBag.Type == "ScrumMaster")
+                            {
+                                <p>Questions not answered</p>
+                            }
+                            else
+                            {
+                                <b>Questions not answered</b>
+                            }
+                        </button>
+                    }
+                </td>
+            </tr>
+        }
+        @if (!ViewBag.Short)
+        {
+            <tr>
+                <td>
+                    @Html.TextBoxFor(model => model.Time, "{0:dd/MM/yyyy hh:mm}", new {@type = "datetime-local", @Value = DateTime.Now.ToString("dd/mm/yyyy"), @class = "form-control"})
+                    @Html.ValidationMessageFor(model => model.Time)
+                </td>
+                <td>
+                    <select data-val="true" data-val-required="Email Address is required" type="email" class="form-control" id="ScrumMaster" name="ScrumMaster">
+                        <option selected disabled>Select Scrum Master</option>
+                        @if (ViewBag.ScrumMaster != null)
+                        {
+                            <option>@ViewBag.ScrumMaster</option>
+                        }
+                    </select>
+                    <span class="field-validation-valid" data-valmsg-for="Email" data-valmsg-replace="true"></span>
+                    @Html.ValidationMessageFor(model => model.ScrumMaster)
+                </td>
+                <td>
+                    <div class="form-group">
+                        <select data-val="true" data-val-required="Email Address is required" type="email" class="form-control" id="Developer" name="Developer">
+                            <option selected disabled>Select Developer</option>
+                            @if (ViewBag.Members != null)
+                            {
+                                foreach (var member in ViewBag.Members)
+                                {
+                                    <option>@member</option>
+                                }
                             }
                         </select>
                         <span class="field-validation-valid" data-valmsg-for="Email" data-valmsg-replace="true"></span>
-                        @Html.ValidationMessageFor(model => model.ScrumMaster)
-                    </td>
-                    <td>
-                        <div class="form-group">
-                            <select data-val="true" data-val-required="Email Address is required" type="email" class="form-control" id="Developer" name="Developer">
-                                <option selected disabled>Select Developer</option>
-                                @if (ViewBag.Members != null)
-                                {
-                                    foreach (var member in ViewBag.Members)
-                                    {
-                                        <option>@member</option>
-                                    }
-                                }
-                            </select>
-                            <span class="field-validation-valid" data-valmsg-for="Email" data-valmsg-replace="true"></span>
-                            @Html.ValidationMessageFor(model => model.Developer)
-                        </div>
-                    </td>
-                    <td>
-                        @Html.TextBoxFor(model => model.Location, new { @class = "form-control" })
-                        @Html.ValidationMessageFor(model => model.Location)
-                    </td>
+                        @Html.ValidationMessageFor(model => model.Developer)
+                    </div>
+                </td>
+                <td>
+                    @Html.TextBoxFor(model => model.Location, new {@class = "form-control"})
+                    @Html.ValidationMessageFor(model => model.Location)
+                </td>
 
-                    <td><input class='col-md-12 btn btn-info' id='submitMember' type=submit value='Add'></td>
-                </tr>
-            }
+                <td><input class='col-md-12 btn btn-info' id='submitMember' type=submit value='Add'></td>
+            </tr>
+        }
         </tbody>
     </table>
     @if (@ViewBag.Error != "" && @ViewBag.Error != null)

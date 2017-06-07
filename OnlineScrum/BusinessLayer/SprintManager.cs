@@ -52,18 +52,22 @@ namespace OnlineScrum.BusinessLayer
                     {
                         try
                         {                            
-                            //TODO check dates of start and finish
-                            var number = (sprint.Items == null) 
-                                ? 1
-                                : (SharedManager.SplitString(sprint.Items)).Count()+1;
-                            if (number == -1) return SharedManager.DatabaseError;
-                            //check assignedto member of sprint
-                            item.ItemNumber = number;
-                            item.ItemStatus = item.ItemStatus == null ? "Developing" : item.ItemStatus;
+                            
+                            item.ItemStatus = item.ItemStatus ?? "Developing";
                             context.Items.Add(item);
                             context.SaveChanges();
                             //FIXME sprintID is attributed when Add()
-                            AddItemToSprint(sprint.SprintID, item.ItemID);
+                            if (sprint != null)
+                            {
+                                //TODO check dates of start and finish
+                                var number = (sprint.Items == null)
+                                    ? 1
+                                    : (SharedManager.SplitString(sprint.Items)).Count() + 1;
+                                if (number == -1) return SharedManager.DatabaseError;
+                                //check assignedto member of sprint
+                                item.ItemNumber = number;
+                                AddItemToSprint(sprint.SprintID, item.ItemID);
+                            }
                             dbTransaction.Commit();
 
                             return "";
@@ -91,7 +95,7 @@ namespace OnlineScrum.BusinessLayer
                     if (sprintReturn == null)
                         return "Sprint does not exist";
 
-                    sprintReturn.Items += "," + itemID;
+                    sprintReturn.Items += itemID + ",";
                     context.SaveChanges();
 
                     return "";

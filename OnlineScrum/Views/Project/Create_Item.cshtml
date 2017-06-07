@@ -1,0 +1,82 @@
+﻿@model OnlineScrum.Models.Item
+@{
+    ViewBag.Title = "Create_Item";
+}
+
+<h2>Create_Item</h2>
+
+@using (@Html.BeginForm("Create_Item", "Project", FormMethod.Post))
+{
+
+    <div class="login-editor">
+        <div class="form-group row" style="display:inline">
+
+            @Html.LabelFor(model => model.ItemName, new { @class = "col-md-2 col-form-label" })
+        </div>
+        <div style="display:inline" class="col-md-10">
+            @Html.TextBoxFor(model => model.ItemName, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.ItemName)
+        </div>
+        <br />
+        <br />
+
+        <div class="form-group row" style="display:inline">
+
+            @Html.LabelFor(model => model.AssignedTo, new { @class = "col-md-2 col-form-label" })
+        </div>
+        <div style="display:inline" class="col-md-10">
+            <div class="form-group">
+                <select data-val="true" data-val-required="Email Address is required" type="email" class="form-control" id="AssignedTo" name="AssignedTo">
+                    <option selected disabled>Select member of the team</option>
+                    @if (ViewBag.Members != null)
+                    {
+                        foreach (var member in ViewBag.Members)
+                        {
+                            <option>@member</option>
+                        }
+                    }
+                </select>
+                <span class="field-validation-valid" data-valmsg-for="Email" data-valmsg-replace="true"></span>
+                @Html.ValidationMessageFor(model => model.AssignedTo)
+            </div>
+        </div>
+        <br />
+        <br />
+
+
+        <div class="form-group row" style="display:inline">
+            @Html.LabelFor(model => model.EstimatedEffort, new { @class = "col-md-2 col-form-label" })
+        </div>
+        <div style="display:inline" class="col-md-10">
+            <div class="form-group">
+                <select class="form-control" name="EstimatedEffort" id="EstimatedEffort">
+                    <option selected disabled>Select estimate for effort</option>
+                    <option>1</option>
+                    <option>2</option>
+                    <option>3</option>
+                    <option>4</option>
+                    <option>5</option>
+                </select>
+                @Html.ValidationMessageFor(model => model.EstimatedEffort)
+            </div>
+        </div>
+        <br />
+        <br />
+
+        @if (ViewBag.Error != "" && ViewBag.Error != null)
+        {
+            <div class="alert alert-danger fade in">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <strong>Error!</strong> @ViewBag.Error
+            </div>
+
+        }
+        <br />
+        <br />
+        <br />
+        <br />
+        <input type="submit" value="Submit" class="btn btn-primary" />
+    </div>
+
+}
+
