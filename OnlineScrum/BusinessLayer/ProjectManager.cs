@@ -90,7 +90,7 @@ namespace OnlineScrum.BusinessLayer
                         if (s == null) continue;
                         if (!SharedManager.SplitString(s.Items).Contains(i.Item))
                         {
-                            s.Items += i.Item + ",";
+                            SprintManager.AddItem(s, SprintManager.GetItemFromID(Convert.ToInt32(i.Item)));
                         }
                     }
                     context.SaveChanges();

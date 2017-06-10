@@ -252,7 +252,29 @@ namespace OnlineScrum.BusinessLayer
                 return null;
             }
         }
+
+        public static Item GetItemFromID(int itemID)
+        {
+            try
+            {
+                using (var context = new DatabaseContext())
+                {
+                    var itemRet = (from it in context.Items
+                        where it.ItemID == itemID
+                        select it).First();
+
+                    return itemRet;
+                }
+            }
+            catch (Exception e)
+            {
+                SharedManager.Log(e, "GetItemFromID");
+                return new Item();
+            }
+        }
     }
+}
+
 
     
-}
+

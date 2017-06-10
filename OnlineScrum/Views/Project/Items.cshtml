@@ -68,6 +68,10 @@
                                                 {
                                                     foreach (var s in ((Dictionary<Sprint, List<Item>>) ViewBag.Sprints).Keys.ToList())
                                                     {
+                                                        if (s.FinishDate.Date < DateTime.Now.Date)
+                                                        {
+                                                            continue;
+                                                        }
                                                         <option @(s.SprintName == sprint.Key.SprintName ? "selected" : "")>@s.SprintName</option>
                                                     }
                                                 }
@@ -119,6 +123,10 @@
                                         {
                                             foreach (Sprint s in ViewBag.SprintsAvailable)
                                             {
+                                                if (s.FinishDate.Date < DateTime.Now.Date)
+                                                {
+                                                    continue;
+                                                }
                                                 <option>@s.SprintName</option>
                                             }
                                         }

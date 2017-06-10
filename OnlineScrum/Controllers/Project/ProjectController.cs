@@ -51,6 +51,12 @@ namespace OnlineScrum.Controllers
             //ViewBag.Project = proj;
             ViewBag.Sprints = ProjectManager.GetSprintFromProject(proj.Sprints).OrderByDescending(m => m.FinishDate)
                 .ThenBy(x => x.StartDate).ToList();
+            var dict  = new Dictionary<Sprint, List<Item>>();
+            foreach (var sprint in ((List<Sprint>)ViewBag.Sprints).OrderBy(m=>m.FinishDate))
+            {
+                dict.Add(sprint, SprintManager.GetItemsFromSprint(sprint.Items));
+            }
+            ViewBag.ItemsSprints = dict;
             ViewBag.ProjectName = proj.Name;
             var memberList = SharedManager.SplitString(proj.DevTeam);
             memberList.Insert(0,proj.ScrumMaster);
@@ -81,7 +87,6 @@ namespace OnlineScrum.Controllers
             var sprints = ProjectManager.GetSprintFromProject(proj.Sprints);
             foreach (var s in sprints)
             {
-                if (s.FinishDate.Date < DateTime.Now.Date) continue;
                 sprint.Add(s, SprintManager.GetItemsFromSprint(s.Items).OrderByDescending(m => m.AssignedTo == user.Email).ThenBy(m => m.ItemStatus).ToList());
             }
             ViewBag.Sprints = sprint;

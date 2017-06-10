@@ -34,6 +34,7 @@ namespace OnlineScrum.BusinessLayer
 
         public static List<string> SplitString(string s)
         {
+            if (s == null) return new List<string>();
             return s.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries).ToList();
         }
         //TODO MeetingInterval

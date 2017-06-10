@@ -75,22 +75,77 @@ namespace OnlineScrum.Controllers
 
                 var proj = new Project
                 {
-                    Name = "Mock",
+                    Name = "OnlineScrum",
                     DevTeamList = new List<string> {"2@g.c", "3@g.c", "5@g.c"},
                     ProjectID = 1,
                     Sprints = "1",
                     ScrumMaster = "1@g.c"
                 };
-                var sprint = new Sprint
+                var sprint1 = new Sprint
+                {
+                    StartDate = DateTime.Now.AddDays(-45),
+                    MeetingInterval = 1,
+                    MeetingLocation = "X",
+                    SprintID = 1,
+                    SprintName = "Requirements Analysis",
+                    SprintNumber = 1,
+                    FinishDate = DateTime.Now.AddDays(-30),
+                    Meetings =""
+                };
+                var sprint2 = new Sprint
+                {
+                    StartDate = DateTime.Now.AddDays(-30),
+                    MeetingInterval = 1,
+                    MeetingLocation = "X",
+                    SprintID = 1,
+                    SprintName = "Design",
+                    SprintNumber = 1,
+                    FinishDate = DateTime.Now.AddDays(-15),
+                    Meetings = ""
+                };
+                var sprint3 = new Sprint
                 {
                     StartDate = DateTime.Now.AddDays(-15),
                     MeetingInterval = 1,
                     MeetingLocation = "X",
                     SprintID = 1,
-                    SprintName = "Example Sprint",
+                    SprintName = "Initial Implementation",
+                    SprintNumber = 1,
+                    FinishDate = DateTime.Now.AddDays(0),
+                    Meetings = ""
+                };
+                var sprint3_2 = new Sprint
+                {
+                    StartDate = DateTime.Now.AddDays(-15),
+                    MeetingInterval = 1,
+                    MeetingLocation = "X",
+                    SprintID = 1,
+                    SprintName = "Final Implementation",
+                    SprintNumber = 1,
+                    FinishDate = DateTime.Now.AddDays(0),
+                    Meetings = ""
+                };
+                var sprint4 = new Sprint
+                {
+                    StartDate = DateTime.Now.AddDays(0),
+                    MeetingInterval = 1,
+                    MeetingLocation = "X",
+                    SprintID = 1,
+                    SprintName = "Verification",
                     SprintNumber = 1,
                     FinishDate = DateTime.Now.AddDays(15),
-                    Meetings =""
+                    Meetings = ""
+                };
+                var sprint5 = new Sprint
+                {
+                    StartDate = DateTime.Now.AddDays(15),
+                    MeetingInterval = 1,
+                    MeetingLocation = "X",
+                    SprintID = 1,
+                    SprintName = "Maintenance",
+                    SprintNumber = 1,
+                    FinishDate = DateTime.Now.AddDays(30),
+                    Meetings = ""
                 };
                 var item1 = new Item
                 {
@@ -265,47 +320,52 @@ namespace OnlineScrum.Controllers
 
 
 
-                ProjectManager.AddProject(proj, "2@g.c");
-                ProjectManager.AddSprint(sprint, proj);
-                SprintManager.AddItem(sprint, item1);
-                sprint = SprintManager.GetSprintFromID(sprint.SprintID);
-                SprintManager.AddItem(sprint, item2);
-                sprint = SprintManager.GetSprintFromID(sprint.SprintID);
-                SprintManager.AddItem(sprint, item3);
-                sprint = SprintManager.GetSprintFromID(sprint.SprintID);
-                SprintManager.AddItem(sprint, item4);
-                sprint = SprintManager.GetSprintFromID(sprint.SprintID);
-                SprintManager.AddItem(sprint, item5);
-                sprint = SprintManager.GetSprintFromID(sprint.SprintID);
-                SprintManager.AddItem(sprint, item6);
-                sprint = SprintManager.GetSprintFromID(sprint.SprintID);
-                SprintManager.AddItem(sprint, item7);
-                sprint = SprintManager.GetSprintFromID(sprint.SprintID);
-                SprintManager.AddItem(sprint, item8);
-                sprint = SprintManager.GetSprintFromID(sprint.SprintID);
-                SprintManager.AddItem(sprint, item9);
-                sprint = SprintManager.GetSprintFromID(sprint.SprintID);
-                SprintManager.AddItem(sprint, item10);
-                sprint = SprintManager.GetSprintFromID(sprint.SprintID);
-                SprintManager.AddItem(sprint, item11);
-                sprint = SprintManager.GetSprintFromID(sprint.SprintID);
-                SprintManager.AddItem(sprint, item12);
-                sprint = SprintManager.GetSprintFromID(sprint.SprintID);
-                SprintManager.AddItem(sprint, item13);
-                sprint = SprintManager.GetSprintFromID(sprint.SprintID);
-                SprintManager.AddItem(sprint, item14);
-                sprint = SprintManager.GetSprintFromID(sprint.SprintID);
-                SprintManager.AddItem(sprint, item15);
-                sprint = SprintManager.GetSprintFromID(sprint.SprintID);
-                SprintManager.AddItem(sprint, item16);
-                sprint = SprintManager.GetSprintFromID(sprint.SprintID);
-                SprintManager.AddItem(sprint, item17);
-                sprint = SprintManager.GetSprintFromID(sprint.SprintID);
-                SprintManager.AddItem(sprint, item18);
-                sprint = SprintManager.GetSprintFromID(sprint.SprintID);
-                SprintManager.AddItem(sprint, item19);
-                sprint = SprintManager.GetSprintFromID(sprint.SprintID);
-                SprintManager.AddItem(sprint, item20);
+                ProjectManager.AddProject(proj, "1@g.c");
+                ProjectManager.AddSprint(sprint1, proj);
+                ProjectManager.AddSprint(sprint2, proj);
+                ProjectManager.AddSprint(sprint3, proj);
+                ProjectManager.AddSprint(sprint3_2, proj);
+                ProjectManager.AddSprint(sprint4, proj);
+                ProjectManager.AddSprint(sprint5, proj);
+                SprintManager.AddItem(sprint1, item1);
+                sprint1 = SprintManager.GetSprintFromID(sprint1.SprintID);
+                SprintManager.AddItem(sprint1, item2);
+                sprint1 = SprintManager.GetSprintFromID(sprint1.SprintID);
+                SprintManager.AddItem(sprint1, item3);
+                sprint1 = SprintManager.GetSprintFromID(sprint1.SprintID);
+                SprintManager.AddItem(sprint1, item4);
+                sprint1 = SprintManager.GetSprintFromID(sprint1.SprintID);
+                SprintManager.AddItem(sprint1, item5);
+                sprint1 = SprintManager.GetSprintFromID(sprint1.SprintID);
+                SprintManager.AddItem(sprint1, item6);
+                sprint1 = SprintManager.GetSprintFromID(sprint1.SprintID);
+                SprintManager.AddItem(sprint1, item7);
+                sprint1 = SprintManager.GetSprintFromID(sprint1.SprintID);
+                SprintManager.AddItem(sprint1, item8);
+                sprint1 = SprintManager.GetSprintFromID(sprint1.SprintID);
+                SprintManager.AddItem(sprint1, item9);
+                sprint1 = SprintManager.GetSprintFromID(sprint1.SprintID);
+                SprintManager.AddItem(sprint1, item10);
+                sprint1 = SprintManager.GetSprintFromID(sprint1.SprintID);
+                SprintManager.AddItem(sprint1, item11);
+                sprint1 = SprintManager.GetSprintFromID(sprint1.SprintID);
+                SprintManager.AddItem(sprint1, item12);
+                sprint1 = SprintManager.GetSprintFromID(sprint1.SprintID);
+                SprintManager.AddItem(sprint1, item13);
+                sprint1 = SprintManager.GetSprintFromID(sprint1.SprintID);
+                SprintManager.AddItem(sprint1, item14);
+                sprint1 = SprintManager.GetSprintFromID(sprint1.SprintID);
+                SprintManager.AddItem(sprint1, item15);
+                sprint1 = SprintManager.GetSprintFromID(sprint1.SprintID);
+                SprintManager.AddItem(sprint1, item16);
+                sprint1 = SprintManager.GetSprintFromID(sprint1.SprintID);
+                SprintManager.AddItem(sprint1, item17);
+                sprint1 = SprintManager.GetSprintFromID(sprint1.SprintID);
+                SprintManager.AddItem(sprint1, item18);
+                sprint1 = SprintManager.GetSprintFromID(sprint1.SprintID);
+                SprintManager.AddItem(sprint1, item19);
+                sprint1 = SprintManager.GetSprintFromID(sprint1.SprintID);
+                SprintManager.AddItem(sprint1, item20);
             }
 
             return View();
