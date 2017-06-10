@@ -1,0 +1,191 @@
+﻿@using OnlineScrum.Models
+
+@{
+    ViewBag.Title = "Home";
+}
+<link href="@Url.Content("~/Content/SprintMenu.css")" rel="stylesheet" />
+@*<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">*@
+<br />
+<div class="tab col-md-offset-3">
+    <ul class="nav nav-tabs" style="border-bottom:0px solid transparent">
+        <li role="presentation" class="active"><a href="@Url.Action("Home", "Sprint")">Overview</a></li>
+        <li role="presentation"><a href="@Url.Action("Items", "Sprint")">Items</a></li>
+        <li role="presentation"><a href="@Url.Action("Meetings", "Sprint")">Meetings</a></li>
+        <li role="presentation"><a href="@Url.Action("Statistics", "Sprint")">Statistics</a></li>
+        <li role="presentation"><a href="#">Settings</a></li>
+    </ul>
+</div>
+
+
+
+<div>
+    <div class="col-md-9">
+        <h2>@ViewBag.Sprint.SprintName</h2> <h5 style="display:inline">Overview - Estimation, Progress bar with estimations??</h5>
+    </div>
+    <br />
+    <div class="pull-right">
+        <a data-trigger="focus" role="button" tabindex="0" data-placement="bottom" class="btn btn-info" data-toggle="popover" style="text-align: left;" title="Sprints" data-content="This is the Sprint Management page. Click to the left to create a new sprint or review your existing sprints">Help</a>
+    </div>
+    <br />
+    <br />
+    <br />
+    <br />
+
+
+    <div class="panel-group">
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                <h4 class="panel-title" align="center">
+                    <a href="#a" data-toggle="collapse">@((ViewBag.Type == "Developer") ? "Your Items " : "Sprint Items ")</a>
+                </h4>
+            </div>
+            <div class="panel-collapse collapse active" id="a">
+                <div class="panel-body">
+                    @{
+                        var items = (@ViewBag.Type == "Developer") ? ((List<Item>)ViewBag.Items).Where(m => m.AssignedTo == @ViewBag.Email).ToList() : (List<Item>)ViewBag.Items;
+                        <a href="@Url.Action("Items", "Sprint")">Developing<span class="badge badge-primary"> @(items.Count(m => m.ItemStatus == "Developing"))</span></a>
+                        <a href="@Url.Action("Items", "Sprint")">Testing<span class="badge badge-success"> @(items.Count(m => m.ItemStatus == "Testing"))</span></a>
+                        <a href="@Url.Action("Items", "Sprint")">Delayed<span class="badge badge-warning"> @(items.Count(m => m.ItemStatus == "Delayed"))</span></a>
+                        <a href="@Url.Action("Items", "Sprint")">Closed<span class="badge badge-red"> @(items.Count(m => m.ItemStatus == "Closed"))</span></a>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="panel-group">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title" align="center">
+                    <a href="#b" data-toggle="collapse">Progress</a>
+                </h4>
+            </div>
+            <div class="panel-collapse collapse" id="b">
+                <div class="panel-body">
+                    <div class="progress">
+                        @{
+                            var testing = items.Where(m => m.ItemStatus == "Testing").Sum(m => m.EstimatedEffort);
+                            var developing = items.Where(m => m.ItemStatus == "Developing").Sum(m => m.EstimatedEffort);
+                            var closed = items.Where(m => m.ItemStatus == "Closed").Sum(m => m.EstimatedEffort);
+                            var delayed = items.Where(m => m.ItemStatus == "Delayed").Sum(m => m.EstimatedEffort);
+                            var total = items.Sum(m => m.EstimatedEffort);
+
+                            var percentage = Math.Round(((closed + 0.5 * testing) * 100) / (total));
+                            var delayedPercentage = Math.Round((delayed * 100.0) / total);
+                            if (@percentage < 25)
+                            {
+                                <div class="progress-bar progress-bar-striped active progress-bar-danger" role="progressbar" aria-valuenow="@percentage"
+                                     aria-valuemin="0" aria-valuemax="100" style="width: @percentage%">
+                                    @percentage%
+                                </div>
+                            }
+                            else if (@percentage >= 25 && @percentage < 50)
+                            {
+                                <div class="progress-bar progress-bar-striped active progress-bar-warning" role="progressbar" aria-valuenow="@percentage"
+                                     aria-valuemin="0" aria-valuemax="100" style="width: @percentage%">
+                                    @percentage%
+                                </div>
+                            }
+                            else if (@percentage >= 50 && @percentage < 75)
+                            {
+                                <div class="progress-bar progress-bar-striped active progress-bar-info" role="progressbar" aria-valuenow="@percentage"
+                                     aria-valuemin="0" aria-valuemax="100" style="width: @percentage%">
+                                    @percentage%
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="progress-bar progress-bar-striped active progress-bar-success" role="progressbar" aria-valuenow="@percentage"
+                                     aria-valuemin="0" aria-valuemax="100" style="width: @percentage%">
+                                    @percentage%
+                                </div>
+                            }
+                            <div class="bar progress-bar" role="progressbar" aria-valuenow="@delayedPercentage"
+                                 aria-valuemin="0" aria-valuemax="100" style="width: @delayedPercentage%">
+                                @delayedPercentage% (Delayed)
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    @*<div class="panel-group">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    <a href="#c" data-toggle="collapse">Messages</a>
+                </h4>
+            </div>
+            <div class="panel-collapse collapse" id="c">Messages Tab.</div>
+        </div>
+    </div>
+    <div class="panel-group">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    <a href="#d" data-toggle="collapse">Settings</a>
+                </h4>
+            </div>
+            <div class="panel-collapse collapse" id="d">Settings Tab.</div>
+        </div>
+    </div>*@
+    <br/>
+    <div>
+        <h4 class="col-md-2">Meeting Table</h4>
+        @if (ViewBag.Short)
+            {
+            <h5 class="pull-left"><a href="@Url.Action("Meetings", "Sprint")">See more</a></h5>
+        }
+
+        @Html.Partial("MeetingList")
+    </div>
+
+</div>
+
+@Html.Partial("ModalView")
+
+
+@*
+    TODO fix position
+    TODO fix individual user cookies
+*@
+
+<div id="helpModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">What is a Sprint?</h4>
+            </div>
+            <div class="modal-body">
+                <p>Sprint is this</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+@*<script src=@Url.Content("~/Scripts/jquery-1.10.2.min.js") type="text/javascript"></script>*@
+<script src="@Url.Content("~/Scripts/jquery.unobtrusive-ajax.min.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/Cookie.js")" type="text/javascript"></script>
+
+<script>
+    $(function () {
+        $('[data-toggle="popover"]').popover()
+    })
+
+</script>
+<script>
+    $(document).ready(function () {
+        if (!checkCookie("SprintHomeHelp")) {
+            $("#helpModal").modal('show');
+            setCookie("SprintHomeHelp", "true", 100);
+        }
+    });
+</script>
+

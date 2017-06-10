@@ -1,0 +1,191 @@
+﻿@using OnlineScrum.Models
+
+@{
+    ViewBag.Title = "Home";
+}
+<br />
+@*<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>*@
+<script>
+    $(function () {
+        $('[data-toggle="popover"]').popover()
+    })
+
+</script>
+<link href="@Url.Content("~/Content/Style.css")" rel="stylesheet" />
+<script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
+
+@if (@ViewBag.Error != "" && @ViewBag.Error != null)
+{
+    <div class="alert alert-danger fade in">
+        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+        <strong>Error!</strong> @ViewBag.Error
+    </div>
+
+}
+
+<div class="row">
+    <div class="col-md-9">
+        <h2>
+            @ViewBag.ProjectName <a href="@Url.Action("Items2")" class="btn btn-link">Product Backlog</a>
+        </h2>
+    </div>
+    <div class="pull-right">
+        <a href="/project/create_sprint" class="btn btn-primary" role="button">New Sprint</a>
+        <a data-trigger="focus" role="button" tabindex="0" data-placement="bottom" class="btn btn-info" data-toggle="popover" style="text-align: left;" title="Sprints" data-content="This is the Sprint Management page. Click to the left to create a new sprint or review your existing sprints">Help</a>
+    </div>
+</div>
+<div>
+    <div class="col-md-8">
+        @if (ViewBag.Sprints == null || ViewBag.Sprints.Count == 0)
+        {
+            <h4 align="center">
+                You have yet to create a <a href="/project/create_sprint">Sprint</a>
+            </h4>
+        }
+        else
+        {
+            <h4>Sprint Table</h4>
+            <table class="table table-hover">
+                <thead class="thead-default">
+                    <tr>
+                        <th>#</th>
+                        <th style="text-align: left;">Sprint Name</th>
+                        <th align="left">Start Date</th>
+                        <th>End Date</th>
+                        <th>Progress</th>
+                        <th>Acess</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (int i = ViewBag.Sprints.Count; i >= 1; i--)
+                    {
+                        <tr class="@(DateTime.Now < ViewBag.Sprints[i - 1].FinishDate ? "success" : "active")">
+                            <td>@ViewBag.Sprints[i - 1].SprintNumber</td>
+                            <td>@ViewBag.Sprints[i - 1].SprintName</td>
+                            <td>@ViewBag.Sprints[i - 1].StartDate.ToShortDateString()</td>
+                            <td>@ViewBag.Sprints[i - 1].FinishDate.ToShortDateString()</td>
+                            <td>null</td>
+                            <td><a href="/project/sprint/@ViewBag.Sprints[i - 1].SprintID" class="btn btn-link" role="button">Details</a></td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+    </div>
+    <div class="col-md-4 well well-sm">
+        @using (Ajax.BeginForm("New_Member", "Project", new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "empList" }))
+            {
+            <p class="col-md-6">
+                Member List
+                @if (ViewBag.MemberList.Count > 4)
+                {
+                    <a data-trigger="focus" role="button" data-html="true" tabindex="0" data-placement="bottom" data-toggle="popover" style="text-align: center;" title="Recommendation" data-content="Scrum Development Teams are ideally between 5-9 people according to the <a href='https://www.scrumalliance.org/why-scrum/scrum-guide'>Scrum Alliance</a>"><span class="glyphicon glyphicon-question-sign"></span></a>
+                }
+            </p>
+
+            <a align="right" class="col-md-6" data-placement="bottom" data-toggle="popover" style="text-align: right;" data-content="<div class='col-md-8'>Add member:</div><div class='col-md-12'> <input class='form-control' placeholder='User email' data-val='true' data-val-required='Email Address is required' id='userEmail' name='userEmail' type='email' value='' /> <span class='field-validation-valid' data-valmsg-for='userEmail' data-valmsg-replace='true'><br><input class='col-md-12 btn btn-info' id='submitMember' type=submit value='Submit'></span> </div>" data-html="true">Add member</a>
+
+                <br />
+                @Html.Partial("MemberList")
+        }
+    </div>
+</div>
+
+
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/modules/exporting.js"></script>
+
+<div id="container" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+
+<script>
+    @{
+        var sprintList = new List<string>();
+        <text>
+    var a = [
+    @foreach (var sprint in ViewBag.ItemsSprints.Keys)
+        {
+            <text>"@sprint.SprintName",</text>
+    }
+    ]
+        </text>
+    }
+    var chart = new Highcharts.chart('container', {
+        chart: {
+            type: 'column'
+        },
+        title: {
+            text: 'Sprint Velocity Chart'
+        },
+        xAxis: {
+            categories: a
+        },
+        yAxis: {
+            min: 0,
+            title: {
+                text: '#Items'
+            },
+            stackLabels: {
+                enabled: true,
+                style: {
+                    fontWeight: 'bold',
+                    color: (Highcharts.theme && Highcharts.theme.textColor) || 'gray'
+                }
+            }
+        },
+        legend: {
+            align: 'right',
+            x: -30,
+            verticalAlign: 'top',
+            y: 25,
+            floating: true,
+            backgroundColor: (Highcharts.theme && Highcharts.theme.background2) || 'white',
+            borderColor: '#CCC',
+            borderWidth: 1,
+            shadow: false
+        },
+        tooltip: {
+            headerFormat: '<b>{point.x}</b><br/>',
+            pointFormat: '{series.name}: {point.y}<br/>Total: {point.stackTotal}'
+        },
+        plotOptions: {
+            column: {
+                stacking: 'normal',
+                dataLabels: {
+                    enabled: true,
+                    color: (Highcharts.theme && Highcharts.theme.dataLabelsColor) || 'white'
+                }
+            }
+        },
+
+    });
+
+    var itemsComplete = [];
+    var itemsLeft = [];
+    var itemsDelayed = [];
+
+    @foreach (List<Item> i in ViewBag.ItemsSprints.Values)
+    {
+        @:itemsComplete.push(@i.Count(m => m.ItemStatus == "Closed"));
+        @:itemsLeft.push(@i.Count(m => m.ItemStatus != "Closed" && m.ItemStatus != "Delayed"));
+        @:itemsDelayed.push(@i.Count(m => m.ItemStatus == "Delayed"));
+    }
+    chart.addSeries({
+        name: "Delayed",
+        color: "#f29a2c",
+        data: itemsDelayed
+    })
+    chart.addSeries({
+        name: "Left",
+        data: itemsLeft
+    })
+    chart.addSeries({
+        name: "Complete",
+        color: "#27b211",
+        data: itemsComplete
+    })
+
+
+
+</script>
+
+
