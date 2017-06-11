@@ -260,7 +260,7 @@ namespace OnlineScrum.Controllers
                     AssignedTo = "3@g.c",
                     EstimatedEffort = 1,
                     ItemID = 13,
-                    ItemName = "Sprint",
+                    ItemName = "Login",
                     ItemStatus = "Closed",
                     DateClosed = DateTime.Now.AddDays(-27),
                 };
@@ -384,6 +384,30 @@ namespace OnlineScrum.Controllers
                     ItemName = "Usability tests",
                     ItemStatus = "Testing",
                 };
+                var item28 = new Item
+                {
+                    AssignedTo = "5@g.c",
+                    EstimatedEffort = 3,
+                    ItemID = 28,
+                    ItemName = "Sprint",
+                    ItemStatus = "Testing",
+                };
+                var item29 = new Item
+                {
+                    AssignedTo = "3@g.c",
+                    EstimatedEffort = 2,
+                    ItemID = 29,
+                    ItemName = "Product Backlog",
+                    ItemStatus = "Developing",
+                };
+                var item30 = new Item
+                {
+                    AssignedTo = "2@g.c",
+                    EstimatedEffort = 4,
+                    ItemID = 30,
+                    ItemName = "Meeting Table",
+                    ItemStatus = "Testing",
+                };
 
                 var s1 = new Item
                 {
@@ -476,11 +500,16 @@ namespace OnlineScrum.Controllers
                 SprintManager.AddItem(sprint3_2, item26);
                 sprint3_2 = SprintManager.GetSprintFromID(sprint3_2.SprintID);
                 SprintManager.AddItem(sprint3_2, item27);
+                sprint3_2 = SprintManager.GetSprintFromID(sprint3_2.SprintID);
+                SprintManager.AddItem(sprint3_2, item28);
+                sprint3_2 = SprintManager.GetSprintFromID(sprint3_2.SprintID);
+                SprintManager.AddItem(sprint3_2, item29);
+                sprint3_2 = SprintManager.GetSprintFromID(sprint3_2.SprintID);
+                SprintManager.AddItem(sprint3_2, item30);
 
                 SprintManager.AddItem(null, item27);
                 SprintManager.AddItem(null, item27);
                 SprintManager.AddItem(null, item27);
-
             }
 
             return View();

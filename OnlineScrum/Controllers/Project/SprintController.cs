@@ -259,6 +259,11 @@ namespace OnlineScrum.Controllers
             if (sprint == null)
                 return RedirectToAction("Home", "Project");
 
+            if (!ModelState.IsValid)
+            {
+                return PartialView("Error");
+            }
+
             ViewBag.Error = MeetingManager.AddMeetingQuestions(id, meeting);
             return PartialView("Error");
         }
@@ -277,6 +282,11 @@ namespace OnlineScrum.Controllers
             var sprint = SprintManager.GetSprintFromID(id);
             if (sprint == null)
                 return RedirectToAction("Home", "Project");
+
+            if (!ModelState.IsValid)
+            {
+                return null;
+            }
 
             SprintManager.ChangeStatus(item);
             return null;//View();//PartialView("ItemList");
@@ -297,6 +307,11 @@ namespace OnlineScrum.Controllers
             if (sprint == null)
                 return RedirectToAction("Home", "Project");
 
+            if (!ModelState.IsValid)
+            {
+                return PartialView("ItemModalBody");
+            }
+
             ViewBag.Item = SprintManager.Add_Notes(item.ItemID, item.ItemNotes);
             return PartialView("ItemModalBody");
         }
@@ -315,6 +330,12 @@ namespace OnlineScrum.Controllers
             var sprint = SprintManager.GetSprintFromID(id);
             if (sprint == null)
                 return RedirectToAction("Home", "Project");
+
+
+            if (!ModelState.IsValid)
+            {
+                return null;
+            }
 
             SprintManager.Add_Meeting_Notes(meeting);
             return null;

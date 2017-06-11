@@ -66,7 +66,10 @@ namespace OnlineScrum.BusinessLayer
                                 if (number == -1) return SharedManager.DatabaseError;
                                 //check assignedto member of sprint
                                 item.ItemNumber = number;
-                                AddItemToSprint(sprint.SprintID, item.ItemID);
+                                if (AddItemToSprint(sprint.SprintID, item.ItemID) != "")
+                                {
+                                    throw new Exception();
+                                }
                             }
                             dbTransaction.Commit();
 

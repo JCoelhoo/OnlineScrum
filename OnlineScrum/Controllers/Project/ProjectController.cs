@@ -107,6 +107,11 @@ namespace OnlineScrum.Controllers
             if (proj == null)
                 return RedirectToAction("Home", "Dashboard");
 
+            if (!ModelState.IsValid)
+            {
+                return View("Items");
+            }
+
             ProjectManager.ChangeSprintInItem(item);
 
 
@@ -209,6 +214,11 @@ namespace OnlineScrum.Controllers
             var proj = (Project)Session["Project"];
             if (proj == null)
                 return RedirectToAction("Create_Project", "Dashboard");
+
+            if (!ModelState.IsValid)
+            {
+                return PartialView("MemberList");
+            }
 
             ViewBag.AddMemberError = ProjectManager.AddMember(userEmail, proj.ProjectID);
             var project = ProjectManager.GetProjectByEmail(user.Email);
