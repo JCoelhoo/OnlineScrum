@@ -22,8 +22,8 @@ namespace OnlineScrum.BusinessLayer
                 {
                     using (var context = new DatabaseContext())
                     {
-                        var proj = (from p in context.Projects where p.Name == project.Name select p).First();
-                        if (proj == null)
+                        var proj = (from p in context.Projects where p.Name == project.Name select p).FirstOrDefault();
+                        if (proj != null)
                             return project.Name + " is already being used";
                         scrumMaster = project.ScrumMaster != null ? project.ScrumMaster : scrumMaster;
                         var insertProject = new Project { Name = project.Name, ScrumMaster = scrumMaster, DevTeam = project.DevTeam };
@@ -263,7 +263,7 @@ namespace OnlineScrum.BusinessLayer
                     var dictionary = new Dictionary<string, bool>();
                     foreach (var sprint in sprints)
                     {
-                        foreach (var item in SharedManager.SplitString(sprint.Items))
+                        foreach (var item in SharedManager.SplitString(sprint.Items ?? ""))
                         {
                             if (!dictionary.ContainsKey(item))
                                 dictionary.Add(item, true);

@@ -52,7 +52,6 @@
                         <th style="text-align: left;">Sprint Name</th>
                         <th align="left">Start Date</th>
                         <th>End Date</th>
-                        <th>Progress</th>
                         <th>Acess</th>
                     </tr>
                 </thead>
@@ -64,7 +63,6 @@
                             <td>@ViewBag.Sprints[i - 1].SprintName</td>
                             <td>@ViewBag.Sprints[i - 1].StartDate.ToShortDateString()</td>
                             <td>@ViewBag.Sprints[i - 1].FinishDate.ToShortDateString()</td>
-                            <td>null</td>
                             <td><a href="/project/sprint/@ViewBag.Sprints[i - 1].SprintID" class="btn btn-link" role="button">Details</a></td>
                         </tr>
                     }

@@ -30,6 +30,14 @@
                     </div>
                     @foreach (KeyValuePair<Sprint, List<Item>> sprint in ViewBag.Sprints)
                     {
+                        if (sprint.Value.Count() == 0)
+                        {
+                            continue;
+                        }
+                        if (sprint.Key.FinishDate.Date < DateTime.Now.Date && sprint.Value.Count(m => m.ItemStatus == "Delayed") == 0)
+                        {
+                            continue;
+                        }
                         <div class="row">
                             <h4 class="col-md-offset-1 col-md-6">@sprint.Key.SprintName</h4>
                             @if (i == 0)

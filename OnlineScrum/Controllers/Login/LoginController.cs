@@ -78,40 +78,40 @@ namespace OnlineScrum.Controllers
                     Name = "OnlineScrum",
                     DevTeamList = new List<string> {"2@g.c", "3@g.c", "5@g.c"},
                     ProjectID = 1,
-                    Sprints = "1",
+                    Sprints = "",
                     ScrumMaster = "1@g.c"
                 };
                 var sprint1 = new Sprint
                 {
-                    StartDate = DateTime.Now.AddDays(-45),
+                    StartDate = DateTime.Now.AddDays(-60),
                     MeetingInterval = 1,
                     MeetingLocation = "X",
                     SprintID = 1,
                     SprintName = "Requirements Analysis",
                     SprintNumber = 1,
-                    FinishDate = DateTime.Now.AddDays(-30),
+                    FinishDate = DateTime.Now.AddDays(-45),
                     Meetings =""
                 };
                 var sprint2 = new Sprint
                 {
-                    StartDate = DateTime.Now.AddDays(-30),
+                    StartDate = DateTime.Now.AddDays(-45),
                     MeetingInterval = 1,
                     MeetingLocation = "X",
-                    SprintID = 1,
+                    SprintID = 2,
                     SprintName = "Design",
-                    SprintNumber = 1,
-                    FinishDate = DateTime.Now.AddDays(-15),
+                    SprintNumber = 2,
+                    FinishDate = DateTime.Now.AddDays(-30),
                     Meetings = ""
                 };
                 var sprint3 = new Sprint
                 {
-                    StartDate = DateTime.Now.AddDays(-15),
+                    StartDate = DateTime.Now.AddDays(-30),
                     MeetingInterval = 1,
                     MeetingLocation = "X",
-                    SprintID = 1,
+                    SprintID = 3,
                     SprintName = "Initial Implementation",
-                    SprintNumber = 1,
-                    FinishDate = DateTime.Now.AddDays(0),
+                    SprintNumber = 3,
+                    FinishDate = DateTime.Now.AddDays(-15),
                     Meetings = ""
                 };
                 var sprint3_2 = new Sprint
@@ -119,32 +119,32 @@ namespace OnlineScrum.Controllers
                     StartDate = DateTime.Now.AddDays(-15),
                     MeetingInterval = 1,
                     MeetingLocation = "X",
-                    SprintID = 1,
+                    SprintID = 4,
                     SprintName = "Final Implementation",
-                    SprintNumber = 1,
-                    FinishDate = DateTime.Now.AddDays(0),
+                    SprintNumber = 4,
+                    FinishDate = DateTime.Now.AddDays(15),
                     Meetings = ""
                 };
                 var sprint4 = new Sprint
                 {
-                    StartDate = DateTime.Now.AddDays(0),
+                    StartDate = DateTime.Now.AddDays(15),
                     MeetingInterval = 1,
                     MeetingLocation = "X",
-                    SprintID = 1,
+                    SprintID = 5,
                     SprintName = "Verification",
-                    SprintNumber = 1,
-                    FinishDate = DateTime.Now.AddDays(15),
+                    SprintNumber = 5,
+                    FinishDate = DateTime.Now.AddDays(30),
                     Meetings = ""
                 };
                 var sprint5 = new Sprint
                 {
-                    StartDate = DateTime.Now.AddDays(15),
+                    StartDate = DateTime.Now.AddDays(30),
                     MeetingInterval = 1,
                     MeetingLocation = "X",
                     SprintID = 1,
                     SprintName = "Maintenance",
                     SprintNumber = 1,
-                    FinishDate = DateTime.Now.AddDays(30),
+                    FinishDate = DateTime.Now.AddDays(45),
                     Meetings = ""
                 };
                 var item1 = new Item
@@ -152,172 +152,266 @@ namespace OnlineScrum.Controllers
                     AssignedTo = "2@g.c",
                     EstimatedEffort = 1,
                     ItemID = 1,
-                    ItemName = "Item#1",
-                    ItemStatus = "Developing"
+                    ItemName = "Customer Requirements",
+                    ItemStatus = "Closed",
+                    DateClosed = DateTime.Now.AddDays(-55),
                 };
                 var item2 = new Item
                 {
                     AssignedTo = "2@g.c",
                     EstimatedEffort = 1,
                     ItemID = 2,
-                    ItemName = "Item#2",
-                    ItemStatus = "Delayed"
+                    ItemName = "Architectural Requirements",
+                    ItemStatus = "Closed",
+                    DateClosed = DateTime.Now.AddDays(-53)
                 };
                 var item3 = new Item
                 {
                     AssignedTo = "5@g.c",
                     EstimatedEffort = 4,
                     ItemID = 3,
-                    ItemName = "Item#3",
-                    ItemStatus = "Developing"
+                    ItemName = "Functional Requirements",
+                    ItemStatus = "Closed",
+                    DateClosed = DateTime.Now.AddDays(-50)
                 };
                 var item4 = new Item
                 {
                     AssignedTo = "3@g.c",
                     EstimatedEffort =2,
                     ItemID = 4,
-                    ItemName = "Item#4",
-                    ItemStatus = "Testing"
+                    ItemName = "Core Funcionality Requirements",
+                    ItemStatus = "Closed",
+                    DateClosed = DateTime.Now.AddDays(-47)
                 };
                 var item5 = new Item
                 {
                     AssignedTo = "5@g.c",
                     EstimatedEffort = 5,
                     ItemID = 5,
-                    ItemName = "Item#5",
+                    ItemName = "Non Functional Requirements",
                     ItemStatus = "Closed",
-                    DateClosed = DateTime.Now.AddDays(-13),
+                    DateClosed = DateTime.Now.AddDays(-46)
                 };
                 var item6 = new Item
                 {
                     AssignedTo = "2@g.c",
                     EstimatedEffort = 4,
                     ItemID = 6,
-                    ItemName = "Item#6",
-                    ItemStatus = "Testing"
+                    ItemName = "DB Design",
+                    ItemStatus = "Closed",
+                    DateClosed = DateTime.Now.AddDays(-44)
                 };
                 var item7 = new Item
                 {
                     AssignedTo = "3@g.c",
                     EstimatedEffort = 1,
                     ItemID = 7,
-                    ItemName = "Item#7",
+                    ItemName = "Architecture Design",
                     ItemStatus = "Closed",
-                    DateClosed = DateTime.Now.AddDays(-11),
+                    DateClosed = DateTime.Now.AddDays(-40),
                 };
                 var item8 = new Item
                 {
                     AssignedTo = "2@g.c",
                     EstimatedEffort = 2,
                     ItemID = 8,
-                    ItemName = "Item#8",
-                    ItemStatus = "Developing"
+                    ItemName = "Security Design",
+                    ItemStatus = "Closed",
+                    DateClosed = DateTime.Now.AddDays(-38)
                 };
                 var item9 = new Item
                 {
                     AssignedTo = "5@g.c",
                     EstimatedEffort =3,
                     ItemID = 9,
-                    ItemName = "Item#9",
-                    ItemStatus = "Delayed"
+                    ItemName = "Interface Mockup",
+                    ItemStatus = "Closed",
+                    DateClosed = DateTime.Now.AddDays(-37)
                 };
                 var item10 = new Item
                 {
                     AssignedTo = "3@g.c",
                     EstimatedEffort = 3,
                     ItemID = 10,
-                    ItemName = "Item#10",
+                    ItemName = "Usability Design",
                     ItemStatus = "Closed",
-                    DateClosed = DateTime.Now.AddDays(-10),
+                    DateClosed = DateTime.Now.AddDays(-33),
                 };
                 var item11 = new Item
                 {
                     AssignedTo = "2@g.c",
                     EstimatedEffort = 1,
                     ItemID = 11,
-                    ItemName = "Item#11",
-                    ItemStatus = "Developing"
+                    ItemName = "Use Cases",
+                    ItemStatus = "Closed",
+                    DateClosed = DateTime.Now.AddDays(-31)
                 };
                 var item12 = new Item
                 {
                     AssignedTo = "2@g.c",
                     EstimatedEffort = 3,
                     ItemID = 12,
-                    ItemName = "Item#12",
-                    ItemStatus = "Testing"
+                    ItemName = "Item",
+                    ItemStatus = "Closed",
+                    DateClosed = DateTime.Now.AddDays(-28)
                 };
                 var item13 = new Item
                 {
                     AssignedTo = "3@g.c",
                     EstimatedEffort = 1,
                     ItemID = 13,
-                    ItemName = "Item#13",
+                    ItemName = "Sprint",
                     ItemStatus = "Closed",
-                    DateClosed = DateTime.Now.AddDays(-7),
+                    DateClosed = DateTime.Now.AddDays(-27),
                 };
                 var item14 = new Item
                 {
                     AssignedTo = "2@g.c",
-                    EstimatedEffort = 1,
+                    EstimatedEffort = 2,
                     ItemID = 14,
-                    ItemName = "Item#14",
+                    ItemName = "Project",
                     ItemStatus = "Closed",
-                    DateClosed = DateTime.Now.AddDays(-6),
+                    DateClosed = DateTime.Now.AddDays(-23),
                 };
                 var item15 = new Item
                 {
                     AssignedTo = "2@g.c",
                     EstimatedEffort = 1,
                     ItemID = 15,
-                    ItemName = "Item#15",
-                    ItemStatus = "Developing",
+                    ItemName = "Database",
+                    ItemStatus = "Delayed"
                 };
                 var item16 = new Item
                 {
                     AssignedTo = "3@g.c",
-                    EstimatedEffort = 1,
+                    EstimatedEffort = 3,
                     ItemID = 16,
-                    ItemName = "Item#16",
+                    ItemName = "Interaction with Database",
                     ItemStatus = "Closed",
-                    DateClosed = DateTime.Now.AddDays(-4),
+                    DateClosed = DateTime.Now.AddDays(-17),
                 };
                 var item17 = new Item
                 {
                     AssignedTo = "3@g.c",
                     EstimatedEffort = 1,
                     ItemID = 17,
-                    ItemName = "Item#17",
+                    ItemName = "User",
                     ItemStatus = "Closed",
-                    DateClosed = DateTime.Now.AddDays(-4),
+                    DateClosed = DateTime.Now.AddDays(-16),
                 };
                 var item18 = new Item
                 {
                     AssignedTo = "3@g.c",
-                    EstimatedEffort = 1,
+                    EstimatedEffort = 2,
                     ItemID = 18,
-                    ItemName = "Item#18",
+                    ItemName = "Meeting",
                     ItemStatus = "Closed",
-                    DateClosed = DateTime.Now.AddDays(-2),
+                    DateClosed = DateTime.Now.AddDays(-14),
                 };
                 var item19 = new Item
                 {
                     AssignedTo = "2@g.c",
-                    EstimatedEffort = 1,
+                    EstimatedEffort = 4,
                     ItemID = 19,
-                    ItemName = "Item#19",
+                    ItemName = "Statistics",
                     ItemStatus = "Closed",
-                    DateClosed = DateTime.Now.AddDays(-2),
+                    DateClosed = DateTime.Now.AddDays(-12),
                 };
                 var item20 = new Item
                 {
-                    AssignedTo = "2@g.c",
+                    AssignedTo = "3@g.c",
                     EstimatedEffort = 1,
                     ItemID = 20,
-                    ItemName = "Item#20",
+                    ItemName = "Interface",
                     ItemStatus = "Closed",
-                    DateClosed = DateTime.Now.AddDays(-1),
+                    DateClosed = DateTime.Now.AddDays(-10),
+                };
+                var item21 = new Item
+                {
+                    AssignedTo = "5@g.c",
+                    EstimatedEffort = 2,
+                    ItemID = 21,
+                    ItemName = "Security",
+                    ItemStatus = "Closed",
+                    DateClosed = DateTime.Now.AddDays(-7),
+                };
+                var item22 = new Item
+                {
+                    AssignedTo = "2@g.c",
+                    EstimatedEffort = 3,
+                    ItemID = 22,
+                    ItemName = "Burndown Chart",
+                    ItemStatus = "Closed",
+                    DateClosed = DateTime.Now.AddDays(-3),
+                };
+                var item23 = new Item
+                {
+                    AssignedTo = "3@g.c",
+                    EstimatedEffort = 4,
+                    ItemID = 23,
+                    ItemName = "Velocity Chart",
+                    ItemStatus = "Testing",
+                };
+                var item24 = new Item
+                {
+                    AssignedTo = "2@g.c",
+                    EstimatedEffort = 3,
+                    ItemID = 24,
+                    ItemName = "Multiple Projects",
+                    ItemStatus = "Developing",
+                };
+                var item25 = new Item
+                {
+                    AssignedTo = "2@g.c",
+                    EstimatedEffort = 1,
+                    ItemID = 25,
+                    ItemName = "Settings",
+                    ItemStatus = "Developing",
+                };
+                var item26 = new Item
+                {
+                    AssignedTo = "5@g.c",
+                    EstimatedEffort = 2,
+                    ItemID = 26,
+                    ItemName = "Refactor",
+                    ItemStatus = "Developing",
+                };
+                var item27 = new Item
+                {
+                    AssignedTo = "3@g.c",
+                    EstimatedEffort = 2,
+                    ItemID = 27,
+                    ItemName = "Usability tests",
+                    ItemStatus = "Testing",
                 };
 
+                var s1 = new Item
+                {
+                    AssignedTo = "3@g.c",
+                    EstimatedEffort = 5,
+                    ItemID = 28,
+                    ItemName = "Migrate to Cloud",
+                    ItemStatus = "Developing",
+                };
+
+                var s2 = new Item
+                {
+                    AssignedTo = "2@g.c",
+                    EstimatedEffort = 4,
+                    ItemID = 29,
+                    ItemName = "Language Support",
+                    ItemStatus = "Development",
+                };
+
+                var s3 = new Item
+                {
+                    AssignedTo = "5@g.c",
+                    EstimatedEffort = 3,
+                    ItemID = 30,
+                    ItemName = "Contact Support",
+                    ItemStatus = "Development",
+                };
+                
 
 
                 ProjectManager.AddProject(proj, "1@g.c");
@@ -336,36 +430,57 @@ namespace OnlineScrum.Controllers
                 SprintManager.AddItem(sprint1, item4);
                 sprint1 = SprintManager.GetSprintFromID(sprint1.SprintID);
                 SprintManager.AddItem(sprint1, item5);
-                sprint1 = SprintManager.GetSprintFromID(sprint1.SprintID);
-                SprintManager.AddItem(sprint1, item6);
-                sprint1 = SprintManager.GetSprintFromID(sprint1.SprintID);
-                SprintManager.AddItem(sprint1, item7);
-                sprint1 = SprintManager.GetSprintFromID(sprint1.SprintID);
-                SprintManager.AddItem(sprint1, item8);
-                sprint1 = SprintManager.GetSprintFromID(sprint1.SprintID);
-                SprintManager.AddItem(sprint1, item9);
-                sprint1 = SprintManager.GetSprintFromID(sprint1.SprintID);
-                SprintManager.AddItem(sprint1, item10);
-                sprint1 = SprintManager.GetSprintFromID(sprint1.SprintID);
-                SprintManager.AddItem(sprint1, item11);
-                sprint1 = SprintManager.GetSprintFromID(sprint1.SprintID);
-                SprintManager.AddItem(sprint1, item12);
-                sprint1 = SprintManager.GetSprintFromID(sprint1.SprintID);
-                SprintManager.AddItem(sprint1, item13);
-                sprint1 = SprintManager.GetSprintFromID(sprint1.SprintID);
-                SprintManager.AddItem(sprint1, item14);
-                sprint1 = SprintManager.GetSprintFromID(sprint1.SprintID);
-                SprintManager.AddItem(sprint1, item15);
-                sprint1 = SprintManager.GetSprintFromID(sprint1.SprintID);
-                SprintManager.AddItem(sprint1, item16);
-                sprint1 = SprintManager.GetSprintFromID(sprint1.SprintID);
-                SprintManager.AddItem(sprint1, item17);
-                sprint1 = SprintManager.GetSprintFromID(sprint1.SprintID);
-                SprintManager.AddItem(sprint1, item18);
-                sprint1 = SprintManager.GetSprintFromID(sprint1.SprintID);
-                SprintManager.AddItem(sprint1, item19);
-                sprint1 = SprintManager.GetSprintFromID(sprint1.SprintID);
-                SprintManager.AddItem(sprint1, item20);
+
+                SprintManager.AddItem(sprint2, item6);
+                sprint2 = SprintManager.GetSprintFromID(sprint2.SprintID);
+                SprintManager.AddItem(sprint2, item7);
+                sprint2 = SprintManager.GetSprintFromID(sprint2.SprintID);
+                SprintManager.AddItem(sprint2, item8);
+                sprint2 = SprintManager.GetSprintFromID(sprint2.SprintID);
+                SprintManager.AddItem(sprint2, item9);
+                sprint2 = SprintManager.GetSprintFromID(sprint2.SprintID);
+                SprintManager.AddItem(sprint2, item10);
+                sprint2 = SprintManager.GetSprintFromID(sprint2.SprintID);
+                SprintManager.AddItem(sprint2, item11);
+                sprint2 = SprintManager.GetSprintFromID(sprint2.SprintID);
+                SprintManager.AddItem(sprint2, item12);
+
+                sprint3 = SprintManager.GetSprintFromID(sprint3.SprintID);
+                SprintManager.AddItem(sprint3, item13);
+                sprint3 = SprintManager.GetSprintFromID(sprint3.SprintID);
+                SprintManager.AddItem(sprint3, item14);
+                sprint3 = SprintManager.GetSprintFromID(sprint3.SprintID);
+                SprintManager.AddItem(sprint3, item15);
+                sprint3 = SprintManager.GetSprintFromID(sprint3.SprintID);
+                SprintManager.AddItem(sprint3, item16);
+                sprint3 = SprintManager.GetSprintFromID(sprint3.SprintID);
+                SprintManager.AddItem(sprint3, item17);
+
+                sprint3_2 = SprintManager.GetSprintFromID(sprint3_2.SprintID);
+                SprintManager.AddItem(sprint3_2, item18);
+                sprint3_2 = SprintManager.GetSprintFromID(sprint3_2.SprintID);
+                SprintManager.AddItem(sprint3_2, item19);
+                sprint3_2 = SprintManager.GetSprintFromID(sprint3_2.SprintID);
+                SprintManager.AddItem(sprint3_2, item20);
+                sprint3_2 = SprintManager.GetSprintFromID(sprint3_2.SprintID);
+                SprintManager.AddItem(sprint3_2, item21);
+                sprint3_2 = SprintManager.GetSprintFromID(sprint3_2.SprintID);
+                SprintManager.AddItem(sprint3_2, item22);
+                sprint3_2 = SprintManager.GetSprintFromID(sprint3_2.SprintID);
+                SprintManager.AddItem(sprint3_2, item23);
+                sprint3_2 = SprintManager.GetSprintFromID(sprint3_2.SprintID);
+                SprintManager.AddItem(sprint3_2, item24);
+                sprint3_2 = SprintManager.GetSprintFromID(sprint3_2.SprintID);
+                SprintManager.AddItem(sprint3_2, item25);
+                sprint3_2 = SprintManager.GetSprintFromID(sprint3_2.SprintID);
+                SprintManager.AddItem(sprint3_2, item26);
+                sprint3_2 = SprintManager.GetSprintFromID(sprint3_2.SprintID);
+                SprintManager.AddItem(sprint3_2, item27);
+
+                SprintManager.AddItem(null, item27);
+                SprintManager.AddItem(null, item27);
+                SprintManager.AddItem(null, item27);
+
             }
 
             return View();
