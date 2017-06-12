@@ -22,6 +22,10 @@
             color: black;
             text-decoration: none;
         }
+
+        .popover{
+            width:1000px;
+        }
     </style>
     <div class="navbar navbar-default navbar-fixed-top">
         <div class="container">
@@ -43,15 +47,48 @@
                     }
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
-                    @if (Session["UserInfo"] != null)
-                    {
-                        <li><a>@(((User)Session["UserInfo"])?.Username) - @(((User)Session["UserInfo"])?.Role)</a></li>
-                        <li><a href="~/logout"><span class="glyphicon glyphicon-log-out"></span> Log Out</a></li>
-                    }
-                    else
-                    {
-                        <li><a href="~/register"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
-                        <li><a href="~/login"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+                    @{
+                        if (Session["UserInfo"] != null)
+                        {
+                            var count = 0;
+                            var list = "<ul class='list-group'>";
+                            if (Session["Meetings"] == null)
+                            {
+                                
+                            }
+                            else if (((List<Meeting>) Session["Meetings"]).Count == 0)
+                            {
+                                list = "";
+                            }
+                            else
+                            {
+                                foreach (var meet in (List<Meeting>)Session["Meetings"])
+                                {
+                                    if (meet.Time > DateTime.Now && meet.Time < DateTime.Now.AddHours(1))
+                                    {
+                                        list += "<li style='width:100%' class='list-group-item'>" + @meet.MeetingType + " Meeting at " + @meet.Time.ToShortTimeString() + " in " + meet.Location + ". <a href='project/sprint/" + meet.SprintID + "/meetings'>Details</a></li>";
+                                        count++;
+                                    }
+                                }
+                                list += "</ul>";
+                            }
+                             <li><a>@(((User) Session["UserInfo"])?.Username) - @(((User) Session["UserInfo"])?.Role)</a></li>
+                            if (Session["Meetings"] != null)
+                            {
+                                <li>
+                                    <a data-trigger="focus" role="button" tabindex="0" data-placement="bottom" class="btn btn-link" data-toggle="popover" data-html="true" style="text-align: left;" data-content="@list">
+                                        <img style="height: 20px;" src="https://image.flaticon.com/icons/png/128/107/107822.png"/>
+                                        <span style="background: @(count == 0 ? "black" : "red"); position: relative; top: -10px; left: -8px;" class="badge badge-notify">@count</span>
+                                    </a>
+                                </li>
+                            }
+                            <li><a href="~/logout"><span class="glyphicon glyphicon-log-out"></span> Log Out</a></li>
+                         }
+                         else
+                         {
+                             <li><a href="~/register"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
+                             <li><a href="~/login"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+                         }
                     }
                 </ul>
 
@@ -72,6 +109,13 @@
                 </footer>
             </div>*@
     </div>
+
+    <script>
+        $(function () {
+            $('[data-toggle="popover"]').popover()
+        })
+
+    </script>
 
 </body>
 </html>

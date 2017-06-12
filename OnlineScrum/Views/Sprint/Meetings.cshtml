@@ -43,3 +43,34 @@
     })
 
 </script>
+
+<div id="helpModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">What is a Sprint?</h4>
+            </div>
+            <div class="modal-body">
+                <p>Sprint is this</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script src="@Url.Content("~/Scripts/Cookie.js")" type="text/javascript"></script>
+
+<script>
+    $(document).ready(function () {
+        if (!checkCookie("MeetingsHelp")) {
+            $("#helpModal").modal('show');
+            setCookie("MeetingsHelp", "true", 100);
+        }
+    });
+</script>

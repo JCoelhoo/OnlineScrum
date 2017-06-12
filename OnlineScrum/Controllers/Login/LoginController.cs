@@ -507,6 +507,15 @@ namespace OnlineScrum.Controllers
                 sprint3_2 = SprintManager.GetSprintFromID(sprint3_2.SprintID);
                 SprintManager.AddItem(sprint3_2, item30);
 
+                var i = new SprintItem();
+                i.Item = "15";
+                i.Sprint = sprint3_2.SprintName;
+
+            ProjectManager.ChangeSprintInItem(new List<SprintItem>
+                {
+                    i
+                });
+
                 SprintManager.AddItem(null, item27);
                 SprintManager.AddItem(null, item27);
                 SprintManager.AddItem(null, item27);

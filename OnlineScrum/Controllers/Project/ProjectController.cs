@@ -62,6 +62,7 @@ namespace OnlineScrum.Controllers
             memberList.Insert(0,proj.ScrumMaster);
             ViewBag.MemberList = memberList;
             Session["Project"] = proj;
+            Session["Meetings"] = MeetingManager.GetMeetingsByEmail(user.Email, -1);
             return View();
         }
 

@@ -51,9 +51,20 @@ namespace OnlineScrum.BusinessLayer
             {
                 using (var context = new DatabaseContext())
                 {
-                    var meetingList = (from meeting in context.Meetings
-                                       where (meeting.Developer == email || meeting.ScrumMaster == email) && meeting.SprintID == sprintID
-                                       select meeting).ToList();
+                    var meetingList = new List<Meeting>();
+                    if (sprintID == -1)
+                    {
+                        meetingList = (from meeting in context.Meetings
+                            where (meeting.Developer == email || meeting.ScrumMaster == email)
+                            select meeting).ToList();
+                    }
+                    else
+                    {
+                        meetingList = (from meeting in context.Meetings
+                            where (meeting.Developer == email || meeting.ScrumMaster == email) &&
+                                  meeting.SprintID == sprintID
+                            select meeting).ToList();
+                    }
 
                     return meetingList;
                 }
