@@ -11,7 +11,7 @@
     })
 
 </script>
-<link href="@Url.Content("~/Content/Style.css")" rel="stylesheet" />
+@*<link href="@Url.Content("~/Content/Style.css")" rel="stylesheet" />*@
 <script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
 
 @if (@ViewBag.Error != "" && @ViewBag.Error != null)
@@ -46,11 +46,11 @@
         {
             <h4>Sprint Table</h4>
             <table class="table table-hover">
-                <thead class="thead-default">
+                <thead class="thead-inverse">
                     <tr>
                         <th>#</th>
-                        <th style="text-align: left;">Sprint Name</th>
-                        <th align="left">Start Date</th>
+                        <th>Sprint Name</th>
+                        <th>Start Date</th>
                         <th>End Date</th>
                         <th>Acess</th>
                     </tr>
@@ -58,7 +58,7 @@
                 <tbody>
                     @for (int i = ViewBag.Sprints.Count; i >= 1; i--)
                     {
-                        <tr class="@(DateTime.Now < ViewBag.Sprints[i - 1].FinishDate ? "success" : "active")">
+                        <tr scope="row" class="@(DateTime.Now < ViewBag.Sprints[i - 1].FinishDate ? "success" : "active")">
                             <td>@ViewBag.Sprints[i - 1].SprintNumber</td>
                             <td>@ViewBag.Sprints[i - 1].SprintName</td>
                             <td>@ViewBag.Sprints[i - 1].StartDate.ToShortDateString()</td>

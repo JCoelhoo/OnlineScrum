@@ -439,12 +439,19 @@ namespace OnlineScrum.Controllers
 
 
                 ProjectManager.AddProject(proj, "1@g.c");
+                proj = ProjectManager.GetProjectByEmail("1@g.c");
                 ProjectManager.AddSprint(sprint1, proj);
+                proj = ProjectManager.GetProjectByEmail("1@g.c");
                 ProjectManager.AddSprint(sprint2, proj);
+                proj = ProjectManager.GetProjectByEmail("1@g.c");
                 ProjectManager.AddSprint(sprint3, proj);
+                proj = ProjectManager.GetProjectByEmail("1@g.c");
                 ProjectManager.AddSprint(sprint3_2, proj);
+                proj = ProjectManager.GetProjectByEmail("1@g.c");
                 ProjectManager.AddSprint(sprint4, proj);
+                proj = ProjectManager.GetProjectByEmail("1@g.c");
                 ProjectManager.AddSprint(sprint5, proj);
+
                 SprintManager.AddItem(sprint1, item1);
                 sprint1 = SprintManager.GetSprintFromID(sprint1.SprintID);
                 SprintManager.AddItem(sprint1, item2);
