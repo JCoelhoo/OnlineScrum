@@ -16,12 +16,12 @@ namespace OnlineScrum.Controllers
         public ActionResult Login()
         {
             if (UserManager.RegisterUser(new Register
-                {
-                    Email = "1@g.c",
-                    Password = "1",
-                    Username = "1",
-                    Role = "ScrumMaster"
-                }) == "")
+            {
+                Email = "1@g.c",
+                Password = "1",
+                Username = "1",
+                Role = "ScrumMaster"
+            }) == "")
             {
                 UserManager.RegisterUser(new Register
                 {
@@ -76,7 +76,7 @@ namespace OnlineScrum.Controllers
                 var proj = new Project
                 {
                     Name = "OnlineScrum",
-                    DevTeamList = new List<string> {"2@g.c", "3@g.c", "5@g.c"},
+                    DevTeamList = new List<string> { "2@g.c", "3@g.c", "5@g.c" },
                     ProjectID = 1,
                     Sprints = "",
                     ScrumMaster = "1@g.c"
@@ -90,7 +90,7 @@ namespace OnlineScrum.Controllers
                     SprintName = "Requirements Analysis",
                     SprintNumber = 1,
                     FinishDate = DateTime.Now.AddDays(-45),
-                    Meetings =""
+                    Meetings = ""
                 };
                 var sprint2 = new Sprint
                 {
@@ -177,7 +177,7 @@ namespace OnlineScrum.Controllers
                 var item4 = new Item
                 {
                     AssignedTo = "3@g.c",
-                    EstimatedEffort =2,
+                    EstimatedEffort = 2,
                     ItemID = 4,
                     ItemName = "Core Funcionality Requirements",
                     ItemStatus = "Closed",
@@ -222,7 +222,7 @@ namespace OnlineScrum.Controllers
                 var item9 = new Item
                 {
                     AssignedTo = "5@g.c",
-                    EstimatedEffort =3,
+                    EstimatedEffort = 3,
                     ItemID = 9,
                     ItemName = "Interface Mockup",
                     ItemStatus = "Closed",
@@ -435,8 +435,6 @@ namespace OnlineScrum.Controllers
                     ItemName = "Contact Support",
                     ItemStatus = "Development",
                 };
-                
-
 
                 ProjectManager.AddProject(proj, "1@g.c");
                 proj = ProjectManager.GetProjectByEmail("1@g.c");
@@ -514,13 +512,13 @@ namespace OnlineScrum.Controllers
                 sprint3_2 = SprintManager.GetSprintFromID(sprint3_2.SprintID);
                 SprintManager.AddItem(sprint3_2, item30);
 
-                var i = new SprintItem();
-                i.Item = "15";
-                i.Sprint = sprint3_2.SprintName;
-
-            ProjectManager.ChangeSprintInItem(new List<SprintItem>
+                ProjectManager.ChangeSprintInItem(new List<SprintItem>
                 {
-                    i
+                    new SprintItem
+                    {
+                        Item = "15",
+                        Sprint = sprint3_2.SprintName
+                    }
                 });
 
                 SprintManager.AddItem(null, item27);
