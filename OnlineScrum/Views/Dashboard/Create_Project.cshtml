@@ -18,6 +18,17 @@
             </div>
             <br />
             <br />
+        
+            <div class="form-group row" style="display:inline">
+
+                @Html.LabelFor(model => model.Description, new { @class = "col-md-2 col-form-label" })
+            </div>
+            <div style="display:inline" class="col-md-10">
+                @Html.TextAreaFor(model => model.Description, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Description)
+            </div>
+            <br />
+            <br />
 
             <div class="form-group row" style="display:inline">
 

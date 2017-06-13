@@ -18,6 +18,9 @@ namespace OnlineScrum.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int ProjectID { get; set; }
 
+        [Column("Description")]
+        public string Description { get; set; }
+
         [Column("ScrumMaster")]
         [ForeignKey("ScrumMasterUser")]
         public virtual string ScrumMaster { get; set; }

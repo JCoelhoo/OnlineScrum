@@ -79,7 +79,8 @@ namespace OnlineScrum.Controllers
                     DevTeamList = new List<string> { "2@g.c", "3@g.c", "5@g.c" },
                     ProjectID = 1,
                     Sprints = "",
-                    ScrumMaster = "1@g.c"
+                    ScrumMaster = "1@g.c",
+                    Description = "This is a mock example to demonstrate the features in this platform."
                 };
                 var sprint1 = new Sprint
                 {
@@ -524,6 +525,11 @@ namespace OnlineScrum.Controllers
                 SprintManager.AddItem(null, item27);
                 SprintManager.AddItem(null, item27);
                 SprintManager.AddItem(null, item27);
+            }
+
+            if (Session["UserInfo"] != null)
+            {
+                return RedirectToAction("Home", "Dashboard");
             }
 
             return View();
