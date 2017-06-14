@@ -4,7 +4,7 @@
 }
 
 <h2>Create_Item</h2>
-
+<div class="col-md-8">
 @using (@Html.BeginForm("Create_Item", "Sprint", FormMethod.Post))
 {
 
@@ -45,7 +45,7 @@
         
 
         <div class="form-group row" style="display:inline">
-            @Html.LabelFor(model => model.EstimatedEffort, new { @class = "col-md-2 col-form-label" })
+            @Html.LabelFor(model => model.EstimatedEffort, new { @class = "col-md-4 col-form-label" })
         </div>
         <div style="display:inline" class="col-md-10">
             <div class="form-group">
@@ -73,10 +73,12 @@
         }
         <br />
         <br />
-        <br />
-        <br />
         <input type="submit" value="Submit" class="btn btn-primary" />
     </div>
 
 }
+</div>
 
+<div class="well col-md-4">
+    <p>A Sprint is typically between 2 weeks to 1 month period where the Scrum Team aims to complete an increment a set of items.</p>
+</div>

@@ -4,7 +4,7 @@
 }
 
 <h2>Create Item</h2>
-
+<div class="col-md-8">
 @using (@Html.BeginForm("Create_Item", "Project", FormMethod.Post))
 {
 
@@ -45,7 +45,7 @@
 
 
         <div class="form-group row" style="display:inline">
-            @Html.LabelFor(model => model.EstimatedEffort, new { @class = "col-md-2 col-form-label" })
+            @Html.LabelFor(model => model.EstimatedEffort, new { @class = "col-md-4 col-form-label" })
         </div>
         <div style="display:inline" class="col-md-10">
             <div class="form-group">
@@ -72,9 +72,11 @@
 
         }
         <br />
-        <br />
-        <br />
         <input type="submit" value="Submit" class="btn btn-primary" />
     </div>
 }
-
+</div>
+<div class="well col-md-4">
+    <p>According to the <a href="https://www.scrumalliance.org/"><i>ScrumAlliance</i></a>, development team are between 5 and 9 people.</p>
+    <p>The Scrum Master.</p>
+</div>

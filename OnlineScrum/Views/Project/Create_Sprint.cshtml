@@ -9,84 +9,84 @@
 {
     <script src="@Url.Content("~/Scripts/JS.js")"></script>
 }
+<div class="col-md-8">
+    @using (@Html.BeginForm("Project", "Create_Project", FormMethod.Post))
+    {
 
-@using (@Html.BeginForm("Project", "Create_Project", FormMethod.Post))
-{
+        <div class="login-editor">
 
-    <div class="login-editor">
+            <div class="form-group row" style="display:inline">
 
-        <div class="form-group row" style="display:inline">
-
-            @Html.LabelFor(model => model.SprintName, new { @class = "col-md-2 col-form-label" })
-        </div>
-        <div style="display:inline" class="col-md-10">
-            @Html.TextBoxFor(model => model.SprintName, new { @class = "form-control" })
-            @Html.ValidationMessageFor(model => model.SprintName)
-        </div>
-        <br />
-        <br />
-
-        <div class="form-group row" style="display:inline">
-
-            @Html.LabelFor(model => model.StartDate, new { @class = "col-md-2 col-form-label" })
-        </div>
-        <div style="display:inline" class="col-md-10">
-            @Html.TextBoxFor(model => model.StartDate, "{0:dd/MM/yyyy}", new { @type = "date", @Value = DateTime.Now.ToString("dd/mm/yyyy"), @class = "form-control" })
-            @Html.ValidationMessageFor(model => model.StartDate)
-        </div>
-        <br />
-        <br />
-
-        <div class="form-group row" style="display:inline">
-
-            @Html.LabelFor(model => model.FinishDate, new { @class = "col-md-2 col-form-label" })
-        </div>
-        <div style="display:inline" class="col-md-10">
-            @Html.TextBoxFor(model => model.FinishDate, "{0:dd/MM/yyyy}", new { @type = "date", @Value = DateTime.Now.ToString("dd/MM/yyyy"), @class = "form-control" })
-            @Html.ValidationMessageFor(model => model.FinishDate)
-        </div>
-        <br />
-        <br/>
-        
-        <div class="form-group row" style="display:inline">
-
-            @Html.LabelFor(model => model.MeetingLocation, new { @class = "col-md-2 col-form-label" })
-        </div>
-        <div style="display:inline" class="col-md-10">
-            @Html.TextBoxFor(model => model.MeetingLocation, new { @class = "form-control" })
-            @Html.ValidationMessageFor(model => model.MeetingLocation)
-        </div>
-        <br />
-        <br />
-        
-        <div class="form-group row" style="display:inline">
-
-            @Html.LabelFor(model => model.MeetingInterval, new { @class = "col-md-2 col-form-label" })
-        </div>
-        <div style="display:inline" class="col-md-10">
-            @Html.TextBoxFor(model => model.MeetingInterval, new { @class = "form-control" })
-            @Html.ValidationMessageFor(model => model.MeetingInterval)
-        </div>
-        <br />
-        <br />
-
-        @Html.ValidationSummary()
-        @if (ViewBag.Error != "" && ViewBag.Error != null)
-        {
-            <div class="alert alert-danger fade in">
-                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                <strong>Error!</strong> @ViewBag.Error
+                @Html.LabelFor(model => model.SprintName, new { @class = "col-md-2 col-form-label" })
             </div>
+            <div style="display:inline" class="col-md-10">
+                @Html.TextBoxFor(model => model.SprintName, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.SprintName)
+            </div>
+            <br />
+            <br />
 
-        }
-        <br />
-        <br />
-        <br />
-        <input type="submit" value="Submit" class="btn btn-primary" />
-    </div>
+            <div class="form-group row" style="display:inline">
+
+                @Html.LabelFor(model => model.StartDate, new { @class = "col-md-2 col-form-label" })
+            </div>
+            <div style="display:inline" class="col-md-10">
+                @Html.TextBoxFor(model => model.StartDate, "{0:dd/MM/yyyy}", new { @type = "date", @Value = DateTime.Now.ToString("dd/mm/yyyy"), @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.StartDate)
+            </div>
+            <br />
+            <br />
+
+            <div class="form-group row" style="display:inline">
+
+                @Html.LabelFor(model => model.FinishDate, new { @class = "col-md-2 col-form-label" })
+            </div>
+            <div style="display:inline" class="col-md-10">
+                @Html.TextBoxFor(model => model.FinishDate, "{0:dd/MM/yyyy}", new { @type = "date", @Value = DateTime.Now.ToString("dd/MM/yyyy"), @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.FinishDate)
+            </div>
+            <br />
+            <br />
+
+            <div class="form-group row" style="display:inline">
+
+                @Html.LabelFor(model => model.MeetingLocation, new { @class = "col-md-2 col-form-label" })
+            </div>
+            <div style="display:inline" class="col-md-10">
+                @Html.TextBoxFor(model => model.MeetingLocation, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.MeetingLocation)
+            </div>
+            <br />
+            <br />
+
+            <div class="form-group row" style="display:inline">
+
+                @Html.LabelFor(model => model.MeetingInterval, new { @class = "col-md-2 col-form-label" })
+            </div>
+            <div style="display:inline" class="col-md-10">
+                @Html.TextBoxFor(model => model.MeetingInterval, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.MeetingInterval)
+            </div>
+            <br />
+            <br />
+
+            @Html.ValidationSummary()
+            @if (ViewBag.Error != "" && ViewBag.Error != null)
+            {
+                <div class="alert alert-danger fade in">
+                    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                    <strong>Error!</strong> @ViewBag.Error
+                </div>
+
+            }
+            <br />
+            <input type="submit" value="Submit" class="btn btn-primary" />
+        </div>
         <br />
         <br />
 
-}
-
-
+    }
+</div>
+<div class="well col-md-4">
+    <p>A Sprint is typically between 2 weeks to 1 month period where the Scrum Team aims to complete an increment a set of items.</p>
+</div>

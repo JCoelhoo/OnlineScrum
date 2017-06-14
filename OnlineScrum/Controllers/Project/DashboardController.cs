@@ -34,9 +34,6 @@ namespace OnlineScrum.Controllers
                 return RedirectToAction("Login", "Login");
 
             ViewBag.Link = "Home";
-            var proj = ProjectManager.GetProjectByEmail(user.Email);
-            if (proj != null)
-                return RedirectToAction("Home");
 
             return View();
         }
@@ -49,9 +46,6 @@ namespace OnlineScrum.Controllers
             if (user == null)
                 return RedirectToAction("Login", "Login");
             ViewBag.Link = "Home";
-            var proj = ProjectManager.GetProjectByEmail(user.Email);
-            if (proj != null)
-                return RedirectToAction("Home");
 
             if (!ModelState.IsValid)
             {
