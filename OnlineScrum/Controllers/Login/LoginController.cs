@@ -522,9 +522,9 @@ namespace OnlineScrum.Controllers
                     }
                 });
 
-                SprintManager.AddItem(null, item27);
-                SprintManager.AddItem(null, item27);
-                SprintManager.AddItem(null, item27);
+                SprintManager.AddItem(null, s1);
+                SprintManager.AddItem(null, s2);
+                SprintManager.AddItem(null, s3);
             }
 
             if (Session["UserInfo"] != null)

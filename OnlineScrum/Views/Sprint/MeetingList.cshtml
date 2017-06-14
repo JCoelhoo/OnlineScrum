@@ -14,34 +14,30 @@
         </thead>
         <tbody>
         @{ var j = 0;}
-        @for (var i = 0; i < (((ViewBag.Meetings.Count < 5) || (ViewBag.Meetings.Count > 5 && !ViewBag.Short)) ? ViewBag.Meetings.Count : 5 + j); i++)
+        @foreach(Meeting meeting in ViewBag.Meetings)
         {
-            if (i > ViewBag.Meetings.Count-1)
-            {
-                break;
-            }
-            var answered = (!String.IsNullOrEmpty(@ViewBag.Meetings[i].YesterdayQuestion) &&
-                            !String.IsNullOrEmpty(@ViewBag.Meetings[i].TodayQuestion) &&
-                            !String.IsNullOrEmpty(@ViewBag.Meetings[i].ObstaclesQuestion))
+            var answered = (!String.IsNullOrEmpty(meeting.YesterdayQuestion) &&
+                            !String.IsNullOrEmpty(meeting.TodayQuestion) &&
+                            !String.IsNullOrEmpty(meeting.ObstaclesQuestion))
                 ? true
                 : false;
-            if (ViewBag.Meetings[i].Time.Date < DateTime.Now.Date && ViewBag.Short)
+            if (meeting.Time.Date < DateTime.Now.Date && ViewBag.Short)
             {
                 j++;
                 continue;
             }
                 @*Colour of row*@
-            <tr class="@((ViewBag.Meetings[i].Time < DateTime.Now.AddDays(1) && ViewBag.Meetings[i].Time > DateTime.Now) ? "warning" : "") @(ViewBag.Meetings[i].Time < DateTime.Now ? "danger" : "")">
-                <td>@ViewBag.Meetings[i].Time</td>
-                <td>@ViewBag.Meetings[i].ScrumMaster</td>
-                <td>@ViewBag.Meetings[i].Developer</td>
-                <td>@ViewBag.Meetings[i].MeetingType</td>
-                <td>@ViewBag.Meetings[i].Location</td>
+            <tr class="@((meeting.Time < DateTime.Now.AddDays(1) && meeting.Time > DateTime.Now) ? "warning" : "") @(meeting.Time < DateTime.Now ? "danger" : "")">
+                <td>@meeting.Time</td>
+                <td>@meeting.ScrumMaster</td>
+                <td>@(meeting.Developer.Contains(",") ? "Every developer" : meeting.Developer)</td>
+                <td>@meeting.MeetingType</td>
+                <td>@meeting.Location</td>
                 <td>
                     @if (answered)
                     {
-                        <button type="button" class="btn btn-link pull-right" data-toggle="modal" data-target="#modal@((ViewBag.Meetings[i]).MeetingID)">
-                            @if (((Meeting) ViewBag.Meetings[i]).Time < DateTime.Now)
+                        <button type="button" class="btn btn-link pull-right" data-toggle="modal" data-target="#modal@(meeting.MeetingID)">
+                            @if (meeting.Time < DateTime.Now)
                             {
                                 <p>Review Meeting</p>
                             }
@@ -53,8 +49,8 @@
                     }
                     else
                     {
-                        <button type="button" class="btn btn-link pull-right" data-toggle="modal" data-target="#modal@((ViewBag.Meetings[i]).MeetingID)">
-                            @if (((Meeting) ViewBag.Meetings[i]).Time < DateTime.Now)
+                        <button type="button" class="btn btn-link pull-right" data-toggle="modal" data-target="#modal@(meeting.MeetingID)">
+                            @if (meeting.Time < DateTime.Now)
                             {
                                 <p>Review Meeting</p>
                             }
@@ -93,6 +89,7 @@
                     <div class="form-group">
                         <select data-val="true" data-val-required="Email Address is required" type="email" class="form-control" id="Developer" name="Developer">
                             <option selected disabled>Select Developer</option>
+                            <option value="everyone@everyone.os">Every team member</option>
                             @if (ViewBag.Members != null)
                             {
                                 foreach (var member in ViewBag.Members)

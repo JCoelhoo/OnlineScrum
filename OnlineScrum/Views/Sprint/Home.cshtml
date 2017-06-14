@@ -4,35 +4,31 @@
     ViewBag.Title = "Home";
 }
 <link href="@Url.Content("~/Content/SprintMenu.css")" rel="stylesheet" />
-@*<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">*@
-<br />
-<div class="tab col-md-offset-3">
-    <ul class="nav nav-tabs" style="border-bottom:0px solid transparent">
-        <li role="presentation" class="active"><a href="@Url.Action("Home", "Sprint")">Overview</a></li>
-        <li role="presentation"><a href="@Url.Action("Items", "Sprint")">Items</a></li>
-        <li role="presentation"><a href="@Url.Action("Meetings", "Sprint")">Meetings</a></li>
-        <li role="presentation"><a href="@Url.Action("Statistics", "Sprint")">Statistics</a></li>
-        <li role="presentation"><a href="#">Settings</a></li>
-    </ul>
+<div class="col-md-12" style="z-index:1000;background-color: white;position: fixed;">
+    <br />
+    <div class="tab col-md-offset-2">
+        <ul class="nav nav-tabs" style="border-bottom:0px solid transparent">
+            <li role="presentation" class="active"><a href="@Url.Action("Home", "Sprint")">Overview</a></li>
+            <li role="presentation"><a href="@Url.Action("Items", "Sprint")">Items</a></li>
+            <li role="presentation"><a href="@Url.Action("Meetings", "Sprint")">Meetings</a></li>
+            <li role="presentation"><a href="@Url.Action("Statistics", "Sprint")">Statistics</a></li>
+            <li role="presentation"><a href="#">Settings</a></li>
+        </ul>
+    </div>
 </div>
 
-
-
-<div>
+<div style="overflow: auto;padding-top: 75px">
     <div class="col-md-9">
-        <h2>@ViewBag.Sprint.SprintName</h2> <h5 style="display:inline">Overview - Estimation, Progress bar with estimations??</h5>
+        <h2>@ViewBag.Sprint.SprintName</h2>
     </div>
     <br />
     <div class="pull-right">
         <a data-trigger="focus" role="button" tabindex="0" data-placement="bottom" class="btn btn-info" data-toggle="popover" style="text-align: left;" title="Sprints" data-content="This is the Sprint Management page. Click to the left to create a new sprint or review your existing sprints">Help</a>
     </div>
+</div>
+<div>
     <br />
-    <br />
-    <br />
-    <br />
-
-
-    <div class="panel-group">
+    <div class="panel-group col-md-12">
         <div class="panel panel-info">
             <div class="panel-heading">
                 <h4 class="panel-title" align="center">
@@ -52,7 +48,7 @@
             </div>
         </div>
     </div>
-    <div class="panel-group">
+    <div class="panel-group col-md-12">
         <div class="panel panel-default">
             <div class="panel-heading">
                 <h4 class="panel-title" align="center">
@@ -110,30 +106,30 @@
         </div>
     </div>
     @*<div class="panel-group">
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <h4 class="panel-title">
-                    <a href="#c" data-toggle="collapse">Messages</a>
-                </h4>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a href="#c" data-toggle="collapse">Messages</a>
+                    </h4>
+                </div>
+                <div class="panel-collapse collapse" id="c">Messages Tab.</div>
             </div>
-            <div class="panel-collapse collapse" id="c">Messages Tab.</div>
         </div>
-    </div>
-    <div class="panel-group">
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <h4 class="panel-title">
-                    <a href="#d" data-toggle="collapse">Settings</a>
-                </h4>
+        <div class="panel-group">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a href="#d" data-toggle="collapse">Settings</a>
+                    </h4>
+                </div>
+                <div class="panel-collapse collapse" id="d">Settings Tab.</div>
             </div>
-            <div class="panel-collapse collapse" id="d">Settings Tab.</div>
-        </div>
-    </div>*@
-    <br/>
+        </div>*@
+    <br />
     <div>
         <h4 class="col-md-2">Meeting Table</h4>
         @if (ViewBag.Short)
-            {
+        {
             <h5 class="pull-left"><a href="@Url.Action("Meetings", "Sprint")">See more</a></h5>
         }
 

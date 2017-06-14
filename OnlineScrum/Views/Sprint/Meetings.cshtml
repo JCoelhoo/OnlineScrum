@@ -4,21 +4,24 @@
 }
 <link href="@Url.Content("~/Content/SprintMenu.css")" rel="stylesheet" />
 
-<br />
-<div class="tab col-md-offset-3">
-    <ul class="nav nav-tabs" style="border-bottom:0px solid transparent">
-        <li role="presentation"><a href="@Url.Action("Home", "Sprint")">Overview</a></li>
-        <li role="presentation"><a href="@Url.Action("Items", "Sprint")">Items</a></li>
-        <li role="presentation" class="active"><a href="@Url.Action("Meetings", "Sprint")">Meetings</a></li>
-        <li role="presentation"><a href="@Url.Action("Statistics", "Sprint")">Statistics</a></li>
-        <li role="presentation"><a href="#">Settings</a></li>
-    </ul>
+<div class="col-md-12" style="z-index:1000;background-color: white;position: fixed;">
+    <br />
+    <div class="tab col-md-offset-2">
+        <ul class="nav nav-tabs" style="border-bottom:0px solid transparent">
+            <li role="presentation"><a href="@Url.Action("Home", "Sprint")">Overview</a></li>
+            <li role="presentation"><a href="@Url.Action("Items", "Sprint")">Items</a></li>
+            <li role="presentation" class="active"><a href="@Url.Action("Meetings", "Sprint")">Meetings</a></li>
+            <li role="presentation"><a href="@Url.Action("Statistics", "Sprint")">Statistics</a></li>
+            <li role="presentation"><a href="#">Settings</a></li>
+        </ul>
+    </div>
 </div>
 
-<div>
+<div style="overflow: auto;padding-top: 75px">
     <div class="col-md-9">
         <h2>Meetings</h2>
     </div>
+    <br />
     <div class="pull-right">
         <a data-trigger="focus" role="button" tabindex="0" data-placement="bottom" class="btn btn-info" data-toggle="popover" style="text-align: left;" title="Sprints" data-content="This is the Sprint Management page. Click to the left to create a new sprint or review your existing sprints">Help</a>
     </div>

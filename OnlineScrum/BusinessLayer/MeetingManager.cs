@@ -22,7 +22,7 @@ namespace OnlineScrum.BusinessLayer
                     {
                         if (!UserManager.CheckExistingEmail(meeting.ScrumMaster))
                             return meeting.ScrumMaster + " does not exist";
-                        if (!UserManager.CheckExistingEmail(meeting.Developer))
+                        if (!UserManager.CheckExistingEmail(meeting.Developer) && !meeting.Developer.Contains(","))
                             return meeting.Developer + " does not exist";
 
                         if (meeting.Time < DateTime.Now)
@@ -55,13 +55,13 @@ namespace OnlineScrum.BusinessLayer
                     if (sprintID == -1)
                     {
                         meetingList = (from meeting in context.Meetings
-                            where (meeting.Developer == email || meeting.ScrumMaster == email)
+                            where (meeting.Developer == email || meeting.ScrumMaster == email || meeting.Developer.Contains(email))
                             select meeting).ToList();
                     }
                     else
                     {
                         meetingList = (from meeting in context.Meetings
-                            where (meeting.Developer == email || meeting.ScrumMaster == email) &&
+                            where (meeting.Developer == email || meeting.ScrumMaster == email || meeting.Developer.Contains(email)) &&
                                   meeting.SprintID == sprintID
                             select meeting).ToList();
                     }

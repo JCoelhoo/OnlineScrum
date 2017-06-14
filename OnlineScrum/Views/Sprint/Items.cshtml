@@ -5,13 +5,12 @@
 }
 
 <link href="@Url.Content("~/Content/SprintMenu.css")" rel="stylesheet" />
-@*<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js" type="text/javascript"></script>*@
 <script src="@Url.Content("~/Scripts/jquery.unobtrusive-ajax.min.js")" type="text/javascript"></script>
-@*<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>*@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.9.3/js/bootstrap-select.min.js"></script>
 
-<br />
-<div class="tab col-md-offset-3">
+<div class="col-md-12" style="z-index:1000;background-color: white;position: fixed;">
+    <br/>
+    <div class="tab col-md-offset-2">
     <ul class="nav nav-tabs" style="border-bottom:0px solid transparent">
         <li role="presentation"><a href="@Url.Action("Home", "Sprint")">Overview</a></li>
         <li role="presentation" class="active"><a href="@Url.Action("Items", "Sprint")">Items</a></li>
@@ -20,163 +19,167 @@
         <li role="presentation"><a href="#">Settings</a></li>
     </ul>
 </div>
-
-@if (ViewBag.Items == null || ViewBag.Items.Count == 0)
-{
-    <h3 align="center">
-        You have yet to create a <a href="/project/sprint/@ViewBag.Sprint.SprintID/new_item">Item</a>
-    </h3>
-}
-else
-{
-    <div>
-        <div class="col-md-9">
-            <h2>Items</h2>
-        </div>
-        <div class="pull-right">
-            <a href="@Url.Action("Create_Item", "Sprint")" class="btn btn-primary" role="button">New Item</a>
-            <a data-trigger="focus" role="button" tabindex="0" data-placement="bottom" class="btn btn-info" data-toggle="popover" style="text-align: left;" title="Sprints" data-content="This is the Sprint Management page. Click to the left to create a new sprint or review your existing sprints">Help</a>
-        </div>
-    </div>
-
-
-
-    <br />
-    <br />
-    <br />
-
-    <div class="panel panel-primary filterable">
-        <div class="panel-heading">
-            <h3 class="panel-title">Items</h3>
+</div>
+    <div style="overflow: auto;padding-top: 75px">
+    @if (ViewBag.Items == null || ViewBag.Items.Count == 0)
+    {
+        <h3 align="center">
+            You have yet to create a <a href="/project/sprint/@ViewBag.Sprint.SprintID/new_item">Item</a>
+        </h3>
+    }
+    else
+    {
+        <div>
+            <div class="col-md-9">
+                <h2>Items</h2>
+            </div>
+            <br />
             <div class="pull-right">
-                <button class="btn btn-default btn-xs btn-filter"><span class="glyphicon glyphicon-filter"></span> Filter</button>
+                <a href="@Url.Action("Create_Item", "Sprint")" class="btn btn-primary" role="button">New Item</a>
+                <a data-trigger="focus" role="button" tabindex="0" data-placement="bottom" class="btn btn-info" data-toggle="popover" style="text-align: left;" title="Sprints" data-content="This is the Sprint Management page. Click to the left to create a new sprint or review your existing sprints">Help</a>
             </div>
         </div>
-        <table class="table">
-            <thead>
-                <tr class="filters">
-                    <th><input type="text" placeholder="Name" disabled></th>
-                    <th><input type="text" placeholder="Assigned To" disabled></th>
-                    <th><input type="text" placeholder="Estimated Effort" disabled></th>
-                    <th><input type="text" placeholder="Status" disabled></th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (Item item in ViewBag.Items)
-                {
-                    <tr>
-                        <td>@item.ItemName</td>
-                        <td>@item.AssignedTo</td>
-                        <td>@item.EstimatedEffort</td>
 
-                        @using (Ajax.BeginForm("Change_Status", "Sprint", new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "empList" }, new { @id = "form" + item.ItemID }))
-                        {
-                            <input style="display: none" id="ItemID" value="@item.ItemID" name="ItemID" />
-                            <td>
-                                <select style="display: none; width: auto;" class="selectpicker" id="ItemStatus" name="ItemStatus" form="form@(item.ItemID)">
-                                    <option value="Developing" data-content="<span class='badge badge-primary'>Developing</span>" @((item.ItemStatus == "Developing" || @item.ItemStatus == null) ? "selected" : "")></option>
-                                    <option value="Testing" data-content="<span class='badge badge-success'>Testing</span>" @((item.ItemStatus == "Testing") ? "selected" : "")></option>
-                                    <option value="Delayed" data-content="<span class='badge badge-warning'>Delayed</span>" @((item.ItemStatus == "Delayed") ? "selected" : "")></option>
-                                    <option value="Closed" data-content="<span class='badge badge-red'>Closed</span>" @((item.ItemStatus == "Closed") ? "selected" : "")></option>
-                                </select>
-                            </td>
-                            <td>
-                                <input type=submit value="Save" class="btn btn-link pull-right" />
-                                <button id="modalButton@(item.ItemID)" type="button" class="btn btn-link pull-right" data-toggle="modal" data-target="#modal@(item.ItemID)">Notes</button>
-                            </td>
-                        }
 
+
+        <br />
+        <br />
+        <br />
+
+        <div class="panel panel-primary filterable">
+            <div class="panel-heading">
+                <h3 class="panel-title">Items</h3>
+                <div class="pull-right">
+                    <button class="btn btn-default btn-xs btn-filter"><span class="glyphicon glyphicon-filter"></span> Filter</button>
+                </div>
+            </div>
+            <table class="table">
+                <thead>
+                    <tr class="filters">
+                        <th><input type="text" placeholder="Name" disabled></th>
+                        <th><input type="text" placeholder="Assigned To" disabled></th>
+                        <th><input type="text" placeholder="Estimated Effort" disabled></th>
+                        <th><input type="text" placeholder="Status" disabled></th>
+                        <th></th>
                     </tr>
-                }
-            </tbody>
-        </table>
-    </div>
+                </thead>
+                <tbody>
+                    @foreach (Item item in ViewBag.Items)
+                {
+                        <tr>
+                            <td>@item.ItemName</td>
+                            <td>@item.AssignedTo</td>
+                            <td>@item.EstimatedEffort</td>
 
-    @Html.Partial("ItemNoteModal")
-}
+                            @using (Ajax.BeginForm("Change_Status", "Sprint", new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "empList" }, new { @id = "form" + item.ItemID }))
+                            {
+                                <input style="display: none" id="ItemID" value="@item.ItemID" name="ItemID" />
+                                <td>
+                                    <select style="display: none; width: auto;" class="selectpicker" id="ItemStatus" name="ItemStatus" form="form@(item.ItemID)">
+                                        <option value="Developing" data-content="<span class='badge badge-primary'>Developing</span>" @((item.ItemStatus == "Developing" || @item.ItemStatus == null) ? "selected" : "")></option>
+                                        <option value="Testing" data-content="<span class='badge badge-success'>Testing</span>" @((item.ItemStatus == "Testing") ? "selected" : "")></option>
+                                        <option value="Delayed" data-content="<span class='badge badge-warning'>Delayed</span>" @((item.ItemStatus == "Delayed") ? "selected" : "")></option>
+                                        <option value="Closed" data-content="<span class='badge badge-red'>Closed</span>" @((item.ItemStatus == "Closed") ? "selected" : "")></option>
+                                    </select>
+                                </td>
+                                <td>
+                                    <input type=submit value="Save" class="btn btn-link pull-right" />
+                                    <button id="modalButton@(item.ItemID)" type="button" class="btn btn-link pull-right" data-toggle="modal" data-target="#modal@(item.ItemID)">Notes</button>
+                                </td>
+                            }
 
-
-<script>
-    $(document).ready(function () {
-
-        $('.filterable .btn-filter').click(function () {
-            var $panel = $(this).parents('.filterable'),
-                $filters = $panel.find('.filters input'),
-                $tbody = $panel.find('.table tbody');
-            if ($filters.prop('disabled') == true) {
-                $filters.prop('disabled', false);
-                $filters.first().focus();
-            } else {
-                $filters.val('').prop('disabled', true);
-                $tbody.find('.no-result').remove();
-                $tbody.find('tr').show();
-            }
-        });
-
-        $('.filterable .filters input').keyup(function (e) {
-            /* Ignore tab key */
-            var code = e.keyCode || e.which;
-            if (code == '9') return;
-            /* Useful DOM data and selectors */
-            var $input = $(this),
-                inputContent = $input.val().toLowerCase(),
-                $panel = $input.parents('.filterable'),
-                column = $panel.find('.filters th').index($input.parents('th')),
-                $table = $panel.find('.table'),
-                $rows = $table.find('tbody tr');
-            /* Dirtiest filter function ever ;) */
-            var $filteredRows = $rows.filter(function () {
-                var value = $(this).find('td').eq(column).text().toLowerCase();
-                return value.indexOf(inputContent) === -1;
-            });
-            /* Clean previous no-result if exist */
-            $table.find('tbody .no-result').remove();
-            /* Show all rows, hide filtered ones (never do that outside of a demo ! xD) */
-            $rows.show();
-            $filteredRows.hide();
-            /* Prepend no-result row if all rows are filtered */
-            if ($filteredRows.length === $rows.length) {
-                $table.find('tbody').prepend($('<tr class="no-result text-center"><td colspan="' +
-                    $table.find('.filters th').length +
-                    '">No result found</td></tr>'));
-            }
-        });
-    });
-</script>
-
-<script>
-    $(function () {
-        $('[data-toggle="popover"]').popover()
-    })
-
-</script>
-<script>
-    $(document).ready(function (e) {
-        $('.selectpicker').selectpicker({
-            size: 4
-        });
-    });
-</script>
-
-<div id="helpModal" class="modal fade" role="dialog">
-    <div class="modal-dialog">
-
-        <!-- Modal content-->
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">What is a Sprint?</h4>
-            </div>
-            <div class="modal-body">
-                <p>Sprint is this</p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-            </div>
+                        </tr>
+                    }
+                </tbody>
+            </table>
         </div>
 
+        @Html.Partial("ItemNoteModal")
+    }
+
+
+    <script>
+        $(document).ready(function () {
+
+            $('.filterable .btn-filter').click(function () {
+                var $panel = $(this).parents('.filterable'),
+                    $filters = $panel.find('.filters input'),
+                    $tbody = $panel.find('.table tbody');
+                if ($filters.prop('disabled') == true) {
+                    $filters.prop('disabled', false);
+                    $filters.first().focus();
+                } else {
+                    $filters.val('').prop('disabled', true);
+                    $tbody.find('.no-result').remove();
+                    $tbody.find('tr').show();
+                }
+            });
+
+            $('.filterable .filters input').keyup(function (e) {
+                /* Ignore tab key */
+                var code = e.keyCode || e.which;
+                if (code == '9') return;
+                /* Useful DOM data and selectors */
+                var $input = $(this),
+                    inputContent = $input.val().toLowerCase(),
+                    $panel = $input.parents('.filterable'),
+                    column = $panel.find('.filters th').index($input.parents('th')),
+                    $table = $panel.find('.table'),
+                    $rows = $table.find('tbody tr');
+                /* Dirtiest filter function ever ;) */
+                var $filteredRows = $rows.filter(function () {
+                    var value = $(this).find('td').eq(column).text().toLowerCase();
+                    return value.indexOf(inputContent) === -1;
+                });
+                /* Clean previous no-result if exist */
+                $table.find('tbody .no-result').remove();
+                /* Show all rows, hide filtered ones (never do that outside of a demo ! xD) */
+                $rows.show();
+                $filteredRows.hide();
+                /* Prepend no-result row if all rows are filtered */
+                if ($filteredRows.length === $rows.length) {
+                    $table.find('tbody').prepend($('<tr class="no-result text-center"><td colspan="' +
+                        $table.find('.filters th').length +
+                        '">No result found</td></tr>'));
+                }
+            });
+        });
+    </script>
+
+    <script>
+        $(function () {
+            $('[data-toggle="popover"]').popover()
+        })
+
+    </script>
+    <script>
+        $(document).ready(function (e) {
+            $('.selectpicker').selectpicker({
+                size: 4
+            });
+        });
+    </script>
+
+    <div id="helpModal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">What is a Sprint?</h4>
+                </div>
+                <div class="modal-body">
+                    <p>Sprint is this</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+
+        </div>
     </div>
+    
 </div>
 
 <script src="@Url.Content("~/Scripts/Cookie.js")" type="text/javascript"></script>

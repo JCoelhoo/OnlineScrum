@@ -222,9 +222,9 @@ namespace OnlineScrum.Controllers
             }
 
             ViewBag.AddMemberError = ProjectManager.AddMember(userEmail, proj.ProjectID);
-            var project = ProjectManager.GetProjectByEmail(user.Email);
+            var project = ProjectManager.GetProjectsByEmail(user.Email).FirstOrDefault(m => m.ProjectID == proj.ProjectID);
             var memberList = SharedManager.SplitString(project.DevTeam);
-            memberList.Add(project.ScrumMaster);
+            memberList.Insert(0, proj.ScrumMaster);
             ViewBag.MemberList = memberList;
             SharedManager.RepeatMethod = false;
             return PartialView("MemberList");

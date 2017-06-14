@@ -9,26 +9,30 @@
 <link href="@Url.Content("~/Content/SprintMenu.css")" rel="stylesheet" />
 <script src="https://rawgithub.com/laff/technical-indicators/master/technical-indicators.src.js"></script>
 
-<br />
-<div class="tab col-md-offset-3">
-    <ul class="nav nav-tabs" style="border-bottom:0px solid transparent">
-        <li role="presentation"><a href="@Url.Action("Home", "Sprint")">Overview</a></li>
-        <li role="presentation"><a href="@Url.Action("Items", "Sprint")">Items</a></li>
-        <li role="presentation"><a href="@Url.Action("Meetings", "Sprint")">Meetings</a></li>
-        <li role="presentation" class="active"><a href="@Url.Action("Statistics", "Sprint")">Statistics</a></li>
-        <li role="presentation"><a href="#">Settings</a></li>
-    </ul>
+<div class="col-md-12" style="z-index:1000;background-color: white;position: fixed;">
+<br/>
+    <div class="tab col-md-offset-2">
+        <ul class="nav nav-tabs" style="border-bottom: 0px solid transparent">
+            <li role="presentation"><a href="@Url.Action("Home", "Sprint")">Overview</a></li>
+            <li role="presentation"><a href="@Url.Action("Items", "Sprint")">Items</a></li>
+            <li role="presentation"><a href="@Url.Action("Meetings", "Sprint")">Meetings</a></li>
+            <li role="presentation" class="active"><a href="@Url.Action("Statistics", "Sprint")">Statistics</a></li>
+            <li role="presentation"><a href="#">Settings</a></li>
+        </ul>
+    </div>
 </div>
 
-
-<div class="grid">
-    <div class="row" id="container" style="min-width: 400px; height: (400 + @(ViewBag.Items.Count*10))px; margin: 0 auto"></div>
-    <br />
-    <h4 class="text-center">Item Effort Distribution</h4>
-    <div id="sankey" class="col-md-offset-3" style="width: 900px; height: @(300+(ViewBag.Items.Count*15))px;"></div>
-    <br />
-    Maybe add some warnings (dev closing issues, sprint slow pace, towards the end of sprint -> advise reprioritasation/delaying/fix estimations,
-    if dev is done assing different issues from slow dev, a lot of days without closing (maybe facing obstacle(ask in meeting)))
+<div style="overflow: auto;padding-top: 75px">
+    <div class="grid">
+        <div class="row" id="container" style="min-width: 400px; height: (400 + @(ViewBag.Items.Count*10))px; margin: 0 auto"></div>
+        <br />
+        <h4 class="text-center">Item Effort Distribution</h4>
+        <div id="sankey" class="col-md-offset-3" style="width: 900px; height: @(300+(ViewBag.Items.Count*15))px;"></div>
+        <br />
+        Maybe add some warnings 
+        (dev closing issues, sprint slow pace, towards the end of sprint -> advise reprioritasation/delaying/fix estimations,
+        if dev is done assing different issues from slow dev, a lot of days without closing (maybe facing obstacle(ask in meeting)))
+    </div>
 </div>
 @*TODO use business days*@
 <script>

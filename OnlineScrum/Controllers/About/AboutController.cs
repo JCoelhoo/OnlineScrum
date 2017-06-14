@@ -7,6 +7,7 @@ namespace OnlineScrum.Controllers.About
         [Route("about")]
         public ActionResult Home()
         {
+            ViewBag.Link = "About";
             return View();
         }
     }

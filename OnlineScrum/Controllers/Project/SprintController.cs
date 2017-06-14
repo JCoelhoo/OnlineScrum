@@ -44,14 +44,14 @@ namespace OnlineScrum.Controllers
             }
 
             SharedManager.DailyScrumMeeting(proj, sprint, false);
-            var meetings = MeetingManager.GetMeetingsByEmail(user.Email, sprint.SprintID).OrderBy(m => m.Time).ToList();
+            var meetings = MeetingManager.GetMeetingsByEmail(user.Email, sprint.SprintID);
             //waits certan time and run the code
             Task.Delay(ts).ContinueWith((x) => SharedManager.DailyScrumMeeting(proj, sprint));
             
             ViewBag.Items = SprintManager.GetItemsFromSprint(sprint.Items);
             ViewBag.Sprint = sprint;
             ViewBag.Short = true;
-            ViewBag.Meetings = meetings;
+            ViewBag.Meetings = meetings.Where(m => m.Time > DateTime.Now).Take(5).OrderBy(m => m.Time).ToList();
             ViewBag.ScrumMaster = proj.ScrumMaster;
             ViewBag.Type = user.Role;
             ViewBag.Members = SharedManager.SplitString(proj.DevTeam);
@@ -235,8 +235,17 @@ namespace OnlineScrum.Controllers
                 return PartialView("MeetingList");
             }
 
-            ViewBag.Error = MeetingManager.AddMeeting(meeting, id);
+            if (meeting.Developer == "everyone@everyone.os")
+            {
+                meeting.Developer = proj.DevTeam;
+                ViewBag.Error = MeetingManager.AddMeeting(meeting, id);
+            }
+            else
+            {
+                ViewBag.Error = MeetingManager.AddMeeting(meeting, id);
+            }
             ViewBag.Meetings = (MeetingManager.GetMeetingsByEmail(user.Email, id)).OrderBy(m => m.Time).ToList();
+            Session["Meetings"] = MeetingManager.GetMeetingsByEmail(user.Email, -1);
             ViewBag.Members = SharedManager.SplitString(proj.DevTeam);
             ViewBag.ScrumMaster = proj.ScrumMaster;
             ViewBag.Short = false;
