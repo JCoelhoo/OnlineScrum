@@ -80,7 +80,7 @@
                     }
                 </tr>
             }
-        @using (Ajax.BeginForm("Create_Meeting", "Sprint", new AjaxOptions {HttpMethod = "POST", UpdateTargetId = "empList"}))
+        @using (Ajax.BeginForm("Create_Meeting", "Sprint", new AjaxOptions {HttpMethod = "POST", UpdateTargetId = "empList"}, new {id = "add"}))
         {
             if (!ViewBag.Short)
              {
@@ -135,7 +135,7 @@
                          @Html.ValidationMessageFor(model => model.Location)
                      </td>
 
-                     <td><input class='col-md-12 btn btn-info' id='submitMember' type=submit value='Add'></td>
+                     <td><input class='col-md-12 btn btn-info' form="add" id='submitMember' type=submit value='Add'></td>
                      <td></td>
                  </tr>
              }

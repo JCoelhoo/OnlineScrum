@@ -1,10 +1,13 @@
-﻿@if (@ViewBag.Error != "" && @ViewBag.Error != null)
+﻿@if (@ViewBag.Error == null)
+{
+    
+}else if (@ViewBag.Error != "")
 {
     <div class="alert alert-danger fade in">
         <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
         <strong>Error!</strong> @ViewBag.Error
     </div>
-}
+    }
 else {
     <div class="alert alert-success fade in">
         <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>

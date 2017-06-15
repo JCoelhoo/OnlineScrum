@@ -160,7 +160,7 @@ namespace OnlineScrum.BusinessLayer
             }
         }
 
-        public static void Add_Meeting_Notes(Meeting meeting)
+        public static Meeting Add_Meeting_Notes(Meeting meeting)
         {
             try
             {
@@ -170,9 +170,9 @@ namespace OnlineScrum.BusinessLayer
                         where meet.MeetingID == meeting.MeetingID
                         select meet).FirstOrDefault();
                     if (meetingReturn == null)
-                        return;
+                        return new Meeting();
 
-                    if (meeting.MeetingType == "Scrum Meeting")
+                    if (meetingReturn.MeetingType == "Scrum Meeting")
                     {
                         meetingReturn.Notes = meeting.Notes;
                     }
@@ -182,13 +182,13 @@ namespace OnlineScrum.BusinessLayer
                     }
                     context.SaveChanges();
 
-                    return;
+                    return meetingReturn;
                 }
             }
             catch (Exception e)
             {
                 SharedManager.Log(e, "Add_Meeting_Notes");
-                return;
+                return new Meeting();
             }
         }
 
@@ -274,6 +274,8 @@ namespace OnlineScrum.BusinessLayer
                         itemRet.DateClosed = DateTime.Now;
                     else
                         itemRet.DateClosed = null;
+
+                    itemRet.AssignedTo = item.AssignedTo;
 
                     context.SaveChanges();
 

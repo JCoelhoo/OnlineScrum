@@ -83,6 +83,7 @@ namespace OnlineScrum.Controllers
             ViewBag.Meetings = MeetingManager.GetMeetingsByEmail(user.Email, sprint.SprintID).OrderBy(m => m.Time).ToList();
             ViewBag.ScrumMaster = proj.ScrumMaster;
             ViewBag.Type = user.Role;
+            ViewBag.Error = null;
             ViewBag.Members = SharedManager.SplitString(proj.DevTeam);
             return View();
         }
@@ -105,6 +106,7 @@ namespace OnlineScrum.Controllers
             }
             var sprint = sprints.First(m => m.SprintID == id);
             ViewBag.Sprint = sprint;
+            ViewBag.Members = SharedManager.SplitString(proj.DevTeam);
             ViewBag.Items = SprintManager.GetItemsFromSprint(sprint.Items).OrderByDescending(m => m.AssignedTo == user.Email).ThenBy(m => m.ItemStatus).ToList();
             return View();
         }
@@ -301,18 +303,14 @@ namespace OnlineScrum.Controllers
             if (sprint == null)
                 return RedirectToAction("Home", "Project");
 
-            if (!ModelState.IsValid)
-            {
-                return PartialView("Error");
-            }
-
             ViewBag.Error = MeetingManager.AddMeetingQuestions(id, meeting);
-            return PartialView("Error");
+            ViewBag.Meetings = (MeetingManager.GetMeetingsByEmail(user.Email, id)).OrderBy(m => m.Time).ToList();
+            return PartialView("ModalView");
         }
 
-        [Route("project/sprint/{id:int}/change_status")]
+        [Route("project/sprint/{id:int}/change_item")]
         [HttpPost]
-        public ActionResult Change_Status(int id, Item item)
+        public ActionResult Change_Item(int id, Item item)
         {
             var user = (User)Session["UserInfo"];
             if (user == null)
@@ -363,8 +361,9 @@ namespace OnlineScrum.Controllers
             if (sprint == null)
                 return RedirectToAction("Home", "Project");
 
-            SprintManager.Add_Meeting_Notes(meeting);
-            return null;
+            
+            ViewBag.Meeting = SprintManager.Add_Meeting_Notes(meeting);
+            return PartialView("OtherMeetModalBody");
         }
     }
 }
