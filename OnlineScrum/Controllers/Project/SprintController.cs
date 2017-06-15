@@ -47,7 +47,7 @@ namespace OnlineScrum.Controllers
             var meetings = MeetingManager.GetMeetingsByEmail(user.Email, sprint.SprintID);
             //waits certan time and run the code
             Task.Delay(ts).ContinueWith((x) => SharedManager.DailyScrumMeeting(proj, sprint));
-            
+
             ViewBag.Items = SprintManager.GetItemsFromSprint(sprint.Items);
             ViewBag.Sprint = sprint;
             ViewBag.Short = true;
@@ -115,7 +115,7 @@ namespace OnlineScrum.Controllers
             var user = (User)Session["UserInfo"];
             if (user == null)
                 return RedirectToAction("Login", "Login");
-            var proj = (Project) Session["Project"];
+            var proj = (Project)Session["Project"];
             ViewBag.Link = "Project";
             if (proj == null)
                 return RedirectToAction("Home", "Dashboard");
@@ -138,7 +138,7 @@ namespace OnlineScrum.Controllers
             var user = (User)Session["UserInfo"];
             if (user == null)
                 return RedirectToAction("Login", "Login");
-            var proj = (Project) Session["Project"];
+            var proj = (Project)Session["Project"];
             ViewBag.Link = "Project";
             if (proj == null)
                 return RedirectToAction("Home", "Dashboard");
@@ -158,7 +158,7 @@ namespace OnlineScrum.Controllers
             var user = (User)Session["UserInfo"];
             if (user == null)
                 return RedirectToAction("Login", "Login");
-            var proj = (Project) Session["Project"];
+            var proj = (Project)Session["Project"];
             ViewBag.Link = "Project";
             if (proj == null)
                 return RedirectToAction("Home", "Dashboard");
@@ -177,7 +177,7 @@ namespace OnlineScrum.Controllers
             var user = (User)Session["UserInfo"];
             if (user == null)
                 return RedirectToAction("Login", "Login");
-            var proj = (Project) Session["Project"];
+            var proj = (Project)Session["Project"];
             ViewBag.Link = "Project";
             if (proj == null)
                 return RedirectToAction("Home", "Dashboard");
@@ -208,7 +208,7 @@ namespace OnlineScrum.Controllers
             var user = (User)Session["UserInfo"];
             if (user == null)
                 return RedirectToAction("Login", "Login");
-            var proj = (Project) Session["Project"];
+            var proj = (Project)Session["Project"];
             ViewBag.Link = "Project";
             if (proj == null)
                 return RedirectToAction("Home", "Dashboard");
@@ -260,7 +260,7 @@ namespace OnlineScrum.Controllers
             var user = (User)Session["UserInfo"];
             if (user == null)
                 return RedirectToAction("Login", "Login");
-            var proj = (Project) Session["Project"];
+            var proj = (Project)Session["Project"];
             ViewBag.Link = "Project";
             if (proj == null)
                 return RedirectToAction("Home", "Dashboard");
@@ -284,7 +284,7 @@ namespace OnlineScrum.Controllers
             var user = (User)Session["UserInfo"];
             if (user == null)
                 return RedirectToAction("Login", "Login");
-            var proj = (Project) Session["Project"];
+            var proj = (Project)Session["Project"];
             ViewBag.Link = "Project";
             if (proj == null)
                 return RedirectToAction("Home", "Dashboard");
@@ -303,7 +303,7 @@ namespace OnlineScrum.Controllers
             var user = (User)Session["UserInfo"];
             if (user == null)
                 return RedirectToAction("Login", "Login");
-            var proj = (Project) Session["Project"];
+            var proj = (Project)Session["Project"];
             ViewBag.Link = "Project";
             if (proj == null)
                 return RedirectToAction("Home", "Dashboard");
@@ -322,7 +322,7 @@ namespace OnlineScrum.Controllers
             var user = (User)Session["UserInfo"];
             if (user == null)
                 return RedirectToAction("Login", "Login");
-            var proj = (Project) Session["Project"];
+            var proj = (Project)Session["Project"];
             ViewBag.Link = "Project";
             if (proj == null)
                 return RedirectToAction("Home", "Dashboard");

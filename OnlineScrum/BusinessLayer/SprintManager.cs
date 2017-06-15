@@ -12,11 +12,11 @@ namespace OnlineScrum.BusinessLayer
             try
             {
                 var returnSprint = new Sprint();
-                using(var context = new DatabaseContext())
+                using (var context = new DatabaseContext())
                 {
                     var sprintResult = (from sprint in context.Sprints
-                                      where sprint.SprintID == id
-                                      select sprint).FirstOrDefault();
+                        where sprint.SprintID == id
+                        select sprint).FirstOrDefault();
 
                     if (sprintResult == null)
                         return returnSprint;
@@ -30,7 +30,8 @@ namespace OnlineScrum.BusinessLayer
                     //returnSprint.ItemsList = sprintResult.Items.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries).ToList();
                     return returnSprint;
                 }
-            } catch (Exception e)
+            }
+            catch (Exception e)
             {
                 SharedManager.Log(e, "GetSprintFromID");
                 return null;
@@ -51,10 +52,58 @@ namespace OnlineScrum.BusinessLayer
                     using (var dbTransaction = context.Database.BeginTransaction())
                     {
                         try
-                        {                            
-                            
+                        {
+
                             item.ItemStatus = item.ItemStatus ?? "Developing";
                             context.Items.Add(item);
+                            context.SaveChanges();
+                            //FIXME sprintID is attributed when Add()
+                            if (sprint != null)
+                            {
+                                //TODO check dates of start and finish
+                                var number = (sprint.Items == null)
+                                    ? 1
+                                    : (SharedManager.SplitString(sprint.Items)).Count() + 1;
+                                if (number == -1) return SharedManager.DatabaseError;
+                                //check assignedto member of sprint
+                                item.ItemNumber = number;
+                                if (AddItemToSprint(sprint.SprintID, item.ItemID) != "")
+                                {
+                                    throw new Exception();
+                                }
+                            }
+                            dbTransaction.Commit();
+
+                            return "";
+                        }
+                        catch (Exception e)
+                        {
+                            dbTransaction.Rollback();
+                            SharedManager.Log(e, "AddItem");
+                            return SharedManager.DatabaseError;
+                        }
+                    }
+                }
+            }
+        }
+
+        public static string ChangeItem(Sprint sprint, Item item)
+        {
+            if (item == null)
+            {
+                return "Error when adding. Please try again";
+            }
+            else
+            {
+
+                using (var context = new DatabaseContext())
+                {
+                    using (var dbTransaction = context.Database.BeginTransaction())
+                    {
+                        try
+                        {
+                            item = context.Items.Where(m => m.ItemID == item.ItemID).First();
+                            item.SprintlessProjectID = 0;
                             context.SaveChanges();
                             //FIXME sprintID is attributed when Add()
                             if (sprint != null)
@@ -93,8 +142,8 @@ namespace OnlineScrum.BusinessLayer
                 using (var context = new DatabaseContext())
                 {
                     var sprintReturn = (from sprint in context.Sprints
-                                where sprint.SprintID == sprintID
-                                select sprint).FirstOrDefault();
+                        where sprint.SprintID == sprintID
+                        select sprint).FirstOrDefault();
                     if (sprintReturn == null)
                         return "Sprint does not exist";
 
@@ -165,8 +214,8 @@ namespace OnlineScrum.BusinessLayer
                 {
                     var itemList = SharedManager.SplitString(items);
                     var itemRet = (from item in context.Items
-                                   where itemList.Contains(item.ItemID.ToString())
-                                   select item).ToList();
+                        where itemList.Contains(item.ItemID.ToString())
+                        select item).ToList();
 
                     return itemRet;
                 }
@@ -185,8 +234,8 @@ namespace OnlineScrum.BusinessLayer
                 using (var context = new DatabaseContext())
                 {
                     var sprintResult = (from sprint in context.Sprints
-                                        where sprint.SprintID == sprintID
-                                        select sprint).First();
+                        where sprint.SprintID == sprintID
+                        select sprint).First();
 
                     sprintResult.Meetings = (sprintResult.Meetings == "") ? meetingID : ',' + sprintResult.Meetings;
                     context.SaveChanges();
@@ -279,5 +328,5 @@ namespace OnlineScrum.BusinessLayer
 }
 
 
-    
+
 

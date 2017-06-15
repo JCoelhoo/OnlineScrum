@@ -13,18 +13,18 @@ namespace OnlineScrum.Controllers
         [HttpGet]
         public ActionResult Home(string projectName)
         {
-            var user = (User) Session["UserInfo"];
+            var user = (User)Session["UserInfo"];
             if (user == null)
                 return RedirectToAction("Login", "Login");
             Project proj = null;
-            if (projectName == null && (Project) Session["Project"] == null)
+            if (projectName == null && (Project)Session["Project"] == null)
                 return RedirectToAction("Home", "Dashboard");
-            else if ((Project) Session["Project"] != null && projectName == null)
+            else if ((Project)Session["Project"] != null && projectName == null)
             {
                 proj = ProjectManager.GetProjectsByEmail(user.Email).First(p => p.Name == ((Project)Session["Project"]).Name);
                 Session["Project"] = proj;
             }
-            else if ((Project) Session["Project"] == null && projectName != null)
+            else if ((Project)Session["Project"] == null && projectName != null)
             {
                 proj = ProjectManager.GetProjectsByEmail(user.Email).First(p => p.Name == projectName);
                 Session["Project"] = proj;
@@ -51,15 +51,15 @@ namespace OnlineScrum.Controllers
             //ViewBag.Project = proj;
             ViewBag.Sprints = ProjectManager.GetSprintFromProject(proj.Sprints).OrderByDescending(m => m.FinishDate)
                 .ThenBy(x => x.StartDate).ToList();
-            var dict  = new Dictionary<Sprint, List<Item>>();
-            foreach (var sprint in ((List<Sprint>)ViewBag.Sprints).OrderBy(m=>m.FinishDate))
+            var dict = new Dictionary<Sprint, List<Item>>();
+            foreach (var sprint in ((List<Sprint>)ViewBag.Sprints).OrderBy(m => m.FinishDate))
             {
                 dict.Add(sprint, SprintManager.GetItemsFromSprint(sprint.Items));
             }
             ViewBag.ItemsSprints = dict;
             ViewBag.ProjectName = proj.Name;
             var memberList = SharedManager.SplitString(proj.DevTeam);
-            memberList.Insert(0,proj.ScrumMaster);
+            memberList.Insert(0, proj.ScrumMaster);
             ViewBag.MemberList = memberList;
             Session["Project"] = proj;
             Session["Meetings"] = MeetingManager.GetMeetingsByEmail(user.Email, -1);
@@ -79,7 +79,7 @@ namespace OnlineScrum.Controllers
             var user = (User)Session["UserInfo"];
             if (user == null)
                 return RedirectToAction("Login", "Login");
-            var proj = (Project) Session["Project"];
+            var proj = (Project)Session["Project"];
             ViewBag.Link = "Project";
             if (proj == null)
                 return RedirectToAction("Home", "Dashboard");
@@ -91,7 +91,7 @@ namespace OnlineScrum.Controllers
                 sprint.Add(s, SprintManager.GetItemsFromSprint(s.Items).OrderByDescending(m => m.AssignedTo == user.Email).ThenBy(m => m.ItemStatus).ToList());
             }
             ViewBag.Sprints = sprint;
-            ViewBag.SprintlessItems = ProjectManager.GetSprintlessItems();
+            ViewBag.SprintlessItems = ProjectManager.GetSprintlessItems(proj);
             ViewBag.SprintsAvailable = sprint.Keys.ToList();
             return View();
         }
@@ -158,7 +158,7 @@ namespace OnlineScrum.Controllers
             {
                 return View();
             }
-
+            item.SprintlessProjectID = proj.ProjectID;
             SprintManager.AddItem(null, item);
 
             return RedirectToAction("Items", "Project");
@@ -167,7 +167,7 @@ namespace OnlineScrum.Controllers
         [Route("project/create_sprint")]
         public ActionResult Create_Sprint()
         {
-            var user = (User) Session["UserInfo"];
+            var user = (User)Session["UserInfo"];
             if (user == null)
                 return RedirectToAction("Login", "Login");
             var proj = (Project)Session["Project"];
@@ -182,7 +182,7 @@ namespace OnlineScrum.Controllers
         [HttpPost]
         public ActionResult Create_Sprint(Sprint sprint)
         {
-            var user = (User) Session["UserInfo"];
+            var user = (User)Session["UserInfo"];
             if (user == null)
                 return RedirectToAction("Login", "Login");
             ViewBag.Link = "Project";

@@ -243,21 +243,21 @@
     <Content Include="Views\Dashboard\Create_Project.cshtml" />
     <Content Include="Views\Project\Home.cshtml" />
     <Content Include="Views\Project\Create_Sprint.cshtml" />
-    <Content Include="Views\Sprint\Home.cshtml" />
-    <Content Include="Views\Sprint\Create_Item.cshtml" />
     <Content Include="Views\About\Home.cshtml" />
     <Content Include="Views\Project\MemberList.cshtml" />
-    <Content Include="Views\Sprint\MeetingList.cshtml" />
-    <Content Include="Views\Sprint\Error.cshtml" />
-    <Content Include="Views\Sprint\Meetings.cshtml" />
-    <Content Include="Views\Sprint\ModalView.cshtml" />
-    <Content Include="Views\Sprint\Items.cshtml" />
-    <Content Include="Views\Sprint\ItemNoteModal.cshtml" />
-    <Content Include="Views\Sprint\ItemModalBody.cshtml" />
-    <Content Include="Views\Sprint\Statistics.cshtml" />
-    <Content Include="Views\Sprint\Settings.cshtml" />
     <Content Include="Views\Project\Items.cshtml" />
     <Content Include="Views\Project\Create_Item.cshtml" />
+    <Content Include="Views\Sprint\Create_Item.cshtml" />
+    <Content Include="Views\Sprint\Error.cshtml" />
+    <Content Include="Views\Sprint\Home.cshtml" />
+    <Content Include="Views\Sprint\ItemModalBody.cshtml" />
+    <Content Include="Views\Sprint\ItemNoteModal.cshtml" />
+    <Content Include="Views\Sprint\Items.cshtml" />
+    <Content Include="Views\Sprint\MeetingList.cshtml" />
+    <Content Include="Views\Sprint\Meetings.cshtml" />
+    <Content Include="Views\Sprint\ModalView.cshtml" />
+    <Content Include="Views\Sprint\Settings.cshtml" />
+    <Content Include="Views\Sprint\Statistics.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

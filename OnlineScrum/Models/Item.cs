@@ -30,7 +30,7 @@ namespace OnlineScrum.Models
         public string AssignedTo { get; set; }
 
         [Column("EstimatedEffort")]
-        [Range(1,5)]
+        [Range(1, 5)]
         [Required]
         [Display(Name = "Estimated Effort")]
         public int EstimatedEffort { get; set; }
@@ -40,5 +40,8 @@ namespace OnlineScrum.Models
 
         [Column("DateClosed")]
         public DateTime? DateClosed { get; set; }
+
+        [Column("Sprintless")]
+        public int SprintlessProjectID { get; set; }
     }
 }

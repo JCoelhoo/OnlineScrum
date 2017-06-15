@@ -83,8 +83,8 @@ namespace OnlineScrum.BusinessLayer
                 using (var context = new DatabaseContext())
                 {
                     var meetingRet = (from meet in context.Meetings
-                                       where (meet.MeetingID == meeting.MeetingID) && meet.SprintID == id
-                                       select meet).First();
+                        where (meet.MeetingID == meeting.MeetingID) && meet.SprintID == id
+                        select meet).First();
 
                     meetingRet.TodayQuestion = meeting.TodayQuestion;
                     meetingRet.YesterdayQuestion = meeting.YesterdayQuestion;

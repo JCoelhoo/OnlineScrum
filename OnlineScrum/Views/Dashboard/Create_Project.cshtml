@@ -18,43 +18,43 @@
             <div class="row">
                 <div class="form-group row" style="display: inline">
 
-                    @Html.LabelFor(model => model.Name, new {@class = "col-md-2 col-form-label"})
+                    @Html.LabelFor(model => model.Name, new { @class = "col-md-2 col-form-label" })
                 </div>
                 <div style="display: inline" class="col-md-10">
-                    @Html.TextBoxFor(model => model.Name, new {@class = "form-control"})
+                    @Html.TextBoxFor(model => model.Name, new { @class = "form-control" })
                     @Html.ValidationMessageFor(model => model.Name)
                 </div>
-                <br/>
-                <br/>
+                <br />
+                <br />
 
                 <div class="form-group row" style="display: inline">
 
-                    @Html.LabelFor(model => model.Description, new {@class = "col-md-2 col-form-label"})
+                    @Html.LabelFor(model => model.Description, new { @class = "col-md-2 col-form-label" })
                 </div>
                 <div style="display: inline" class="col-md-10">
-                    @Html.TextAreaFor(model => model.Description, new {@class = "form-control"})
+                    @Html.TextAreaFor(model => model.Description, new { @class = "form-control" })
                     @Html.ValidationMessageFor(model => model.Description)
                 </div>
-                <br/>
-                <br/>
+                <br />
+                <br />
 
                 <div class="form-group row" style="display: inline">
 
-                    @Html.LabelFor(model => model.DevTeamList, new {@class = "col-md-3 col-form-label"})
+                    @Html.LabelFor(model => model.DevTeamList, new { @class = "col-md-3 col-form-label" })
                     <p class="glyphicon glyphicon-plus-sign" onclick="myFunction()"></p>
                 </div>
                 @{
                     for (var i = 0; i < 20; i++)
                     {
                         <div style="display: @(i == 0 ? "inline" : "none")" class="col-md-10" id="member@(i)">
-                            @Html.TextBoxFor(model => model.DevTeamList[i], new {@class = "form-control", @placeholder = "Email"})
+                            @Html.TextBoxFor(model => model.DevTeamList[i], new { @class = "form-control", @placeholder = "Email" })
                             @Html.ValidationMessageFor(model => model.DevTeamList)
                         </div>
                     }
                 }
-                <br/>
-                <br/>
-            </div><br/>
+                <br />
+                <br />
+            </div><br />
 
             <div class="row">
                 @if (ViewBag.Error != "" && ViewBag.Error != null)
@@ -66,10 +66,10 @@
 
                 }
             </div>
-            <input type="submit" value="Submit" class="btn btn-primary"/>
+            <input type="submit" value="Submit" class="btn btn-primary" />
         </div>
 
-    }
+                    }
 </div>
 <div class="well col-md-4">
     <p>According to the <a href="https://www.scrumalliance.org/"><i>ScrumAlliance</i></a>, development team are between 5 and 9 people.</p>

@@ -407,7 +407,7 @@ namespace OnlineScrum.Controllers
                     EstimatedEffort = 4,
                     ItemID = 30,
                     ItemName = "Meeting Table",
-                    ItemStatus = "Testing",
+                    ItemStatus = "Testing"
                 };
 
                 var s1 = new Item
@@ -417,6 +417,7 @@ namespace OnlineScrum.Controllers
                     ItemID = 28,
                     ItemName = "Migrate to Cloud",
                     ItemStatus = "Developing",
+                    SprintlessProjectID = 1
                 };
 
                 var s2 = new Item
@@ -425,7 +426,8 @@ namespace OnlineScrum.Controllers
                     EstimatedEffort = 4,
                     ItemID = 29,
                     ItemName = "Language Support",
-                    ItemStatus = "Development",
+                    ItemStatus = "Developing",
+                    SprintlessProjectID = 1
                 };
 
                 var s3 = new Item
@@ -434,7 +436,8 @@ namespace OnlineScrum.Controllers
                     EstimatedEffort = 3,
                     ItemID = 30,
                     ItemName = "Contact Support",
-                    ItemStatus = "Development",
+                    ItemStatus = "Developing",
+                    SprintlessProjectID = 1
                 };
 
                 ProjectManager.AddProject(proj, "1@g.c");

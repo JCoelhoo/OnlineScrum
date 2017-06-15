@@ -1,8 +1,7 @@
-﻿using OnlineScrum.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-
+using OnlineScrum.Models;
 
 namespace OnlineScrum.BusinessLayer
 {
@@ -16,42 +15,42 @@ namespace OnlineScrum.BusinessLayer
             {
                 return "Error when adding. Please try again";
             }
-            else
+            try
             {
-                try
+                using (var context = new DatabaseContext())
                 {
-                    using (var context = new DatabaseContext())
+                    var proj = (from p in context.Projects where p.Name == project.Name select p).FirstOrDefault();
+                    if (proj != null)
+                        return project.Name + " is already being used";
+                    scrumMaster = project.ScrumMaster ?? scrumMaster;
+                    var insertProject = new Project
                     {
-                        var proj = (from p in context.Projects where p.Name == project.Name select p).FirstOrDefault();
-                        if (proj != null)
-                            return project.Name + " is already being used";
-                        scrumMaster = project.ScrumMaster ?? scrumMaster;
-                        var insertProject = new Project
-                        {
-                            Name = project.Name, ScrumMaster = scrumMaster, DevTeam = project.DevTeam, Description = project.Description
-                        };
+                        Name = project.Name,
+                        ScrumMaster = scrumMaster,
+                        DevTeam = project.DevTeam,
+                        Description = project.Description
+                    };
 
-                        if (!UserManager.CheckExistingEmail(insertProject.ScrumMaster))
-                            return insertProject.ScrumMaster + " does not exist";
-                        insertProject.DevTeam = String.Join(",", project.DevTeamList.Where(s => !String.IsNullOrWhiteSpace(s)));
-                        foreach (var dev in SharedManager.SplitString(insertProject.DevTeam))
-                        {
-                            //if (String.IsNullOrEmpty(dev)) continue; 
-                            if (scrumMaster == dev)
-                                return dev + " is the Scrum Master";
-                            if (!UserManager.CheckExistingEmail(dev))
-                                return dev + " does not exist";
-                        }
-                        context.Projects.Add(insertProject);
-                        context.SaveChanges();
-                        return "";
+                    if (!UserManager.CheckExistingEmail(insertProject.ScrumMaster))
+                        return insertProject.ScrumMaster + " does not exist";
+                    insertProject.DevTeam = String.Join(",", project.DevTeamList.Where(s => !String.IsNullOrWhiteSpace(s)));
+                    foreach (var dev in SharedManager.SplitString(insertProject.DevTeam))
+                    {
+                        //if (String.IsNullOrEmpty(dev)) continue; 
+                        if (scrumMaster == dev)
+                            return dev + " is the Scrum Master";
+                        if (!UserManager.CheckExistingEmail(dev))
+                            return dev + " does not exist";
                     }
+                    context.Projects.Add(insertProject);
+                    context.SaveChanges();
+                    return "";
                 }
-                catch (Exception e)
-                {
-                    SharedManager.Log(e, "AddProject");
-                    return SharedManager.DatabaseError;
-                }
+            }
+            catch (Exception e)
+            {
+                SharedManager.Log(e, "AddProject");
+                return SharedManager.DatabaseError;
             }
         }
 
@@ -62,7 +61,7 @@ namespace OnlineScrum.BusinessLayer
                 using (var context = new DatabaseContext())
                 {
                     var projects = (from proj in context.Projects
-                                    select proj).ToList();
+                        select proj).ToList();
                     Project project = null;
                     foreach (var proj in projects)
                     {
@@ -94,7 +93,15 @@ namespace OnlineScrum.BusinessLayer
                         if (s == null) continue;
                         if (!SharedManager.SplitString(s.Items).Contains(i.Item))
                         {
-                            SprintManager.AddItem(s, SprintManager.GetItemFromID(Convert.ToInt32(i.Item)));
+                            var it = SprintManager.GetItemFromID(Convert.ToInt32(i.Item));
+                            if (it.SprintlessProjectID == 0)
+                            {
+                                SprintManager.AddItem(s, it);
+                            }
+                            else
+                            {
+                                SprintManager.ChangeItem(s, it);
+                            }
                         }
                     }
                     context.SaveChanges();
@@ -114,37 +121,33 @@ namespace OnlineScrum.BusinessLayer
             {
                 return "Error when adding. Please try again";
             }
-            else
+            using (var context = new DatabaseContext())
             {
-
-                using (var context = new DatabaseContext())
+                using (var dbTransaction = context.Database.BeginTransaction())
                 {
-                    using (var dbTransaction = context.Database.BeginTransaction())
+                    try
                     {
-                        try
-                        {
-                            //var sha = new SHA1CryptoServiceProvider();
-                            //var password = Encoding.ASCII.GetBytes(lecturer.Password);    
-                            //lecturer.Password = Encoding.Default.GetString(sha.ComputeHash(password));C:\Users\João\Desktop\OnlineScrum\OnlineScrum\BusinessLayer\UserManager.cs
-                            //TODO check dates of start and finish
-                            var number = (proj.Sprints == null)
-                                ? 1
-                                : (SharedManager.SplitString(proj.Sprints)).Count() + 1;
-                            sprint.SprintNumber = number;
-                            context.Sprints.Add(sprint);
-                            context.SaveChanges();
-                            //FIXME sprintID is attributed when Add()
-                            AddSprintToProject(proj.ProjectID, sprint.SprintID);
-                            dbTransaction.Commit();
+                        //var sha = new SHA1CryptoServiceProvider();
+                        //var password = Encoding.ASCII.GetBytes(lecturer.Password);    
+                        //lecturer.Password = Encoding.Default.GetString(sha.ComputeHash(password));C:\Users\João\Desktop\OnlineScrum\OnlineScrum\BusinessLayer\UserManager.cs
+                        //TODO check dates of start and finish
+                        var number = (proj.Sprints == null)
+                            ? 1
+                            : (SharedManager.SplitString(proj.Sprints)).Count() + 1;
+                        sprint.SprintNumber = number;
+                        context.Sprints.Add(sprint);
+                        context.SaveChanges();
+                        //FIXME sprintID is attributed when Add()
+                        AddSprintToProject(proj.ProjectID, sprint.SprintID);
+                        dbTransaction.Commit();
 
-                            return "";
-                        }
-                        catch (Exception e)
-                        {
-                            dbTransaction.Rollback();
-                            SharedManager.Log(e, "AddSprint");
-                            return SharedManager.DatabaseError;
-                        }
+                        return "";
+                    }
+                    catch (Exception e)
+                    {
+                        dbTransaction.Rollback();
+                        SharedManager.Log(e, "AddSprint");
+                        return SharedManager.DatabaseError;
                     }
                 }
             }
@@ -176,8 +179,8 @@ namespace OnlineScrum.BusinessLayer
                 using (var context = new DatabaseContext())
                 {
                     var proj = (from project in context.Projects
-                                where project.ProjectID == projectID
-                                select project).FirstOrDefault();
+                        where project.ProjectID == projectID
+                        select project).FirstOrDefault();
                     proj.Sprints += "," + sprintID;
                     context.SaveChanges();
 
@@ -197,12 +200,9 @@ namespace OnlineScrum.BusinessLayer
             {
                 if (sprintString == null) return new List<Sprint>();
                 var sprints = SharedManager.SplitString(sprintString);
-                var returnSprint = new Project();
                 using (var context = new DatabaseContext())
                 {
-                    var sprintList = (from sprint in context.Sprints
-                                      where sprints.Contains<string>(sprint.SprintID.ToString())
-                                      select sprint).ToList<Sprint>();
+                    var sprintList = context.Sprints.Where(m => sprints.Any(m2 => m2 == m.SprintID.ToString())).ToList();
 
                     return sprintList;
                 }
@@ -223,8 +223,8 @@ namespace OnlineScrum.BusinessLayer
                 using (var context = new DatabaseContext())
                 {
                     var proj = (from project in context.Projects
-                                where project.ProjectID == projectID
-                                select project).First();
+                        where project.ProjectID == projectID
+                        select project).First();
                     if (proj == null)
                     {
                         return "Project not found";
@@ -254,35 +254,14 @@ namespace OnlineScrum.BusinessLayer
             }
         }
 
-        public static List<Item> GetSprintlessItems()
+        public static List<Item> GetSprintlessItems(Project project)
         {
             try
             {
                 using (var context = new DatabaseContext())
                 {
-                    var sprints = (from s in context.Sprints
-                        select s).ToList();
-                    var items = (from i in context.Items
-                        select i.ItemID).ToList();
-                    var dictionary = new Dictionary<string, bool>();
-                    foreach (var sprint in sprints)
-                    {
-                        foreach (var item in SharedManager.SplitString(sprint.Items ?? ""))
-                        {
-                            if (!dictionary.ContainsKey(item))
-                                dictionary.Add(item, true);
-                        }
-                    }
-
-                    var itemString = "";
-                    foreach(var item in items)
-                    {
-                        if (!dictionary.ContainsKey(item.ToString()))
-                            itemString += item.ToString() + ",";
-
-                    }
-
-                    return SprintManager.GetItemsFromSprint(itemString);
+                    var items = context.Items.Where(m => m.SprintlessProjectID == project.ProjectID).ToList();
+                    return items;
                 }
             }
             catch (Exception e)
