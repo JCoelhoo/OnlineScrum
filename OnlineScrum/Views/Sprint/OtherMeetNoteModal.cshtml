@@ -1,0 +1,25 @@
+﻿@using OnlineScrum.Models
+@model Item
+<div>
+    @foreach (Item item in ViewBag.Items)
+    {
+        using (Ajax.BeginForm("Add_Notes", "Sprint", new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "modalUpdate" + @item.ItemID }, new { hidefocus = "hidefocus", @id = "form" + item.ItemID }))
+        {
+            {
+                ViewBag.Item = item;
+            }
+            <div id="modalUpdate@(ViewBag.Item.ItemID)">
+
+                @{ Html.RenderPartial("ItemModalBody", Model, new ViewDataDictionary { { "item", item } }); }
+            </div>
+        }
+    }
+</div>
+
+<script>
+    $(document).ready(function() {
+        $("textarea").each(function () {
+            $(this).val('');
+        });
+    });
+</script>

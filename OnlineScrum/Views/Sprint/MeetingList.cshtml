@@ -34,7 +34,7 @@
                 <td>@meeting.MeetingType</td>
                 <td>@meeting.Location</td>
                 <td>
-                    @if (answered)
+                    @if (answered || meeting.MeetingType != "Scrum Meeting")
                     {
                         <button type="button" class="btn btn-link pull-right" data-toggle="modal" data-target="#modal@(meeting.MeetingID)">
                             @if (meeting.Time < DateTime.Now)

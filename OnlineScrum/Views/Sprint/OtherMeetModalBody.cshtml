@@ -1,0 +1,39 @@
+﻿@using OnlineScrum.Models
+@model OnlineScrum.Models.Meeting
+    <div data-backdrop="false" style="" id="modal@(ViewBag.Meeting.MeetingID)" class="modal fade" role="dialog">
+        <div data-backdrop="false" class="modal-dialog" style="margin-bottom: 150px;margin-right: 150px; margin-left: 150px;width:auto;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Notes</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="text-center">
+                        <div class="pre-scrollable">
+                            @if (@ViewBag.Meeting.MeetingID != null && ViewBag.Meeting.Notes != null)
+                            {
+                                foreach (var note in ((Meeting)ViewBag.Meeting).Notes.Split(new string[] { ".NOTE_SEPARATOR." }, StringSplitOptions.RemoveEmptyEntries))
+                                {
+                                    <p class="container" style="word-break: break-all">@note</p>
+                                    <hr />
+                                }
+                            }
+                        </div>
+
+                        <div class="text-center">
+                            @Html.TextAreaFor(m => m.Notes, new { id = "textarea", @class = "form-control", rows = 5, value = "", style = "min-width: 50%" })
+                            <input style="display: none" id="MeetingID" value="@ViewBag.Meeting.MeetingID" name="MeetingID" />
+                            <br />
+                            <input class="btn btn-info col-md-12" type=submit value="Save"/>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+

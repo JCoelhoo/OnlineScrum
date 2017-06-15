@@ -216,24 +216,23 @@ namespace OnlineScrum.Controllers
             if (sprint == null)
                 return RedirectToAction("Home", "Project");
 
+            ViewBag.Type = user.Role;
+            ViewBag.Short = false;
+            ViewBag.Meetings = (MeetingManager.GetMeetingsByEmail(user.Email, id)).OrderBy(m => m.Time).ToList();
+            ViewBag.Members = SharedManager.SplitString(proj.DevTeam);
+            ViewBag.ScrumMaster = proj.ScrumMaster;
+
             if (!ModelState.IsValid)
             {
-                ViewBag.Meetings = (MeetingManager.GetMeetingsByEmail(user.Email, id)).OrderBy(m => m.Time).ToList();
-                ViewBag.Members = SharedManager.SplitString(proj.DevTeam);
-                ViewBag.ScrumMaster = proj.ScrumMaster;
-                ViewBag.Short = false;
                 return PartialView("MeetingList");
             }
 
             if (meeting.Time.Date > sprint.FinishDate)
             {
-                ViewBag.Meetings = (MeetingManager.GetMeetingsByEmail(user.Email, id)).OrderBy(m => m.Time).ToList();
-                ViewBag.Members = SharedManager.SplitString(proj.DevTeam);
-                ViewBag.ScrumMaster = proj.ScrumMaster;
                 ViewBag.Error = "Meeting date after sprint finish date";
-                ViewBag.Short = false;
                 return PartialView("MeetingList");
             }
+
             meeting.ProjectID = proj.ProjectID;
             if (meeting.Developer == "everyone@everyone.os")
             {
@@ -244,12 +243,12 @@ namespace OnlineScrum.Controllers
             {
                 ViewBag.Error = MeetingManager.AddMeeting(meeting, id);
             }
-            ViewBag.Meetings = (MeetingManager.GetMeetingsByEmail(user.Email, id)).OrderBy(m => m.Time).ToList();
-            Session["Meetings"] = MeetingManager.GetMeetingsByEmail(user.Email, -1, proj.ProjectID);
-            ViewBag.Members = SharedManager.SplitString(proj.DevTeam);
-            ViewBag.ScrumMaster = proj.ScrumMaster;
-            ViewBag.Short = false;
-            //return RedirectToAction("Home", "Sprint");
+            
+            var meetings = (MeetingManager.GetMeetingsByEmail(user.Email, id)).OrderBy(m => m.Time).ToList();
+
+            Session["Meetings"] = meetings;
+            ViewBag.Meetings = meetings;
+
             return PartialView("MeetingList");
         }
 

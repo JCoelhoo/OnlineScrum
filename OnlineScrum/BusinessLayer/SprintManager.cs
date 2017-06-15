@@ -172,7 +172,14 @@ namespace OnlineScrum.BusinessLayer
                     if (meetingReturn == null)
                         return;
 
-                    meetingReturn.Notes = meeting.Notes;
+                    if (meeting.MeetingType == "Scrum Meeting")
+                    {
+                        meetingReturn.Notes = meeting.Notes;
+                    }
+                    else
+                    {
+                        meetingReturn.Notes += ".NOTE_SEPARATOR." + meeting.Notes;
+                    }
                     context.SaveChanges();
 
                     return;
