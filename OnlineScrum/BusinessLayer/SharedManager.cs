@@ -62,7 +62,8 @@ namespace OnlineScrum.BusinessLayer
                     Location = sprint.MeetingLocation,
                     Time = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 8, 0, 0).AddDays(1),
                     ScrumMaster = project.ScrumMaster,
-                    SprintID = sprint.SprintID
+                    SprintID = sprint.SprintID,
+                    ProjectID = project.ProjectID
                 };
                 MeetingManager.AddMeeting(meeting, sprint.SprintID);
             }

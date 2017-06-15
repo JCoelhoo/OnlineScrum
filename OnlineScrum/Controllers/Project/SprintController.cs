@@ -234,10 +234,10 @@ namespace OnlineScrum.Controllers
                 ViewBag.Short = false;
                 return PartialView("MeetingList");
             }
-
+            meeting.ProjectID = proj.ProjectID;
             if (meeting.Developer == "everyone@everyone.os")
             {
-                meeting.Developer = proj.DevTeam;
+                meeting.Developer = "," + proj.DevTeam + ",";
                 ViewBag.Error = MeetingManager.AddMeeting(meeting, id);
             }
             else
@@ -245,7 +245,7 @@ namespace OnlineScrum.Controllers
                 ViewBag.Error = MeetingManager.AddMeeting(meeting, id);
             }
             ViewBag.Meetings = (MeetingManager.GetMeetingsByEmail(user.Email, id)).OrderBy(m => m.Time).ToList();
-            Session["Meetings"] = MeetingManager.GetMeetingsByEmail(user.Email, -1);
+            Session["Meetings"] = MeetingManager.GetMeetingsByEmail(user.Email, -1, proj.ProjectID);
             ViewBag.Members = SharedManager.SplitString(proj.DevTeam);
             ViewBag.ScrumMaster = proj.ScrumMaster;
             ViewBag.Short = false;

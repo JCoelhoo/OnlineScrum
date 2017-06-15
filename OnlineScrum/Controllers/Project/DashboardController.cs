@@ -22,6 +22,7 @@ namespace OnlineScrum.Controllers
                 return View("New_Project");
 
             ViewBag.Projects = ProjectManager.GetProjectsByEmail(user.Email);
+            Session["Meetings"] = null;
             return View();
         }
 

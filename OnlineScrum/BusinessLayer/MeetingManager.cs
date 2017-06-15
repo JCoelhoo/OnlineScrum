@@ -45,7 +45,7 @@ namespace OnlineScrum.BusinessLayer
             }
         }
 
-        public static List<Meeting> GetMeetingsByEmail(string email, int sprintID)
+        public static List<Meeting> GetMeetingsByEmail(string email, int sprintID, int projectID = 0)
         {
             try
             {
@@ -55,15 +55,16 @@ namespace OnlineScrum.BusinessLayer
                     if (sprintID == -1)
                     {
                         meetingList = (from meeting in context.Meetings
-                            where (meeting.Developer == email || meeting.ScrumMaster == email || meeting.Developer.Contains(email))
-                            select meeting).ToList();
+                                       where ((meeting.Developer == email || meeting.ScrumMaster == email ||
+                                              meeting.Developer.Contains("," + email + ",")) && meeting.ProjectID == projectID)
+                                       select meeting).ToList();
                     }
                     else
                     {
                         meetingList = (from meeting in context.Meetings
-                            where (meeting.Developer == email || meeting.ScrumMaster == email || meeting.Developer.Contains(email)) &&
-                                  meeting.SprintID == sprintID
-                            select meeting).ToList();
+                                       where (meeting.Developer == email || meeting.ScrumMaster == email || meeting.Developer.Contains("," + email + ",")) &&
+                                             meeting.SprintID == sprintID
+                                       select meeting).ToList();
                     }
 
                     return meetingList;
@@ -83,8 +84,8 @@ namespace OnlineScrum.BusinessLayer
                 using (var context = new DatabaseContext())
                 {
                     var meetingRet = (from meet in context.Meetings
-                        where (meet.MeetingID == meeting.MeetingID) && meet.SprintID == id
-                        select meet).First();
+                                      where (meet.MeetingID == meeting.MeetingID) && meet.SprintID == id
+                                      select meet).First();
 
                     meetingRet.TodayQuestion = meeting.TodayQuestion;
                     meetingRet.YesterdayQuestion = meeting.YesterdayQuestion;
