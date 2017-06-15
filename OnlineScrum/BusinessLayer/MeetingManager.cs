@@ -103,5 +103,28 @@ namespace OnlineScrum.BusinessLayer
             }
         }
 
+        public static string RemoveMeeting(Meeting meeting)
+        {
+            try
+            {
+                using (var context = new DatabaseContext())
+                {
+                    var meetingRet = (from meet in context.Meetings
+                        where (meet.MeetingID == meeting.MeetingID)
+                        select meet).First();
+
+                    context.Meetings.Remove(meetingRet);
+
+                    context.SaveChanges();
+
+                    return "";
+                }
+            }
+            catch (Exception e)
+            {
+                SharedManager.Log(e, "RemoveMeeting");
+                return SharedManager.DatabaseError;
+            }
+        }
     }
 }

@@ -252,6 +252,40 @@ namespace OnlineScrum.Controllers
             return PartialView("MeetingList");
         }
 
+        [Route("project/sprint/{id:int}/remove_meeting")]
+        [HttpPost]
+        public ActionResult Remove_Meeting(int id, Meeting meeting)
+        {
+            var user = (User)Session["UserInfo"];
+            if (user == null)
+                return RedirectToAction("Login", "Login");
+            var proj = (Project)Session["Project"];
+            ViewBag.Link = "Project";
+            if (proj == null)
+                return RedirectToAction("Home", "Dashboard");
+            var sprint = SprintManager.GetSprintFromID(id);
+            if (sprint == null)
+                return RedirectToAction("Home", "Project");
+
+            ViewBag.Type = user.Role;
+            ViewBag.Short = false;
+            ViewBag.Meetings = (MeetingManager.GetMeetingsByEmail(user.Email, id)).OrderBy(m => m.Time).ToList();
+            ViewBag.Members = SharedManager.SplitString(proj.DevTeam);
+            ViewBag.ScrumMaster = proj.ScrumMaster;
+
+            meeting.ProjectID = proj.ProjectID;
+
+            ViewBag.Error = MeetingManager.RemoveMeeting(meeting);
+
+
+            var meetings = (MeetingManager.GetMeetingsByEmail(user.Email, id)).OrderBy(m => m.Time).ToList();
+
+            Session["Meetings"] = meetings;
+            ViewBag.Meetings = meetings;
+
+            return PartialView("MeetingList");
+        }
+
         [Route("project/sprint/{id:int}/answer_questions")]
         [HttpPost]
         public ActionResult Answer_Questions(int id, Meeting meeting)
