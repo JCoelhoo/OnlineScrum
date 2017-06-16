@@ -8,6 +8,7 @@
     <title>@ViewBag.Title - OnlineScrum</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
+    <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
 </head>
 <body>
     <style>
@@ -48,6 +49,10 @@
                     {
                         <li class="@(ViewBag.Link == "Home" ? "active" : "")"><a href="/dashboard" style="@(ViewBag.Link == "Home" ? "background-color: #4CAF50;color: white;" : "")">Home</a></li>
                         <li class="@(ViewBag.Link == "Project" ? "active" : "")"><a href="/project" style="@(ViewBag.Link == "Project" ? "background-color: #4CAF50;color: white;" : "")">Project</a></li>
+                    }
+                    else
+                    {
+                        <li class="@(ViewBag.Link == "DashboardHome" ? "active" : "")"><a href="/home" style="@(ViewBag.Link == "DashboardHome" ? "background-color: #4CAF50;color: white;" : "")">Home</a></li>
                     }
                     <li class="@(ViewBag.Link == "About" ? "active" : "")"><a href="/about" style="@(ViewBag.Link == "About" ? "background-color: #4CAF50;color: white;" : "")">About</a></li>
                 </ul>

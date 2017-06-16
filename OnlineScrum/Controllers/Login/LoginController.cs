@@ -12,7 +12,6 @@ namespace OnlineScrum.Controllers
     {
         [HttpGet]
         [Route("login")]
-        [Route("")]
         public ActionResult Login()
         {
             if (UserManager.RegisterUser(new Register
@@ -540,7 +539,6 @@ namespace OnlineScrum.Controllers
 
         [Route("login")]
         [HttpPost]
-        [Route("")]
         public ActionResult Login(Login login)
         {
             var status = UserManager.Login(login);
@@ -555,7 +553,7 @@ namespace OnlineScrum.Controllers
                 Session["UserInfo"] = user;
                 Session["TimeOfCreation"] = DateTime.Now;
                 SharedManager.RepeatMethod = false;
-                return RedirectToAction("Home", "Dashboard");
+                return RedirectToAction("Dashboard", "Dashboard");
             }
 
             if (status == UserManager.LoginStatus.Fail) ViewBag.Error = "Invalid credentials";
@@ -569,7 +567,7 @@ namespace OnlineScrum.Controllers
         {
             FormsAuthentication.SignOut();
             Session.Abandon();
-            return RedirectToAction("Login");
+            return RedirectToAction("Home", "Dashboard");
         }
     }
 }

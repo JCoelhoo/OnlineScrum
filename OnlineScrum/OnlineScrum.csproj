@@ -239,7 +239,7 @@
     <Content Include="Views\Dashboard\New_Project.cshtml" />
     <Content Include="Views\Login\Login.cshtml" />
     <Content Include="Views\Register\Register.cshtml" />
-    <Content Include="Views\Dashboard\Home.cshtml" />
+    <Content Include="Views\Dashboard\Dashboard.cshtml" />
     <Content Include="Views\Dashboard\Create_Project.cshtml" />
     <Content Include="Views\Project\Home.cshtml" />
     <Content Include="Views\Project\Create_Sprint.cshtml" />
@@ -260,6 +260,7 @@
     <Content Include="Views\Sprint\Statistics.cshtml" />
     <Content Include="Views\Sprint\OtherMeetNoteModal.cshtml" />
     <Content Include="Views\Sprint\OtherMeetModalBody.cshtml" />
+    <Content Include="Views\Dashboard\Home.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

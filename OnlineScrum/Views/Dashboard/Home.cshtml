@@ -1,37 +1,147 @@
-﻿@using OnlineScrum.Models
-
+﻿
 @{
     ViewBag.Title = "Home";
 }
-<div class="col-md-8">
-    <br />
-    @foreach (Project proj in ViewBag.Projects)
-    {
-        <div class="row">
-            <div class="col-md-12"><form action="/project" method="POST">
-                    <h2 class="col-md-7">@proj.Name</h2>
-                    <input style="margin-top: 15px" type="submit" class="pull-right btn col-md-3 btn-default" value="Access project" />
-                    <input type="hidden" name="projectName" value="@proj.Name" />
-                </form>
-            </div>
-            <h4 class="col-md-10">
-                <small>@proj.Description</small>
-            </h4>
-        </div>
-        <hr/>
+
+<style>
+    .affix {
+        position: fixed;
+        top: 70px;
     }
-    
+</style>
+
+<script>
+    $(document).ready(function () {
+        // Add smooth scrolling to all links
+        $("a").on('click', function (event) {
+
+            // Make sure this.hash has a value before overriding default behavior
+            if (this.hash !== "") {
+                // Prevent default anchor click behavior
+                event.preventDefault();
+
+                // Store hash
+                var hash = this.hash;
+
+                // Using jQuery's animate() method to add smooth page scroll
+                // The optional number (800) specifies the number of milliseconds it takes to scroll to the specified area
+                $('html, body').animate({
+                    scrollTop: $(hash).offset().top
+                }, 500, function () {
+
+                    // Add hash (#) to URL when done scrolling (default click behavior)
+                    window.location.hash = hash;
+                });
+            } // End if
+        });
+    });
+</script>
+
+<div id="top" class="jumbotron jumbotron-fluid">
+    <div class="container">
+        <h1 class="text-center">Online Scrum</h1>
+        <p class="lead">Online platform aimed to help students and developers get introduced to the Scrum Methodology.</p>
+    </div>
 </div>
-<br/>
-<div class="col-md-2 col-md-offset-2 pull-right">
-    <a href="/new_project" class="btn btn-primary">Create Project</a>
-</div>
-<div class="well col-md-4">
-    <a href="https://www.scrumalliance.org/">
-        <img class="col-md-offset-3" width="180px" src="http://media.bestofmicro.com/E/Y/599290/original/scrum-alliance-logo.png" />
-    </a>
-    <br />
-    <br/>
-    <p>This platform follows the guidelines set by the <a href="https://www.scrumalliance.org/"><i>ScrumAlliance</i></a>.</p>
-    <p>With this platform you are able get an introduction to the Scrum Methodology which is popular among the professional environment.</p>
-</div>
+
+<body data-spy="scroll" data-target="#myScrollspy" data-offset="50">
+    <div class="col-md-9">
+        <div id="scrum">
+            <h1>Scrum</h1>
+            <p>Scrum is....</p>
+            <p>Scrum is....</p>
+            <p>Scrum is....</p>
+            <p>Scrum is....</p>
+            <p>Scrum is....</p>
+            <p>Scrum is....</p>
+            <p>Scrum is....</p>
+            <p>Scrum is....</p>
+            <p>Scrum is....</p>
+            <p>Scrum is....</p>
+            <p>Scrum is....</p>
+            <p>Scrum is....</p>
+            <p>Scrum is....</p>
+            <p>Scrum is....</p>
+            <p>Scrum is....</p>
+            <p>Scrum is....</p>
+            <p>Scrum iss....</p>
+        </div>
+
+        <div id="features">
+            <h1>Features</h1>
+            <p class="lead">
+                Sprints
+            </p>
+            <div class="container">
+                <p>Scrum iss....</p>
+                <p>Scrum iss....</p>
+                <p>Scrum iss....</p>
+                <p>Scrum iss....</p>
+                <p>Scrum iss....</p>
+                <p>Scrum iss....</p>
+                <p>Scrum iss....</p>
+                <p>Scrum iss....</p>
+                <p>Scrum iss....</p>
+                <p>Scrum iss....</p>
+            </div>
+            
+            <p class="lead">
+                Items
+            </p>
+            <div class="container">
+                <p>Scrum iss....</p>
+                <p>Scrum iss....</p>
+                <p>Scrum iss....</p>
+                <p>Scrum iss....</p>
+                <p>Scrum iss....</p>
+                <p>Scrum iss....</p>
+                <p>Scrum iss....</p>
+                <p>Scrum iss....</p>
+                <p>Scrum iss....</p>
+                <p>Scrum iss....</p>
+            </div>
+            
+            <p class="lead">
+                Meetings
+            </p>
+            <div class="container">
+                <p>Scrum iss....</p>
+                <p>Scrum iss....</p>
+                <p>Scrum iss....</p>
+                <p>Scrum iss....</p>
+                <p>Scrum iss....</p>
+                <p>Scrum iss....</p>
+                <p>Scrum iss....</p>
+                <p>Scrum iss....</p>
+                <p>Scrum iss....</p>
+                <p>Scrum iss....</p>
+            </div>
+        </div>
+
+        <div id="certifications">
+            <p><h1>Certifications  <a href=""><span style="font-size: 15px; top: -15px;" class="glyphicon glyphicon-new-window "></span></a></h1>
+            <p>The <a href="https://scrumalliance.com"><i>ScrumAlliance</i></a> offers certifications to anyone that aims to have the full Scrum experience.</p>
+            <p>Their certifications range from XX-XX and can be very valuable to anyone how aims to be a Scrum Master in the future. </p>
+            <p><a>Click here to find out more!</a></p>
+        </div>
+    </div>
+
+    <div class="col-md-3" id="myScrollspy">
+        <nav data-spy="affix" data-offset-top="250" class="hidden-xs">
+            <ul class="nav nav-pills nav-stacked" id="menu">
+                <li class="active">
+                    <a href="#scrum">Scrum</a>
+                </li>
+                <li>
+                    <a href="#features">Features</a>
+                </li>
+                <li>
+                    <a href="#certifications">Certifications</a>
+                </li>
+
+            </ul>
+            <a class="btn btn-link" href="#top"><small>Back to top</small></a>
+
+        </nav>
+    </div>
+</body>

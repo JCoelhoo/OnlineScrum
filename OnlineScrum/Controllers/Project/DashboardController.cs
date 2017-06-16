@@ -8,9 +8,8 @@ namespace OnlineScrum.Controllers
     public class DashboardController : Controller
     {
         [Route("dashboard")]
-        [Route("home")]
         [HttpGet]
-        public ActionResult Home()
+        public ActionResult Dashboard()
         {
             var user = (User) Session["UserInfo"];
             if (user == null)
@@ -23,6 +22,14 @@ namespace OnlineScrum.Controllers
 
             ViewBag.Projects = ProjectManager.GetProjectsByEmail(user.Email);
             Session["Meetings"] = null;
+            return View();
+        }
+
+        [Route("home")]
+        [Route("")]
+        public ActionResult Home()
+        {
+            ViewBag.Link = "DashboardHome";
             return View();
         }
 
