@@ -12,16 +12,14 @@
 </head>
 <body>
     <style>
-        .navbar-default .navbar-brand:hover,
-        .navbar-default .navbar-brand:focus {
-            color: black;
-            text-decoration: none;
-        }
+        @@media screen and (min-width: 768px) {
+            .modal-lg {
+                width: 1000px;
+            }
 
-        .navbar-default .navbar-nav > li > a:hover,
-        .navbar-default .navbar-nav > li > a:focus {
-            color: black;
-            text-decoration: none;
+            .modal-sm {
+                width: 300px;
+            }
         }
 
         .act {
@@ -33,7 +31,7 @@
             width: 1000px;
         }
     </style>
-    <div class="navbar navbar-inverse navbar-fixed-top" style="background-color: #272b2b">
+    <div class="navbar navbar-inverse navbar-fixed-top" data-container="body"  style="z-index: 1;background-color: #272b2b">
         <div class="container">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -130,6 +128,11 @@
         })
 
     </script>
+
+    <script type="text/javascript">
+        window.cookieconsent_options = { "message": "This website uses cookies to ensure you get the best experience on our website", "dismiss": "Got it!", "learnMore": "More info", "link": null, "theme": "dark-bottom" };
+    </script>
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/1.0.10/cookieconsent.min.js"></script>
 
 </body>
 </html>

@@ -2,11 +2,18 @@
 @{
     ViewBag.Title = "Home";
 }
-
 <style>
     .affix {
         position: fixed;
         top: 70px;
+    }
+
+    *[id]:before {
+        display: block;
+        content: " ";
+        margin-top: -50px;
+        height: 50px;
+        visibility: hidden;
     }
 </style>
 
@@ -46,6 +53,70 @@
 
 <body data-spy="scroll" data-target="#myScrollspy" data-offset="50">
     <div class="col-md-9">
+        <div id="overview">
+            <h1>Overview</h1>
+            <p class="lead">
+                Why?
+            </p>
+            <figure class="container">
+                <div class="col-md-12">
+                    <p>Scrum is one of the most popular framework for software development. While a lot of students get introduced to the methodology during their degrees, a lot of developers are lacking the experience of developing a project following the framework.</p>
+                    <p>
+                        According to a survey by the <a href="https://scrumalliance.com"><i>ScrumAlliance</i></a>, Scrum is used in 89% of the organisations as one of their methodologies.
+                        For this reason, it is paramount that students and developers know it and practise it if they wish to join a professional environment.
+                    </p>
+                </div>
+                <figcaption class="col-md-8 col-md-offset-2">
+                    <img src="~/Images/scrum-usage.png" width="100%" />
+                    <figcaption class="text-center">
+                        <small class="text-muted">TODO REMOVE BG - Which Agile approach is your organization using? - <a href="https://www.scrumalliance.org/scrum/media/ScrumAllianceMedia/Files%20and%20PDFs/State%20of%20Scrum/State0fScrum_2016_FINAL.pdf?aliId=242569079"><i>ScrumAlliance</i></a></small>
+                    </figcaption>
+                </figcaption>
+            </figure>
+            <hr />
+
+            <p class="lead">
+                Platform Features
+            </p>
+            <div class="container">
+                <p>
+                    Online Scrum offers a very intuitive and easy to follow process that allows developers to get a hands on experience.
+                    This is done by providing explicitly guiding the user and educate them through each step of the methodology.
+                </p>
+                <p>
+                    We facilitate the visualisation of the progress of the Sprints and Item progression through <strong>Burndown charts</strong> as well as <strong>Velocity charts</strong>.
+                </p>
+                <div class="col-md-12 row">
+
+                    <figcaption class="col-md-6">
+                        <img src="~/Images/burndown-chart.png" style="width: 100%;height: auto" />
+                        <figcaption class="text-center">
+                            <small class="text-muted">Burndown Chart (Click)</small>
+                        </figcaption>
+                    </figcaption>
+                    <figcaption class="col-md-6">
+                        <img src="~/Images/velocity-chart.png" style="width:100%" />
+                        <figcaption class="text-center">
+                            <small class="text-muted">Velocity Chart (Click)</small>
+                        </figcaption>
+                    </figcaption>
+                </div>
+                <br />
+                <p>
+                    Throughtout the platform, there are <strong>helpful popups</strong> to support the user in learning what the different Scrum Roles, Artifacts and Workflow
+                </p>
+                <p>
+                    We suggest you follow the <strong>recommendations</strong> of the <a href="http://scrumalliance.com"><i>ScrumAlliance</i></a> and provide the relevant information so you can decide if you wish to follow the standard Scrum practices
+                </p>
+                <p>
+                    When you are deviating from the traditional Scrum pratices, we point it so the user is aware of the do's and don's of Scrum.
+                    Any <strong>common mistakes</strong> that are made by the Scrum team are pointed out as to ensure the completion of the project according to the framework.
+                </p>
+                <p>We <strong>automate the process</strong> (e.g. creation of Scrum Meetings) for the user so he follows the Scrum process and <strong>offer tips </strong> that they might have missed.</p>
+                
+            </div>
+        </div>
+
         <div id="scrum">
             <h1>Scrum</h1>
             <p>Scrum is....</p>
@@ -84,7 +155,7 @@
                 <p>Scrum iss....</p>
                 <p>Scrum iss....</p>
             </div>
-            
+
             <p class="lead">
                 Items
             </p>
@@ -100,7 +171,7 @@
                 <p>Scrum iss....</p>
                 <p>Scrum iss....</p>
             </div>
-            
+
             <p class="lead">
                 Meetings
             </p>
@@ -129,7 +200,10 @@
     <div class="col-md-3" id="myScrollspy">
         <nav data-spy="affix" data-offset-top="250" class="hidden-xs">
             <ul class="nav nav-pills nav-stacked" id="menu">
-                <li class="active">
+                <li>
+                    <a href="#overview">Overview</a>
+                </li>
+                <li>
                     <a href="#scrum">Scrum</a>
                 </li>
                 <li>
@@ -145,3 +219,20 @@
         </nav>
     </div>
 </body>
+<script>
+    $(function () {
+        $('img').on('click', function () {
+            $('.enlargeImageModalSource').attr('src', $(this).attr('src'));
+            $('#enlargeImageModal').modal('show');
+        });
+    });
+</script>
+<div class="modal fade" id="enlargeImageModal" tabindex="-1" role="dialog" aria-labelledby="enlargeImageModal" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <img src="" class="enlargeImageModalSource" style="width: 100%;">
+            </div>
+        </div>
+    </div>
+</div>
