@@ -16,9 +16,39 @@ namespace OnlineScrum.Controllers
             var user = (User)Session["UserInfo"];
             if (user == null)
                 return RedirectToAction("Login", "Login");
+            var proj = (Project)Session["Project"];
+            ViewBag.Link = "Project";
+            if (proj == null)
+                return RedirectToAction("Dashboard", "Dashboard");
+
+            //ViewBag.Project = proj;
+            ViewBag.Sprints = ProjectManager.GetSprintFromProject(proj.Sprints).OrderByDescending(m => m.FinishDate)
+                .ThenBy(x => x.StartDate).ToList();
+            var dict = new Dictionary<Sprint, List<Item>>();
+            foreach (var sprint in ((List<Sprint>)ViewBag.Sprints).OrderBy(m => m.FinishDate))
+            {
+                dict.Add(sprint, SprintManager.GetItemsFromSprint(sprint.Items));
+            }
+            ViewBag.ItemsSprints = dict;
+            ViewBag.ProjectName = proj.Name;
+            var memberList = SharedManager.SplitString(proj.DevTeam);
+            memberList.Insert(0, proj.ScrumMaster);
+            ViewBag.MemberList = memberList;
+            Session["Project"] = proj;
+            Session["Meetings"] = MeetingManager.GetMeetingsByEmail(user.Email, -1, proj.ProjectID);
+            return View();
+        }
+
+        [Route("project")]
+        [HttpPost]
+        public ActionResult HomePost(string projectName)
+        {
+            var user = (User)Session["UserInfo"];
+            if (user == null)
+                return RedirectToAction("Login", "Login");
             Project proj = null;
             if (projectName == null && (Project)Session["Project"] == null)
-                return RedirectToAction("Home", "Dashboard");
+                return RedirectToAction("Dashboard", "Dashboard");
             else if ((Project)Session["Project"] != null && projectName == null)
             {
                 proj = ProjectManager.GetProjectsByEmail(user.Email).First(p => p.Name == ((Project)Session["Project"]).Name);
@@ -46,31 +76,9 @@ namespace OnlineScrum.Controllers
 
             ViewBag.Link = "Project";
             if (proj == null)
-                return RedirectToAction("Home", "Dashboard");
+                return RedirectToAction("Dashboard", "Dashboard");
 
-            //ViewBag.Project = proj;
-            ViewBag.Sprints = ProjectManager.GetSprintFromProject(proj.Sprints).OrderByDescending(m => m.FinishDate)
-                .ThenBy(x => x.StartDate).ToList();
-            var dict = new Dictionary<Sprint, List<Item>>();
-            foreach (var sprint in ((List<Sprint>)ViewBag.Sprints).OrderBy(m => m.FinishDate))
-            {
-                dict.Add(sprint, SprintManager.GetItemsFromSprint(sprint.Items));
-            }
-            ViewBag.ItemsSprints = dict;
-            ViewBag.ProjectName = proj.Name;
-            var memberList = SharedManager.SplitString(proj.DevTeam);
-            memberList.Insert(0, proj.ScrumMaster);
-            ViewBag.MemberList = memberList;
-            Session["Project"] = proj;
-            Session["Meetings"] = MeetingManager.GetMeetingsByEmail(user.Email, -1, proj.ProjectID);
-            return View();
-        }
-
-        [Route("project")]
-        [HttpPost]
-        public ActionResult HomePost(string projectName)
-        {
-            return RedirectToAction("Home", "Project", new { projectName = projectName });
+            return RedirectToAction("Home", "Project");
         }
 
         [Route("project/items")]
@@ -82,7 +90,7 @@ namespace OnlineScrum.Controllers
             var proj = (Project)Session["Project"];
             ViewBag.Link = "Project";
             if (proj == null)
-                return RedirectToAction("Home", "Dashboard");
+                return RedirectToAction("Dashboard", "Dashboard");
 
             var sprint = new Dictionary<Sprint, List<Item>>();
             var sprints = ProjectManager.GetSprintFromProject(proj.Sprints);
@@ -106,7 +114,7 @@ namespace OnlineScrum.Controllers
             var proj = (Project)Session["Project"];
             ViewBag.Link = "Project";
             if (proj == null)
-                return RedirectToAction("Home", "Dashboard");
+                return RedirectToAction("Dashboard", "Dashboard");
 
             if (!ModelState.IsValid)
             {
@@ -123,6 +131,7 @@ namespace OnlineScrum.Controllers
                 sprint.Add(s, SprintManager.GetItemsFromSprint(s.Items).OrderByDescending(m => m.AssignedTo == user.Email).ThenBy(m => m.ItemStatus).ToList());
             }
             ViewBag.Sprints = sprint;
+            Session["Project"] = ProjectManager.GetProjectByID(proj.ProjectID, user.Email);
 
             return RedirectToAction("Items", "Project");
         }
@@ -136,7 +145,7 @@ namespace OnlineScrum.Controllers
             var proj = (Project)Session["Project"];
             ViewBag.Link = "Project";
             if (proj == null)
-                return RedirectToAction("Home", "Dashboard");
+                return RedirectToAction("Dashboard", "Dashboard");
 
             ViewBag.Members = SharedManager.SplitString(proj.DevTeam);
             return View();
@@ -152,7 +161,7 @@ namespace OnlineScrum.Controllers
             var proj = (Project)Session["Project"];
             ViewBag.Link = "Project";
             if (proj == null)
-                return RedirectToAction("Home", "Dashboard");
+                return RedirectToAction("Dashboard", "Dashboard");
 
             if (!ModelState.IsValid)
             {
@@ -160,6 +169,7 @@ namespace OnlineScrum.Controllers
             }
             item.SprintlessProjectID = proj.ProjectID;
             SprintManager.AddItem(null, item);
+            Session["Project"] = ProjectManager.GetProjectByID(proj.ProjectID, user.Email);
 
             return RedirectToAction("Items", "Project");
         }
@@ -201,6 +211,7 @@ namespace OnlineScrum.Controllers
                 return RedirectToAction("Home", "Project");
 
             ViewBag.Error = result;
+            Session["Project"] = ProjectManager.GetProjectByID(proj.ProjectID, user.Email);
             return RedirectToAction("Create_Sprint", "Project");
         }
 
@@ -222,11 +233,12 @@ namespace OnlineScrum.Controllers
             }
 
             ViewBag.AddMemberError = ProjectManager.AddMember(userEmail, proj.ProjectID);
-            var project = ProjectManager.GetProjectsByEmail(user.Email).FirstOrDefault(m => m.ProjectID == proj.ProjectID);
+            var project = ProjectManager.GetProjectByID(proj.ProjectID, user.Email);
             var memberList = SharedManager.SplitString(project.DevTeam);
             memberList.Insert(0, proj.ScrumMaster);
             ViewBag.MemberList = memberList;
             SharedManager.RepeatMethod = false;
+            Session["Project"] = project;
             return PartialView("MemberList");
         }
     }

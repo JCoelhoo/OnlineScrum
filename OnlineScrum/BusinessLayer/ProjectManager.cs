@@ -194,6 +194,11 @@ namespace OnlineScrum.BusinessLayer
             }
         }
 
+        public static Project GetProjectByID(int projectID, string email)
+        {
+            return GetProjectsByEmail(email).FirstOrDefault(m => m.ProjectID == projectID);
+        }
+
         public static List<Sprint> GetSprintFromProject(string sprintString)
         {
             try

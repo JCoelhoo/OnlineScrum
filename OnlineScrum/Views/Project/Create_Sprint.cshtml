@@ -17,7 +17,7 @@
 
             <div class="form-group row" style="display:inline">
 
-                @Html.LabelFor(model => model.SprintName, new { @class = "col-md-2 col-form-label" })
+                @Html.LabelFor(model => model.SprintName, new { @class = "col-md-5 col-form-label" })
             </div>
             <div style="display:inline" class="col-md-10">
                 @Html.TextBoxFor(model => model.SprintName, new { @class = "form-control" })
@@ -28,29 +28,30 @@
 
             <div class="form-group row" style="display:inline">
 
-                @Html.LabelFor(model => model.StartDate, new { @class = "col-md-2 col-form-label" })
+                @Html.LabelFor(model => model.StartDate, new { @class = "col-md-5 col-form-label" })
             </div>
             <div style="display:inline" class="col-md-10">
-                @Html.TextBoxFor(model => model.StartDate, "{0:dd/MM/yyyy}", new { @type = "date", @Value = DateTime.Now.ToString("dd/mm/yyyy"), @class = "form-control" })
+                @Html.TextBoxFor(model => model.StartDate, "{0:dd/MM/yyyy}", new { @type = "date", @Value = DateTime.Now.ToString("yyyy-MM-dd"), @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.StartDate)
             </div>
             <br />
             <br />
 
+            <div class="form-group" id="finishDiv">
+                <div class="row col-form-label" style="display:inline">
+
+                    @Html.LabelFor(model => model.FinishDate, new { @class = "col-md-10 col-form-label" })
+                </div>
+                <div style="display:inline" class="form-control-warning col-md-10">
+                    @Html.TextBoxFor(model => model.FinishDate, "{0:dd/MM/yyyy}", new { @type = "date", @Value = DateTime.Now.AddDays(15).ToString("yyyy-MM-dd"), @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.FinishDate)
+                    <p id="finishWarning" style="display: none;color:#d89520">Typical Sprints are between 2 weeks to 1 month</p>
+                </div>
+            </div>
+
             <div class="form-group row" style="display:inline">
 
-                @Html.LabelFor(model => model.FinishDate, new { @class = "col-md-2 col-form-label" })
-            </div>
-            <div style="display:inline" class="col-md-10">
-                @Html.TextBoxFor(model => model.FinishDate, "{0:dd/MM/yyyy}", new { @type = "date", @Value = DateTime.Now.ToString("dd/MM/yyyy"), @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.FinishDate)
-            </div>
-            <br />
-            <br />
-
-            <div class="form-group row" style="display:inline">
-
-                @Html.LabelFor(model => model.MeetingLocation, new { @class = "col-md-2 col-form-label" })
+                @Html.LabelFor(model => model.MeetingLocation, new { @class = "col-md-5 col-form-label" })
             </div>
             <div style="display:inline" class="col-md-10">
                 @Html.TextBoxFor(model => model.MeetingLocation, new { @class = "form-control" })
@@ -61,7 +62,7 @@
 
             <div class="form-group row" style="display:inline">
 
-                @Html.LabelFor(model => model.MeetingInterval, new { @class = "col-md-2 col-form-label" })
+                @Html.LabelFor(model => model.MeetingInterval, new { @class = "col-md-5 col-form-label" })
             </div>
             <div style="display:inline" class="col-md-10">
                 @Html.TextBoxFor(model => model.MeetingInterval, new { @class = "form-control" })
@@ -90,3 +91,35 @@
 <div class="well col-md-4">
     <p>A Sprint is typically between 2 weeks to 1 month period where the Scrum Team aims to complete an increment a set of items.</p>
 </div>
+
+<script>
+    var inputs = $('input[type="date"]');
+    var finishDate = $('#finishDiv');
+    var finishWarning = $('#finishWarning');
+
+    inputs.each(function () {
+        $(this).data('val', this.value);
+    }).on('keyup', function () {
+        inputs.each(function () {
+            var startDt = document.getElementById("StartDate").value;
+            var endDt = document.getElementById("FinishDate").value;
+            var sDate = new Date(startDt);
+            var fDate = new Date(endDt);
+            var date = new Date(sDate.getTime() + 31 * 24 * 60 * 60 * 1000);
+            var date2 = new Date(sDate.getTime() + 15 * 24 * 60 * 60 * 1000);
+            if ((date < fDate) || (date2 > fDate)) {
+                finishDate.addClass("has-warning");
+                finishWarning.show();
+                console.log("show");
+            } else {
+                finishDate.removeClass("has-warning");
+                finishWarning.hide();
+                console.log("hide");
+            }
+        });
+    });
+
+
+
+
+</script>

@@ -18,7 +18,7 @@ namespace OnlineScrum.Controllers
             var proj = (Project)Session["Project"];
             ViewBag.Link = "Project";
             if (proj == null)
-                return RedirectToAction("Home", "Dashboard");
+                return RedirectToAction("Dashboard", "Dashboard");
             var sprints = ProjectManager.GetSprintFromProject(proj.Sprints);
             if (sprints == null || sprints.Count(m => m.SprintID == id) == 0)
             {
@@ -68,7 +68,7 @@ namespace OnlineScrum.Controllers
             var proj = (Project)Session["Project"];
             ViewBag.Link = "Project";
             if (proj == null)
-                return RedirectToAction("Home", "Dashboard");
+                return RedirectToAction("Dashboard", "Dashboard");
             var sprints = ProjectManager.GetSprintFromProject(proj.Sprints);
             if (sprints == null || sprints.Count(m => m.SprintID == id) == 0)
             {
@@ -97,7 +97,7 @@ namespace OnlineScrum.Controllers
             var proj = (Project)Session["Project"];
             ViewBag.Link = "Project";
             if (proj == null)
-                return RedirectToAction("Home", "Dashboard");
+                return RedirectToAction("Dashboard", "Dashboard");
             var sprints = ProjectManager.GetSprintFromProject(proj.Sprints);
             if (sprints == null || sprints.Count(m => m.SprintID == id) == 0)
             {
@@ -120,7 +120,7 @@ namespace OnlineScrum.Controllers
             var proj = (Project)Session["Project"];
             ViewBag.Link = "Project";
             if (proj == null)
-                return RedirectToAction("Home", "Dashboard");
+                return RedirectToAction("Dashboard", "Dashboard");
             var sprints = ProjectManager.GetSprintFromProject(proj.Sprints);
             if (sprints == null || sprints.Count(m => m.SprintID == id) == 0)
             {
@@ -143,7 +143,7 @@ namespace OnlineScrum.Controllers
             var proj = (Project)Session["Project"];
             ViewBag.Link = "Project";
             if (proj == null)
-                return RedirectToAction("Home", "Dashboard");
+                return RedirectToAction("Dashboard", "Dashboard");
             var sprints = ProjectManager.GetSprintFromProject(proj.Sprints);
             if (sprints == null || sprints.Count(m => m.SprintID == id) == 0)
             {
@@ -163,7 +163,7 @@ namespace OnlineScrum.Controllers
             var proj = (Project)Session["Project"];
             ViewBag.Link = "Project";
             if (proj == null)
-                return RedirectToAction("Home", "Dashboard");
+                return RedirectToAction("Dashboard", "Dashboard");
             var sprint = SprintManager.GetSprintFromID(id);
             if (sprint == null)
                 return RedirectToAction("Home", "Project");
@@ -182,7 +182,7 @@ namespace OnlineScrum.Controllers
             var proj = (Project)Session["Project"];
             ViewBag.Link = "Project";
             if (proj == null)
-                return RedirectToAction("Home", "Dashboard");
+                return RedirectToAction("Dashboard", "Dashboard");
             var sprint = SprintManager.GetSprintFromID(id);
             if (sprint == null)
                 return RedirectToAction("Home", "Project");
@@ -199,7 +199,7 @@ namespace OnlineScrum.Controllers
                 ViewBag.Error = result;
                 return View();
             }
-
+            Session["Project"] = ProjectManager.GetProjectByID(proj.ProjectID, user.Email);
             return RedirectToAction("Items", "Sprint");
         }
 
@@ -213,7 +213,7 @@ namespace OnlineScrum.Controllers
             var proj = (Project)Session["Project"];
             ViewBag.Link = "Project";
             if (proj == null)
-                return RedirectToAction("Home", "Dashboard");
+                return RedirectToAction("Dashboard", "Dashboard");
             var sprint = SprintManager.GetSprintFromID(id);
             if (sprint == null)
                 return RedirectToAction("Home", "Project");
@@ -250,7 +250,7 @@ namespace OnlineScrum.Controllers
 
             Session["Meetings"] = meetings;
             ViewBag.Meetings = meetings;
-
+            Session["Project"] = ProjectManager.GetProjectByID(proj.ProjectID, user.Email);
             return PartialView("MeetingList");
         }
 
@@ -264,7 +264,7 @@ namespace OnlineScrum.Controllers
             var proj = (Project)Session["Project"];
             ViewBag.Link = "Project";
             if (proj == null)
-                return RedirectToAction("Home", "Dashboard");
+                return RedirectToAction("Dashboard", "Dashboard");
             var sprint = SprintManager.GetSprintFromID(id);
             if (sprint == null)
                 return RedirectToAction("Home", "Project");
@@ -284,6 +284,7 @@ namespace OnlineScrum.Controllers
 
             Session["Meetings"] = meetings;
             ViewBag.Meetings = meetings;
+            Session["Project"] = ProjectManager.GetProjectByID(proj.ProjectID, user.Email);
 
             return PartialView("MeetingList");
         }
@@ -298,7 +299,7 @@ namespace OnlineScrum.Controllers
             var proj = (Project)Session["Project"];
             ViewBag.Link = "Project";
             if (proj == null)
-                return RedirectToAction("Home", "Dashboard");
+                return RedirectToAction("Dashboard", "Dashboard");
             var sprint = SprintManager.GetSprintFromID(id);
             if (sprint == null)
                 return RedirectToAction("Home", "Project");
@@ -318,12 +319,13 @@ namespace OnlineScrum.Controllers
             var proj = (Project)Session["Project"];
             ViewBag.Link = "Project";
             if (proj == null)
-                return RedirectToAction("Home", "Dashboard");
+                return RedirectToAction("Dashboard", "Dashboard");
             var sprint = SprintManager.GetSprintFromID(id);
             if (sprint == null)
                 return RedirectToAction("Home", "Project");
 
             SprintManager.ChangeStatus(item);
+            Session["Project"] = ProjectManager.GetProjectByID(proj.ProjectID, user.Email);
             return null;
         }
 
@@ -356,7 +358,7 @@ namespace OnlineScrum.Controllers
             var proj = (Project)Session["Project"];
             ViewBag.Link = "Project";
             if (proj == null)
-                return RedirectToAction("Home", "Dashboard");
+                return RedirectToAction("Dashboard", "Dashboard");
             var sprint = SprintManager.GetSprintFromID(id);
             if (sprint == null)
                 return RedirectToAction("Home", "Project");

@@ -1,7 +1,3 @@
-﻿$(document).ready({
-    $('.datepicker').datepicker();
-    });
-
-//$(function() {
-//    $('[data-toggle="popover"]').popover();
-//});
+﻿$(document).ready(function () {
+    $(".datepicker").datepicker();
+});
