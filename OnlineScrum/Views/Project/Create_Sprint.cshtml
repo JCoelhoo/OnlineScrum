@@ -99,7 +99,7 @@
 
     inputs.each(function () {
         $(this).data('val', this.value);
-    }).on('keyup', function () {
+    }).on('mousemove keyup', function () {
         inputs.each(function () {
             var startDt = document.getElementById("StartDate").value;
             var endDt = document.getElementById("FinishDate").value;

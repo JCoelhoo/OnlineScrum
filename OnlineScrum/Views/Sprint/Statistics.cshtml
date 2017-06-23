@@ -27,11 +27,8 @@
         <div class="row" id="container" style="min-width: 400px; height: (400 + @(ViewBag.Items.Count*10))px; margin: 0 auto"></div>
         <br />
         <h4 class="text-center">Item Effort Distribution</h4>
-        <div id="sankey" class="col-md-offset-3" style="width: 900px; height: @(300+(ViewBag.Items.Count*15))px;"></div>
+        <div id="sankey" class="col-md-offset-3" style="width: 800px; height: @(300+(ViewBag.Items.Count*15))px;"></div>
         <br />
-        Maybe add some warnings 
-        (dev closing issues, sprint slow pace, towards the end of sprint -> advise reprioritasation/delaying/fix estimations,
-        if dev is done assing different issues from slow dev, a lot of days without closing (maybe facing obstacle(ask in meeting)))
     </div>
 </div>
 @*TODO use business days*@
@@ -44,7 +41,10 @@
     var projection = 0;
 
     @{
-        @:offset = @(((DateTime.Now.Date.AddDays(1)) - ((Sprint)ViewBag.Sprint).StartDate.Date).TotalDays);
+        @:offset = @(((DateTime.Now.Date.AddDays(1) > ((Sprint)ViewBag.Sprint).FinishDate.Date 
+            ? ((Sprint)ViewBag.Sprint).FinishDate.Date 
+            : DateTime.Now.Date.AddDays(1)) 
+            - ((Sprint)ViewBag.Sprint).StartDate.Date).TotalDays);
             @:projection =  @(((List<Item>) ViewBag.Items).Count(x => x.ItemStatus == "Closed" && ((DateTime)x.DateClosed).Date <= DateTime.Now.Date));
             for (var date = ((Sprint) ViewBag.Sprint).StartDate; date <= ((Sprint) ViewBag.Sprint).FinishDate; date = date.AddDays(1))
         {
@@ -57,9 +57,9 @@
             foreach (var dev in ((List<string>) ViewBag.Members))
             {
                 <text>
-    if (!dictionary["@dev"])
-        dictionary["@dev"] = [];
-    dictionary["@dev"].push(@(((List<Item>)ViewBag.Items).Count(m => m.AssignedTo == @dev && (m.ItemStatus != "Closed" || ((DateTime)m.DateClosed).Date >= date.Date))));
+                    if (!dictionary["@dev"])
+                        dictionary["@dev"] = [];
+                    dictionary["@dev"].push(@(((List<Item>)ViewBag.Items).Count(m => m.AssignedTo == @dev && (m.ItemStatus != "Closed" || ((DateTime)m.DateClosed).Date >= date.Date))));
     </text>
             }
         }
@@ -73,7 +73,7 @@
             renderTo: 'container',
             type: 'area',
             height: 400 + @(ViewBag.Items.Count*10)
-            },
+        },
         title: {
             text: 'Burndown Chart - Sprint Progression'
         },
@@ -85,7 +85,7 @@
             },
             tickInterval: 1,
             max: @((int)(((Sprint) ViewBag.Sprint).FinishDate - ((Sprint) ViewBag.Sprint).StartDate).TotalDays)
-            },
+        },
         tooltip: {
             formatter: function () {
                 return '' + this.series.name + ': ' + this.y + '';
@@ -102,64 +102,64 @@
             enabled: false
         },
         series: [{
-            name: 'Total',
-            data: array,
-            id: 'primary',
-            zoneAxis: 'x',
-            zones: [
-                {
-                    value: offset
-                },
-                {
-                    dashStyle: 'longdash',
-                    color: '#D0D0D0'
-                }
-            ]
-        },
-        //{
-        //    name: 'Projection',
-        //    data: array2,
-        //    id: 'sec',
-        //    dashStyle: 'dot',
-        //    color: '#4572A7',
-        //    visible: false
-        //},
-        {
-            name: 'Projection',
-            data:array2,
-            showInLegend: true,
-            enableMouseTracking: false,
-            type: 'trendline',
-            algorithm: 'linear',
-            zoneAxis: 'x',
-            zones: [
-                {
-                    value: offset
-                },
-                {
-                    dashStyle: 'longdash',
-                    color: '#888888'
-                }
-            ]
-        }
-        //{
-        //    name: 'Proj Trendline',
-        //    linkedTo: 'sec',
-        //    showInLegend: true,
-        //    enableMouseTracking: false,
-        //    type: 'trendline',
-        //    algorithm: 'linear'
-        //}
+                name: 'Total',
+                data: array,
+                id: 'primary',
+                zoneAxis: 'x',
+                zones: [
+                    {
+                        value: offset
+                    },
+                    {
+                        dashStyle: 'longdash',
+                        color: '#D0D0D0'
+                    }
+                ]
+            },
+            //{
+            //    name: 'Projection',
+            //    data: array2,
+            //    id: 'sec',
+            //    dashStyle: 'dot',
+            //    color: '#4572A7',
+            //    visible: false
+            //},
+            {
+                name: 'Projection',
+                data:array2,
+                showInLegend: true,
+                enableMouseTracking: false,
+                type: 'trendline',
+                algorithm: 'linear',
+                zoneAxis: 'x',
+                zones: [
+                    {
+                        value: offset
+                    },
+                    {
+                        dashStyle: 'longdash',
+                        color: '#888888'
+                    }
+                ]
+            }
+            //{
+            //    name: 'Proj Trendline',
+            //    linkedTo: 'sec',
+            //    showInLegend: true,
+            //    enableMouseTracking: false,
+            //    type: 'trendline',
+            //    algorithm: 'linear'
+            //}
         ]
 
     });
     var counter = 1;
     (Object.keys(dictionary)).forEach(function (element) {
         chart.addSeries({
-            type: 'line',
-            name: element,
-            data: dictionary[element]
-        },
+                type: 'line',
+                name: element,
+                data: dictionary[element]
+            },
             false);
     });
     chart.redraw();
@@ -170,6 +170,11 @@
 
 <h3>Tips</h3>
 @{
+    <p>
+        Maybe add some warnings 
+        (dev closing issues, sprint slow pace, towards the end of sprint -> advise reprioritasation/delaying/fix estimations,
+        if dev is done assing different issues from slow dev, a lot of days without closing (maybe facing obstacle(ask in meeting)))
+    </p>
     var itemlessDev = new List<String>();
     var devevoper = "";
     var itemTemp = 0;
@@ -208,48 +213,53 @@
 
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 <script type="text/javascript">
-    google.charts.load('current', {'packages':['sankey']});
-    google.charts.setOnLoadCallback(drawChart);
+    $(document).ready(function() {
+        google.charts.load('current', { 'packages': ['sankey'] });
+        google.charts.setOnLoadCallback(drawChart);
 
-    function drawChart() {
-        var data = new google.visualization.DataTable();
-        data.addColumn('string', 'From');
-        data.addColumn('string', 'To');
-        data.addColumn('number', 'Weight');
-        data.addRows([
-            @{
-                var l = ((List<Item>) ViewBag.Items).GroupBy(m => m.AssignedTo).Select(g => new
-                {
-                    Name = g.Key,
-                    Sum = g.Sum(x => x.EstimatedEffort)
-                });
-                foreach (var i in ((List<Item>) ViewBag.Items))
-                {
-                    <text>
-                        ['Items', '@(i.ItemName)', @(i.EstimatedEffort)],
-                        @foreach (var name in l)
-                        {
-                            if (name.Name != i.AssignedTo) { continue;}
-                            <text>
-                                [
-                                    '@(i.ItemName)',
-                                    '@(name.Name + " - " + name.Sum)',
-                                    @(i.EstimatedEffort)
-                                ],
-                            </text>
-                        }
-                    </text>
+        function drawChart() {
+            var data = new google.visualization.DataTable();
+            data.addColumn('string', 'From');
+            data.addColumn('string', 'To');
+            data.addColumn('number', 'Weight');
+            data.addRows([
+                @{
+                    var l = ((List<Item>) ViewBag.Items).GroupBy(m => m.AssignedTo).Select(g => new
+                    {
+                        Name = g.Key,
+                        Sum = g.Sum(x => x.EstimatedEffort)
+                    });
+                    foreach (var i in ((List<Item>) ViewBag.Items))
+                    {
+                        <text>
+                            ['Items', '@(i.ItemName)', @(i.EstimatedEffort)],
+                            @foreach (var name in l)
+                            {
+                                if (name.Name != i.AssignedTo)
+                                {
+                                    continue;
+                                }
+                                <text>
+                                    [
+                                        '@(i.ItemName)',
+                                        '@(name.Name + " - " + name.Sum)',
+                                        @(i.EstimatedEffort)
+                                    ],
+                                </text>
+                            }
+                        </text>
+                    }
                 }
-            }
-        ]);
+            ]);
 
-        var options = {
-            width: 600,
-        };
+            var options = {
+                width: 600,
+            };
 
-        var chart = new google.visualization.Sankey(document.getElementById('sankey'));
-        chart.draw(data, options);
-    }
+            var chart = new google.visualization.Sankey(document.getElementById('sankey'));
+            chart.draw(data, options);
+        }
+    });
 </script>
 
 <div id="helpModal" class="modal fade" role="dialog">

@@ -168,7 +168,6 @@
                 /* Dirtiest filter function ever ;) */
                 var $filteredRows = $rows.filter(function () {
                     var value = $(this).find('td').eq(column).text().toLowerCase();
-                    alert(value);
                     return value.indexOf(inputContent) === -1;
                 });
                 /* Clean previous no-result if exist */

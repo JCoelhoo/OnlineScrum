@@ -99,15 +99,17 @@
     <div id="container" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
 
     <script>
+    $(document).ready(function(){
+
         @{
             var sprintList = new List<string>();
             <text>
-        var a = [
-            @foreach (var sprint in ViewBag.ItemsSprints.Keys)
+                var a = [
+                    @foreach (var sprint in ViewBag.ItemsSprints.Keys)
             {
                 <text>"@sprint.SprintName",</text>
             }
-        ]
+                ]
             </text>
         }
         var chart = new Highcharts.chart('container',
@@ -185,6 +187,7 @@
             color: "#27b211",
             data: itemsComplete
         })
+    });
     </script>
     }
 

@@ -253,7 +253,7 @@ namespace OnlineScrum.Controllers
                     ItemID = 12,
                     ItemName = "Item",
                     ItemStatus = "Closed",
-                    DateClosed = DateTime.Now.AddDays(-28)
+                    DateClosed = DateTime.Now.AddDays(-31)
                 };
                 var item13 = new Item
                 {
