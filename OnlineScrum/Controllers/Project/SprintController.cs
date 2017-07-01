@@ -1,6 +1,7 @@
 ﻿using OnlineScrum.BusinessLayer;
 using OnlineScrum.Models;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
@@ -107,7 +108,7 @@ namespace OnlineScrum.Controllers
             var sprint = sprints.First(m => m.SprintID == id);
             ViewBag.Sprint = sprint;
             ViewBag.Members = SharedManager.SplitString(proj.DevTeam);
-            ViewBag.Items = SprintManager.GetItemsFromSprint(sprint.Items).OrderByDescending(m => m.AssignedTo == user.Email).ThenBy(m => m.ItemStatus).ToList();
+            ViewBag.Items = SprintManager.GetItemsFromSprint(sprint.Items);//.OrderByDescending(m => m.AssignedTo == user.Email).ThenBy(m => m.ItemStatus).ToList();
             return View();
         }
 
@@ -311,7 +312,7 @@ namespace OnlineScrum.Controllers
 
         [Route("project/sprint/{id:int}/change_item")]
         [HttpPost]
-        public ActionResult Change_Item(int id, Item item)
+        public ActionResult Change_Item(int id, List<Item> items)
         {
             var user = (User)Session["UserInfo"];
             if (user == null)
@@ -324,7 +325,11 @@ namespace OnlineScrum.Controllers
             if (sprint == null)
                 return RedirectToAction("Home", "Project");
 
-            SprintManager.ChangeStatus(item);
+            foreach (var item in items)
+            {
+                SprintManager.ChangeStatus(item);
+            }
+            SprintManager.ReprioritiseItems(id, items);
             Session["Project"] = ProjectManager.GetProjectByID(proj.ProjectID, user.Email);
             return null;
         }

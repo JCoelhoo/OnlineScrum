@@ -32,7 +32,7 @@
                     </div>
                     @foreach (KeyValuePair<Sprint, List<Item>> sprint in ViewBag.Sprints)
                     {
-                        if (sprint.Value.Count() == 0)
+                        if (!sprint.Value.Any())
                         {
                             continue;
                         }

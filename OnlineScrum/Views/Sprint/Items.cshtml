@@ -8,6 +8,7 @@
 <script src="@Url.Content("~/Scripts/jquery.unobtrusive-ajax.min.js")" type="text/javascript"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.2/css/bootstrap-select.min.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.2/js/bootstrap-select.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
 
 <div class="col-md-12" style="z-index:1000;background-color: white;position: fixed;">
     <br />
@@ -45,20 +46,21 @@
                 width: 100%;
             }
 
-            thead, tbody, tr, td, th { display: block; }
-
-            tr:after {
-                content: ' ';
+            thead, tbody, tr, td, th {
                 display: block;
-                visibility: hidden;
-                clear: both;
             }
 
-            thead th {
-                height: 40px;
+                tr:after {
+                    content: ' ';
+                    display: block;
+                    visibility: hidden;
+                    clear: both;
+                }
 
-                /*text-align: left;*/
-            }
+                thead th {
+                    height: 40px;
+                    /*text-align: left;*/
+                }
 
             tbody {
                 height: 400px;
@@ -70,41 +72,47 @@
             }
 
 
-            tbody td, thead th {
-                width: 20%;
-                float: left;
-            }
+                tbody td, thead th {
+                    width: 16.667%;
+                    float: left;
+                }
         </style>
         <br />
         <br />
-        <div class="panel panel-primary filterable">
-            <div class="panel-heading">
-                <h3 class="panel-title">Items</h3>
-                <div class="pull-right">
-                    <button class="btn btn-default btn-xs btn-filter"><span class="glyphicon glyphicon-filter"></span> Filter</button>
+        using (Ajax.BeginForm("Change_Item", "Sprint", new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "empList" }))
+        {
+            <div class="panel panel-primary filterable">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Items</h3>
+                    <div class="pull-right">
+                        <button class="btn btn-default btn-xs btn-filter"><span class="glyphicon glyphicon-filter"></span> Filter</button>
+                    </div>
                 </div>
-            </div>
-            <table class="table">
-                <thead>
-                    <tr class="filters">
-                        <th><input type="text" placeholder="Name" disabled></th>
-                        <th><input type="text" placeholder="Assigned To" disabled></th>
-                        <th><input type="text" placeholder="Estimated Effort" disabled></th>
-                        <th><input type="text" placeholder="Status" disabled></th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (Item item in ViewBag.Items)
-                {
-                        <tr>
-                            <td>@item.ItemName</td>
-                            @using (Ajax.BeginForm("Change_Item", "Sprint", new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "empList" }, new { @id = "form" + item.ItemID }))
-                            {
-                                <input style="display: none" id="ItemID" value="@item.ItemID" name="ItemID" />
+
+                <table id="sort" class="table">
+
+                    <thead>
+                        <tr class="filters">
+                            <th><input type="text" placeholder="#" disabled></th>
+                            <th><input type="text" placeholder="Name" disabled></th>
+                            <th><input type="text" placeholder="Assigned To" disabled></th>
+                            <th><input type="text" placeholder="Estimated Effort" disabled></th>
+                            <th><input type="text" placeholder="Status" disabled></th>
+                            <th><input style="margin-top:-5px" type=submit value="Save changes" class="btn btn-link pull-right" /></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @{ int counter = 1;}
+
+                        @foreach (Item item in ViewBag.Items)
+                        {
+                            <tr>
+                                <td class="index">@counter</td>
+                                <td>@item.ItemName</td>
+                                <input style="display: none" id="ItemID" value="@item.ItemID" name="items[@(counter - 1)].ItemID" />
 
                                 <td>
-                                    <select class="selectpicker col-md-10" id="AssignedTo" name="AssignedTo" form="form@(item.ItemID)">
+                                    <select class="selectpicker col-md-10" id="AssignedTo" name="items[@(counter - 1)].AssignedTo">
                                         @foreach (var member in ViewBag.Members)
                                         {
                                             <option @(item.AssignedTo == member ? "selected" : "")>@member</option>
@@ -113,7 +121,7 @@
                                 </td>
                                 <td>@item.EstimatedEffort</td>
                                 <td>
-                                    <select class="col-md-10 selectpicker" id="ItemStatus" name="ItemStatus" form="form@(item.ItemID)">
+                                    <select class="col-md-10 selectpicker" id="ItemStatus" name="items[@(counter - 1)].ItemStatus">
                                         <option value="Developing" data-content="<span class='badge badge-primary'>Developing</span>" @((item.ItemStatus == "Developing" || @item.ItemStatus == null) ? "selected" : "")></option>
                                         <option value="Testing" data-content="<span class='badge badge-success'>Testing</span>" @((item.ItemStatus == "Testing") ? "selected" : "")></option>
                                         <option value="Delayed" data-content="<span class='badge badge-warning'>Delayed</span>" @((item.ItemStatus == "Delayed") ? "selected" : "")></option>
@@ -121,19 +129,18 @@
                                     </select>
                                 </td>
                                 <td>
-                                    <input type=submit value="Save" class="btn btn-link pull-right" />
                                     <button id="modalButton@(item.ItemID)" type="button" class="btn btn-link pull-right" data-toggle="modal" data-target="#modal@(item.ItemID)">Notes</button>
                                 </td>
-                            }
+                            </tr>
+                            counter++;
+                        }
+                    </tbody>
+                </table>
+            </div>
 
-                        </tr>
-                    }
-                </tbody>
-            </table>
-        </div>
-
-        @Html.Partial("ItemNoteModal")
-    }
+            }
+            @Html.Partial("ItemNoteModal")
+            }
 
 
     <script>
@@ -230,4 +237,35 @@
             setCookie("ItemsHelp", "true", 100);
         }
     });
+</script>
+
+<script>
+    //TODO fix this mess
+    var fixHelperModified = function (e, tr) {
+            var $originals = tr.children();
+            var $helper = tr.clone();
+            $helper.children().each(function (index) {
+                $(this).width($originals.eq(index).width())
+            });
+            return $helper;
+        },
+        updateIndex = function (e, ui) {
+            $('td.index', ui.item.parent()).each(function (i) {
+                $(this).html(i + 1);
+            });
+            $('tbody > tr').each(function() {
+                var i = $(this).find(".index").html() - 1;
+                $(this).find("[name]").add(this).each(function () {
+                    alert("- "+this.name);
+                    this.name = "items["+i+"]";
+                    alert(this.name);
+
+                });
+            })
+        };
+
+    $("#sort tbody").sortable({
+        helper: fixHelperModified,
+        stop: updateIndex
+    }).disableSelection();
 </script>

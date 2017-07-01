@@ -270,6 +270,7 @@ namespace OnlineScrum.BusinessLayer
                         select it).First();
 
                     itemRet.ItemStatus = item.ItemStatus;
+                    //TODO close if already closed
                     if (item.ItemStatus == "Closed")
                         itemRet.DateClosed = DateTime.Now;
                     else
@@ -331,6 +332,27 @@ namespace OnlineScrum.BusinessLayer
             {
                 SharedManager.Log(e, "GetItemFromID");
                 return new Item();
+            }
+        }
+
+        public static void ReprioritiseItems(int id, List<Item> items)
+        {
+            try
+            {
+                using (var context = new DatabaseContext())
+                {
+                    var sprint = (from sp in context.Sprints
+                        where sp.SprintID == id
+                        select sp).First();
+
+                    sprint.Items = String.Join(",", items.Select(m => m.ItemID).ToList())+",";
+
+                    context.SaveChanges();
+                }
+            }
+            catch (Exception e)
+            {
+                SharedManager.Log(e, "ReprioritiseItems");
             }
         }
     }
