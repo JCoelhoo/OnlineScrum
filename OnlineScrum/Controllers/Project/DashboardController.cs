@@ -68,11 +68,11 @@ namespace OnlineScrum.Controllers
             var result = ProjectManager.AddProject(project, user.Email);
             ViewBag.Error = result;
             if (!String.IsNullOrEmpty(result)) return View();
-
+            project.ScrumMaster = user.Email;
 
             Session["Project"] = project;
 
-            return RedirectToAction("Home", "Dashboard");
+            return RedirectToAction("Home", "Project", new {projectName = project.Name});
         }
     }
 }

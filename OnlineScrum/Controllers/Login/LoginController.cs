@@ -522,7 +522,7 @@ namespace OnlineScrum.Controllers
                         Item = "15",
                         Sprint = sprint3_2.SprintName
                     }
-                });
+                }, proj.ProjectID);
 
                 SprintManager.AddItem(null, s1);
                 SprintManager.AddItem(null, s2);

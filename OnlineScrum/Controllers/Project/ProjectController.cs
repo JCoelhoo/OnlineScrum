@@ -121,7 +121,7 @@ namespace OnlineScrum.Controllers
                 return View("Items");
             }
 
-            ProjectManager.ChangeSprintInItem(item);
+            ProjectManager.ChangeSprintInItem(item, proj.ProjectID);
 
 
             var sprint = new Dictionary<Sprint, List<Item>>();
@@ -206,13 +206,13 @@ namespace OnlineScrum.Controllers
             }
 
             var result = ProjectManager.AddSprint(sprint, proj);
+            Session["Project"] = ProjectManager.GetProjectByID(proj.ProjectID, user.Email);
 
             if (string.IsNullOrEmpty(result))
                 return RedirectToAction("Home", "Project");
 
             ViewBag.Error = result;
-            Session["Project"] = ProjectManager.GetProjectByID(proj.ProjectID, user.Email);
-            return RedirectToAction("Create_Sprint", "Project");
+            return View();
         }
 
         [Route("project/new_member")]

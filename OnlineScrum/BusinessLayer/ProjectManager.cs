@@ -79,7 +79,7 @@ namespace OnlineScrum.BusinessLayer
             }
         }
 
-        public static string ChangeSprintInItem(List<SprintItem> item)
+        public static string ChangeSprintInItem(List<SprintItem> item, int projectID)
         {
             try
             {
@@ -87,9 +87,13 @@ namespace OnlineScrum.BusinessLayer
                 {
                     foreach (var i in item)
                     {
+                        var p = (from proj in context.Projects
+                               where proj.ProjectID == projectID
+                               select proj).FirstOrDefault();
+
                         var s = (from sprint in context.Sprints
-                            where sprint.SprintName == i.Sprint
-                            select sprint).FirstOrDefault();
+                            where sprint.SprintName == i.Sprint && p.Sprints.Contains(sprint.SprintID + ",")
+                                 select sprint).FirstOrDefault();
                         if (s == null) continue;
                         if (!SharedManager.SplitString(s.Items).Contains(i.Item))
                         {
@@ -127,6 +131,13 @@ namespace OnlineScrum.BusinessLayer
                 {
                     try
                     {
+                        var b = (from s in context.Sprints
+                                 where sprint.SprintName == s.SprintName
+                                 select s).FirstOrDefault();
+                        if (b != null)
+                        {
+                            return "A Sprint already exists with that name";
+                        }
                         //var sha = new SHA1CryptoServiceProvider();
                         //var password = Encoding.ASCII.GetBytes(lecturer.Password);    
                         //lecturer.Password = Encoding.Default.GetString(sha.ComputeHash(password));C:\Users\João\Desktop\OnlineScrum\OnlineScrum\BusinessLayer\UserManager.cs
@@ -181,7 +192,7 @@ namespace OnlineScrum.BusinessLayer
                     var proj = (from project in context.Projects
                         where project.ProjectID == projectID
                         select project).FirstOrDefault();
-                    proj.Sprints += "," + sprintID;
+                    proj.Sprints += sprintID+",";
                     context.SaveChanges();
 
                     return "";
