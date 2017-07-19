@@ -10,7 +10,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.2/js/bootstrap-select.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
 
-<div class="col-md-12" style="z-index:1000;background-color: white;position: fixed;">
+<div class="col-md-12" style="z-index:4;background-color: white;position: fixed;">
     <br />
     <div class="tab col-md-offset-2">
         <ul class="nav nav-tabs" style="border-bottom:0px solid transparent">
@@ -108,8 +108,10 @@
                         {
                             <tr>
                                 <td class="index">@counter</td>
-                                <td>@item.ItemName</td>
-                                <input style="display: none" id="ItemID" value="@item.ItemID" name="items[@(counter - 1)].ItemID" />
+                                <td>
+                                    <input style="display: none" id="ItemID" value="@item.ItemID" name="items[@(counter - 1)].ItemID" />
+                                    @item.ItemName
+                                </td>
 
                                 <td>
                                     <select class="selectpicker col-md-10" id="AssignedTo" name="items[@(counter - 1)].AssignedTo">
@@ -119,9 +121,12 @@
                                         }
                                     </select>
                                 </td>
-                                <td>@item.EstimatedEffort</td>
                                 <td>
-                                    <select class="col-md-10 selectpicker" id="ItemStatus" name="items[@(counter - 1)].ItemStatus">
+                                    @*<input style="display: none" id="EstimatedEffort" value="@item.EstimatedEffort" name="items[@(counter - 1)].EstimatedEffort" />*@
+                                    @item.EstimatedEffort
+                                </td>
+                                <td>
+                                    <select class="col-md-11 selectpicker" id="ItemStatus" name="items[@(counter - 1)].ItemStatus">
                                         <option value="Developing" data-content="<span class='badge badge-primary'>Developing</span>" @((item.ItemStatus == "Developing" || @item.ItemStatus == null) ? "selected" : "")></option>
                                         <option value="Testing" data-content="<span class='badge badge-success'>Testing</span>" @((item.ItemStatus == "Testing") ? "selected" : "")></option>
                                         <option value="Delayed" data-content="<span class='badge badge-warning'>Delayed</span>" @((item.ItemStatus == "Delayed") ? "selected" : "")></option>
@@ -256,9 +261,7 @@
             $('tbody > tr').each(function() {
                 var i = $(this).find(".index").html() - 1;
                 $(this).find("[name]").add(this).each(function () {
-                    alert("- "+this.name);
-                    this.name = "items["+i+"]";
-                    alert(this.name);
+                    this.name = "items["+i+"]." + this.id;
 
                 });
             })

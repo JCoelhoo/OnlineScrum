@@ -30,8 +30,12 @@
         .popover {
             width: 1000px;
         }
+
+        .modal .modal-backdrop{
+            z-index:500
+        }
     </style>
-    <div class="navbar navbar-inverse navbar-fixed-top" data-container="body"  style="z-index: 1;background-color: #272b2b">
+    <div class="navbar navbar-inverse navbar-fixed-top" data-container="body"  style="z-index: 5;background-color: #272b2b">
         <div class="container">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -127,6 +131,7 @@
         $(function () {
             $('[data-toggle="popover"]').popover()
         })
+
 
     </script>
 

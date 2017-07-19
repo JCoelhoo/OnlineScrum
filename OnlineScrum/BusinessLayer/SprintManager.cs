@@ -224,6 +224,8 @@ namespace OnlineScrum.BusinessLayer
                         where itemList.Contains(item.ItemID.ToString())
                         select item).ToList();
 
+                    itemRet = itemRet.OrderBy(d => itemList.IndexOf(d.ItemID.ToString())).ToList();
+
                     return itemRet;
                 }
             }
@@ -271,9 +273,9 @@ namespace OnlineScrum.BusinessLayer
 
                     itemRet.ItemStatus = item.ItemStatus;
                     //TODO close if already closed
-                    if (item.ItemStatus == "Closed")
+                    if (item.ItemStatus == "Closed" && itemRet.DateClosed == null)
                         itemRet.DateClosed = DateTime.Now;
-                    else
+                    else if (item.ItemStatus != "Closed")
                         itemRet.DateClosed = null;
 
                     itemRet.AssignedTo = item.AssignedTo;
