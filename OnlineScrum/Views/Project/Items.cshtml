@@ -11,7 +11,7 @@
 <br />
 <div class="pull-right">
     <a class="btn btn-primary" href="/project/create_item">Create Item</a>
-    <a data-trigger="focus" role="button" tabindex="0" data-placement="left" class="btn btn-info" data-toggle="popover" style="text-align: left;" title="Sprints" data-content="This is the Sprint Management page. Click to the left to create a new sprint or review your existing sprints">Help</a>
+    <a data-trigger="focus" role="button" tabindex="0" data-placement="left" class="btn btn-info" data-toggle="popover" style="text-align: left;" title="Product Backlog" data-content="This is the list of Items in the Sprint. You can change Items between Sprints as well as create Items that are not assigned to any Sprints.">Help</a>
 </div>
 <link href="@Url.Content("~/Content/SprintMenu.css")" rel="stylesheet" />
 <div class="container-fluid">
@@ -178,10 +178,11 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">What is a Sprint?</h4>
+                <h4 class="modal-title">Product Backlog</h4>
             </div>
-            <div class="modal-body">
-                <p>Sprint is this</p>
+            <div class="modal-body text-center">
+                <p>This page offers as overview of all the Items that haven't been closed yet and you can assign them to a new Sprint.</p>
+                <p>Also, you can create Items that are not part of any Sprint.</p>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
