@@ -3,7 +3,7 @@
 @{
     ViewBag.Title = "Statistics";
 }
-<script src="http://code.highcharts.com/highcharts.js"></script>
+<script src="@Url.Content("~/Client Scripts/highcharts.js")"></script>
 <script src="http://code.highcharts.com/modules/exporting.js"></script>
 <script src="@Url.Content("~/Client Scripts/regression.js")"></script>
 <link href="@Url.Content("~/Content/SprintMenu.css")" rel="stylesheet" />
@@ -211,7 +211,7 @@
     });
 </script>
 
-<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<script type="text/javascript" src="@Url.Content("~/Client Scripts/loader.js")"></script>
 <script type="text/javascript">
     $(document).ready(function() {
         google.charts.load('current', { 'packages': ['sankey'] });

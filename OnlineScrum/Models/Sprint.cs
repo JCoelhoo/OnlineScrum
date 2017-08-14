@@ -47,9 +47,6 @@ namespace OnlineScrum.Models
         [Column("Items")]
         public string Items { get; set; }
 
-        [Column("Meetings")]
-        public string Meetings { get; set; }
-
         [Column("MeetingInterval")]
         //TODO above 1
         public int MeetingInterval { get; set; }

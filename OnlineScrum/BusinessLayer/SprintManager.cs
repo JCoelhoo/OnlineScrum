@@ -236,30 +236,6 @@ namespace OnlineScrum.BusinessLayer
             }
         }
 
-        public static string AddMeetingToSprint(string meetingID, int sprintID)
-        {
-            try
-            {
-                using (var context = new DatabaseContext())
-                {
-                    var sprintResult = (from sprint in context.Sprints
-                        where sprint.SprintID == sprintID
-                        select sprint).First();
-
-                    sprintResult.Meetings = (sprintResult.Meetings == "") ? meetingID : ',' + sprintResult.Meetings;
-                    context.SaveChanges();
-
-                    return "";
-                }
-            }
-            catch (Exception e)
-            {
-                SharedManager.Log(e, "AddMeetingToSprint");
-                return SharedManager.DatabaseError;
-            }
-
-        }
-
         public static string ChangeStatus(Item item)
         {
 

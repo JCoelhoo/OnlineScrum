@@ -1,18 +1,19 @@
-﻿using OnlineScrum.BusinessLayer;
-using OnlineScrum.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
-using System.Web.Mvc;
-using System.Web.Security;
+using NUnit.Framework;
+using OnlineScrum.BusinessLayer;
+using OnlineScrum.Models;
 
-namespace OnlineScrum.Controllers
+namespace OnlineScrum.Tests
 {
-    public class LoginController : Controller
+    [TestFixture]
+    class OnlineScrumTest
     {
-        [HttpGet]
-        [Route("login")]
-        public ActionResult Login()
+        [SetUp]
+        public void Init()
         {
             if (UserManager.RegisterUser(new Register
             {
@@ -522,46 +523,44 @@ namespace OnlineScrum.Controllers
                 SprintManager.AddItem(null, s2);
                 SprintManager.AddItem(null, s3);
             }
-
-            if (Session["UserInfo"] != null)
-            {
-                return RedirectToAction("Home", "Dashboard");
-            }
-
-            return View();
         }
 
-        [Route("login")]
-        [HttpPost]
-        public ActionResult Login(Login login)
+        [Test]
+        public static void GetSprint()
         {
-            var status = UserManager.Login(login);
-            if (!ModelState.IsValid)
-            {
-                return View();
-            }
-            else if (status == UserManager.LoginStatus.RegularUser)
-            {
-                var user = UserManager.GetUserByEmail(login.Email);
-                user.Password = null;
-                Session["UserInfo"] = user;
-                Session["TimeOfCreation"] = DateTime.Now;
-                SharedManager.RepeatMethod = false;
-                return RedirectToAction("Dashboard", "Dashboard");
-            }
-
-            if (status == UserManager.LoginStatus.Fail) ViewBag.Error = "Invalid credentials";
-            else if (status == UserManager.LoginStatus.DBFail) ViewBag.Error = "Database error";
-            return View("Login");
+            var sprint = SprintManager.GetSprintFromID(1);
+            Assert.AreEqual(sprint.SprintID, 1);
+            Assert.AreEqual(sprint.SprintName, "Requirements Analysis");
+            Assert.AreEqual(sprint.SprintNumber, 1);
         }
 
-        [Route("logout")]
-        [HttpGet]
-        public ActionResult Logout()
+        [Test]
+        public static void GetProject()
         {
-            FormsAuthentication.SignOut();
-            Session.Abandon();
-            return RedirectToAction("Home", "Dashboard");
+            var proj = ProjectManager.GetProjectByID(1, "1@g.c");
+            Assert.AreEqual(proj.Name, "OnlineScrum");
+            Assert.AreEqual(proj.ProjectID, 1);
+            Assert.AreEqual(proj.ScrumMaster, "1@g.c");
+            Assert.AreEqual(proj.Description, "This is a mock example to demonstrate the features in this platform.");
+        }
+
+        [Test]
+        public static void GetItem()
+        {
+            var item = SprintManager.GetItemFromID(1);
+            Assert.AreEqual(item.AssignedTo, "2@g.c");
+            Assert.AreEqual(item.EstimatedEffort, 1);
+            Assert.AreEqual(item.ItemID, 1);
+            Assert.AreEqual(item.ItemName, "Customer Requirements");
+            Assert.AreEqual(item.ItemStatus, "Closed");
+        }
+
+        [Test]
+        public static void GetUser()
+        {
+            var user = UserManager.GetUserByEmail("1@g.c");
+            Assert.AreEqual(user.Username, "1");
+            Assert.AreEqual(user.Role, "ScrumMaster");
         }
     }
 }
