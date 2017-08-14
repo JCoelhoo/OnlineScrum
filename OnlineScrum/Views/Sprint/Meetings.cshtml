@@ -4,15 +4,14 @@
 }
 <link href="@Url.Content("~/Content/SprintMenu.css")" rel="stylesheet" />
 
-<div class="col-md-12" style="z-index:1000;background-color: white;position: fixed;">
+<div class="col-md-12" style="z-index:4;background-color: white;position: fixed;">
     <br />
-    <div class="tab col-md-offset-2">
+    <div class="tab col-md-offset-3">
         <ul class="nav nav-tabs" style="border-bottom:0px solid transparent">
             <li role="presentation"><a href="@Url.Action("Home", "Sprint")">Overview</a></li>
             <li role="presentation"><a href="@Url.Action("Items", "Sprint")">Items</a></li>
             <li role="presentation" class="active"><a href="@Url.Action("Meetings", "Sprint")">Meetings</a></li>
             <li role="presentation"><a href="@Url.Action("Statistics", "Sprint")">Statistics</a></li>
-            <li role="presentation"><a href="#">Settings</a></li>
         </ul>
     </div>
 </div>

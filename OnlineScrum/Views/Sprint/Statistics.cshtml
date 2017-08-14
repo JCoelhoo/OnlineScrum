@@ -9,15 +9,14 @@
 <link href="@Url.Content("~/Content/SprintMenu.css")" rel="stylesheet" />
 <script src="https://rawgithub.com/laff/technical-indicators/master/technical-indicators.src.js"></script>
 
-<div class="col-md-12" style="z-index:1000;background-color: white;position: fixed;">
-<br/>
-    <div class="tab col-md-offset-2">
+<div class="col-md-12" style="z-index:4;background-color: white;position: fixed;">
+    <br />
+    <div class="tab col-md-offset-3">
         <ul class="nav nav-tabs" style="border-bottom: 0px solid transparent">
             <li role="presentation"><a href="@Url.Action("Home", "Sprint")">Overview</a></li>
             <li role="presentation"><a href="@Url.Action("Items", "Sprint")">Items</a></li>
             <li role="presentation"><a href="@Url.Action("Meetings", "Sprint")">Meetings</a></li>
             <li role="presentation" class="active"><a href="@Url.Action("Statistics", "Sprint")">Statistics</a></li>
-            <li role="presentation"><a href="#">Settings</a></li>
         </ul>
     </div>
 </div>
@@ -170,15 +169,11 @@
 
 <h3>Tips</h3>
 @{
-    <p>
-        Maybe add some warnings 
-        (dev closing issues, sprint slow pace, towards the end of sprint -> advise reprioritasation/delaying/fix estimations,
-        if dev is done assing different issues from slow dev, a lot of days without closing (maybe facing obstacle(ask in meeting)))
-    </p>
     var itemlessDev = new List<String>();
     var devevoper = "";
     var itemTemp = 0;
     var items = 0;
+    var noClose = "";
     foreach (var member in @ViewBag.Members)
     {
         if ((itemTemp = ((List<Item>)ViewBag.Items).Count(m => m.AssignedTo == member && (m.ItemStatus != "Closed"))) == 0)
@@ -187,6 +182,13 @@
         }
         else
         {
+            if(((Sprint)ViewBag.Sprint).StartDate < (DateTime.Now.AddDays(-5)))
+            {
+                if (((List<Item>) ViewBag.Items).Count(m => m.DateClosed > (DateTime.Now.AddDays(-5))) == 0)
+                {
+                    noClose = member + " has not closed and issue in a few days. " + member + " might need assistance in their issues.";
+                }
+            }
             if (items < itemTemp)
             {
                 items = itemTemp;
@@ -198,8 +200,14 @@
         @if (itemlessDev.Count > 0)
         {
             <li>
-                <p>@String.Join(",", itemlessDev) @(itemlessDev.Count == 1 ? " has " : " have " ) no items pending. @((items != 0) ? " \nConsider helping " + @devevoper + " with " + @items + " remaining item." : "")</p>
+                <p>@String.Join(",", itemlessDev) @(itemlessDev.Count == 1 ? " has " : " have ") no items pending. @((items != 0) ? " \nConsider helping " + @devevoper + " with " + @items + " remaining item." : "")</p>
             </li>
+            if (noClose != "")
+            {
+                <li>
+                    <p>@noClose</p>
+                </li>
+            }
         }
     </ul>
 }
