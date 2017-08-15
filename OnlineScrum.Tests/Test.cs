@@ -562,5 +562,77 @@ namespace OnlineScrum.Tests
             Assert.AreEqual(user.Username, "1");
             Assert.AreEqual(user.Role, "ScrumMaster");
         }
+
+        [Test]
+        public static void ChangeItemStatus()
+        {
+            var item = SprintManager.GetItemFromID(2);
+            var item2 = item;
+            item2.ItemStatus = "Testing";
+            SprintManager.ChangeStatus(item2);
+            var checkItem = SprintManager.GetItemFromID(2);
+            Assert.AreEqual(checkItem.ItemStatus, item.ItemStatus);
+            SprintManager.ChangeStatus(item);
+        }
+
+        [Test]
+        public static void SprintlessItems()
+        {
+            var item = ProjectManager.GetSprintlessItems(ProjectManager.GetProjectByID(1, "1@g.c"));
+
+            var s1 = new Item
+            {
+                AssignedTo = "3@g.c",
+                EstimatedEffort = 5,
+                ItemID = 32,
+                ItemName = "Migrate to Cloud",
+                ItemStatus = "Developing",
+                SprintlessProjectID = 1
+            };
+
+            var s2 = new Item
+            {
+                AssignedTo = "2@g.c",
+                EstimatedEffort = 4,
+                ItemID = 33,
+                ItemName = "Language Support",
+                ItemStatus = "Developing",
+                SprintlessProjectID = 1
+            };
+
+            var s3 = new Item
+            {
+                AssignedTo = "5@g.c",
+                EstimatedEffort = 3,
+                ItemID = 34,
+                ItemName = "Contact Support",
+                ItemStatus = "Developing",
+                SprintlessProjectID = 1
+            };
+
+            var list = new List<Item> {s1, s2, s3};
+
+            for (int i = 0; i < 3; i++)
+            {
+                Assert.AreEqual(list[i].AssignedTo, item[i].AssignedTo);
+                Assert.AreEqual(list[i].EstimatedEffort, item[i].EstimatedEffort);
+                Assert.AreEqual(list[i].ItemID, item[i].ItemID);
+                Assert.AreEqual(list[i].ItemName, item[i].ItemName);
+                Assert.AreEqual(list[i].ItemStatus, item[i].ItemStatus);
+                Assert.AreEqual(list[i].SprintlessProjectID, item[i].SprintlessProjectID);
+            }
+        }
+
+        [Test]
+        public static void ChangeSprintInItem()
+        {
+            var sprint = SprintManager.GetSprintFromID(4);
+            var item = SprintManager.GetItemFromID(31);
+            Assert.True(sprint.Items.Contains(item.ItemID.ToString()));
+            Assert.AreEqual(item.AssignedTo, "2@g.c");
+            Assert.AreEqual(item.EstimatedEffort, 1);
+            Assert.AreEqual(item.ItemName, "Database");
+            Assert.AreEqual(item.ItemStatus, "Delayed");
+        }
     }
 }
