@@ -41,8 +41,8 @@
                             continue;
                         }
                         <div class="row">
-                            <h4 class="col-md-offset-1 col-md-6">@sprint.Key.SprintName <small><a style="color: inherit;" href="@Url.Action("Home", "Sprint", new { id = @sprint.Key.SprintNumber})">goto</a></small></h4>
-                            @if (i == 0)
+                            <h4 class="col-md-offset-1 col-md-6">@sprint.Key.SprintName <small><a style="color: inherit;" href="@Url.Action("Home", "Sprint", new {id = @sprint.Key.SprintNumber})">goto</a></small></h4>
+                            @if (i == 0 && ((User)ViewBag.User).Role == "ScrumMaster")
                             {
                                 <input type="submit" value="Save all changes" class="col-md-5 btn btn-link"/>
                             }
@@ -72,12 +72,13 @@
                                                 <span class='badge badge-warning'>Delayed</span>
                                             }
                                         </div>
-                                        <div class="col-md-5">
-                                            <select data-val="true" data-val-required="Email Address is required" type="email" class="form-control" name="item[@i].Sprint">
-                                                <option selected disabled>Select sprint</option>
-                                                @if (ViewBag.Sprints != null)
-                                                {
-                                                    foreach (var s in ((Dictionary<Sprint, List<Item>>) ViewBag.Sprints).Keys.ToList())
+                                        @if (((User) ViewBag.User).Role == "ScrumMaster")
+                                        {
+                                            <div class="col-md-5">
+                                                <select data-val="true" data-val-required="Email Address is required" type="email" class="form-control" name="item[@i].Sprint">
+                                                    <option selected disabled>Select sprint</option>
+                                                    {
+                                                    @foreach (var s in ((Dictionary<Sprint, List<Item>>) ViewBag.Sprints).Keys.ToList())
                                                     {
                                                         if (s.FinishDate.Date < DateTime.Now.Date)
                                                         {
@@ -85,14 +86,17 @@
                                                         }
                                                         <option @(s.SprintName == sprint.Key.SprintName ? "selected" : "")>@s.SprintName</option>
                                                     }
-                                                }
-                                            </select>
-                                            <span class="field-validation-valid" data-valmsg-for="Email" data-valmsg-replace="true"></span>
-                                        </div>
-                                        @{ i++; }
-                                        <br/>
-                                        <br/>
-                                        <hr style="margin-top: 0px; margin-bottom: 5px;"/>
+                                                    }
+                                                </select>
+                                                <span class="field-validation-valid" data-valmsg-for="Email" data-valmsg-replace="true"></span>
+                                            </div>
+                                            {
+                                                i++;
+                                            }
+                                        }
+                                            <br/>
+                                            <br/>
+                                            <hr style="margin-top: 0px; margin-bottom: 5px;"/>
                                     </div>
                                 }
                             }
@@ -123,7 +127,10 @@
                     {
                         <div class="row">
                             <h4 class="col-md-offset-1 col-md-8">Assign Items to a Sprint</h4>
-                            <input type="submit" value="Save" class="col-md-2 btn btn-link"/>
+                            @if (((User) ViewBag.User).Role == "ScrumMaster")
+                            {
+                                <input type="submit" value="Save" class="col-md-2 btn btn-link"/>
+                            }
                         </div>
 
                         <div class="container panel-body">
@@ -134,23 +141,26 @@
                                     <div class="col-md-6" style="padding-top: 7px">
                                         @item.ItemName
                                     </div>
-                                    <div class="col-md-6">
-                                        <select data-val="true" data-val-required="Email Address is required" type="email" class="form-control" name="item[@i].Sprint">
-                                            <option selected disabled>Select sprint</option>
-                                            @if (ViewBag.Sprints != null)
-                                            {
-                                                foreach (Sprint s in ViewBag.SprintsAvailable)
+                                    @if (((User) ViewBag.User).Role == "ScrumMaster")
+                                    {
+                                        <div class="col-md-6">
+                                            <select data-val="true" data-val-required="Email Address is required" type="email" class="form-control" name="item[@i].Sprint">
+                                                <option selected disabled>Select sprint</option>
+                                                @if (ViewBag.Sprints != null)
                                                 {
-                                                    if (s.FinishDate.Date < DateTime.Now.Date)
+                                                    foreach (Sprint s in ViewBag.SprintsAvailable)
                                                     {
-                                                        continue;
+                                                        if (s.FinishDate.Date < DateTime.Now.Date)
+                                                        {
+                                                            continue;
+                                                        }
+                                                        <option>@s.SprintName</option>
                                                     }
-                                                    <option>@s.SprintName</option>
                                                 }
-                                            }
-                                        </select>
-                                        <span class="field-validation-valid" data-valmsg-for="Email" data-valmsg-replace="true"></span>
-                                    </div>
+                                            </select>
+                                            <span class="field-validation-valid" data-valmsg-for="Email" data-valmsg-replace="true"></span>
+                                        </div>
+                                    }
                                     @{ i++; }
                                     <br/>
                                     <br/>

@@ -9,8 +9,6 @@ namespace OnlineScrum.BusinessLayer
     {
         public static string AddProject(Project project, string scrumMaster)
         {
-            //TODO: fix id
-            //TODO SM not in dev
             if (project == null)
             {
                 return "Error when adding. Please try again";
@@ -141,7 +139,6 @@ namespace OnlineScrum.BusinessLayer
                         //var sha = new SHA1CryptoServiceProvider();
                         //var password = Encoding.ASCII.GetBytes(lecturer.Password);    
                         //lecturer.Password = Encoding.Default.GetString(sha.ComputeHash(password));C:\Users\João\Desktop\OnlineScrum\OnlineScrum\BusinessLayer\UserManager.cs
-                        //TODO check dates of start and finish
                         var number = (proj.Sprints == null)
                             ? 1
                             : (SharedManager.SplitString(proj.Sprints)).Count() + 1;

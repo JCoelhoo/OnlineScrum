@@ -60,7 +60,6 @@ namespace OnlineScrum.BusinessLayer
                             //FIXME sprintID is attributed when Add()
                             if (sprint != null)
                             {
-                                //TODO check dates of start and finish
                                 var number = (sprint.Items == null)
                                     ? 1
                                     : (SharedManager.SplitString(sprint.Items)).Count() + 1;
@@ -108,7 +107,6 @@ namespace OnlineScrum.BusinessLayer
                             //FIXME sprintID is attributed when Add()
                             if (sprint != null)
                             {
-                                //TODO check dates of start and finish
                                 var number = (sprint.Items == null)
                                     ? 1
                                     : (SharedManager.SplitString(sprint.Items)).Count() + 1;
@@ -248,7 +246,6 @@ namespace OnlineScrum.BusinessLayer
                         select it).First();
 
                     itemRet.ItemStatus = item.ItemStatus;
-                    //TODO close if already closed
                     if (item.ItemStatus == "Closed" && itemRet.DateClosed == null)
                         itemRet.DateClosed = DateTime.Now;
                     else if (item.ItemStatus != "Closed")
@@ -268,8 +265,6 @@ namespace OnlineScrum.BusinessLayer
             }
         }
 
-
-        //TODO check itemid matches user
         public static Item Add_Notes(int itemID, string note)
         {
             try

@@ -71,10 +71,6 @@ function expRegression(X, Y) {
     return [base, coeff];
 }
 
-/*
-    TODO: this function is quite inefficient.
-    Refactor it if there is problem with speed.
- */
 function fitData(data, typ) {
     var type = (typ == null) ? 'linear' : typ;
     var ret;

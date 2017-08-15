@@ -1,9 +1,9 @@
 ﻿@model OnlineScrum.Models.Item
 @{
-    ViewBag.Title = "Create_Item";
+    ViewBag.Title = "Create Item";
 }
 
-<h2>Create Item</h2>
+<h2>Create Sprintless Item</h2>
 <div class="col-md-8">
     @using (@Html.BeginForm("Create_Item", "Project", FormMethod.Post))
     {
@@ -77,6 +77,6 @@
     }
 </div>
 <div class="well col-md-4">
-    <p>According to the <a href="https://www.scrumalliance.org/"><i>ScrumAlliance</i></a>, development team are between 5 and 9 people.</p>
-    <p>The Scrum Master.</p>
+    <p>Sprintless items allow you to create items for future Sprints. Things that may not be a priority now, but will be in the future.</p>
+    <p>In the Product Backlog, you will be able to assign these items to Sprints in the future.</p>
 </div>

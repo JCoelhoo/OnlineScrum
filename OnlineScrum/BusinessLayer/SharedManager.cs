@@ -37,7 +37,7 @@ namespace OnlineScrum.BusinessLayer
             if (s == null) return new List<string>();
             return s.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries).ToList();
         }
-        //TODO MeetingInterval
+
         public static void DailyScrumMeeting(Project project, Sprint sprint, bool timeTrigger = true)
         {
             if (sprint.StartDate.Date > DateTime.Now.Date)

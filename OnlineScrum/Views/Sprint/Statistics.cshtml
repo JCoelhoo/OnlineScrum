@@ -30,7 +30,6 @@
         <br />
     </div>
 </div>
-@*TODO use business days*@
 <script>
     var categories = "[";
     var dictionary = [];
@@ -197,7 +196,7 @@
         }
     }
     <ul>
-        @if (itemlessDev.Count > 0)
+        @if (itemlessDev.Count > 0 || noClose != "")
         {
             <li>
                 <p>@String.Join(",", itemlessDev) @(itemlessDev.Count == 1 ? " has " : " have ") no items pending. @((items != 0) ? " \nConsider helping " + @devevoper + " with " + @items + " remaining item." : "")</p>

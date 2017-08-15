@@ -33,7 +33,6 @@ namespace OnlineScrum.Models
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy}")]
         [Display(Name = "Start Date")]
         [Required]
-        //TODO greater than now
         public DateTime StartDate { get; set; }
 
         [Column("FinishDate")]
@@ -48,7 +47,6 @@ namespace OnlineScrum.Models
         public string Items { get; set; }
 
         [Column("MeetingInterval")]
-        //TODO above 1
         public int MeetingInterval { get; set; }
 
         [Column("MeetingLocation")]

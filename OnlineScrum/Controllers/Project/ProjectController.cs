@@ -101,6 +101,7 @@ namespace OnlineScrum.Controllers
             ViewBag.Sprints = sprint;
             ViewBag.SprintlessItems = ProjectManager.GetSprintlessItems(proj);
             ViewBag.SprintsAvailable = sprint.Keys.ToList();
+            ViewBag.User = user;
             return View();
         }
 
