@@ -138,16 +138,12 @@ namespace OnlineScrum.BusinessLayer
                         {
                             return "A Sprint already exists with that name";
                         }
-                        //var sha = new SHA1CryptoServiceProvider();
-                        //var password = Encoding.ASCII.GetBytes(lecturer.Password);    
-                        //lecturer.Password = Encoding.Default.GetString(sha.ComputeHash(password));C:\Users\João\Desktop\OnlineScrum\OnlineScrum\BusinessLayer\UserManager.cs
                         var number = (proj.Sprints == null)
                             ? 1
                             : (SharedManager.SplitString(proj.Sprints)).Count() + 1;
                         sprint.SprintNumber = number;
                         context.Sprints.Add(sprint);
                         context.SaveChanges();
-                        //FIXME sprintID is attributed when Add()
                         AddSprintToProject(proj.ProjectID, sprint.SprintID);
                         dbTransaction.Commit();
 

@@ -26,9 +26,6 @@ namespace OnlineScrum.BusinessLayer
                 {
                     using (var context = new DatabaseContext())
                     {
-                        //var sha = new SHA1CryptoServiceProvider();
-                        //var password = Encoding.ASCII.GetBytes(lecturer.Password);    
-                        //lecturer.Password = Encoding.Default.GetString(sha.ComputeHash(password));C:\Users\João\Desktop\OnlineScrum\OnlineScrum\BusinessLayer\UserManager.cs
                         var insertUser = new User { Username = user.Username, Password = Hash(user.Password), Email = user.Email, Role = user.Role};
                         context.Users.Add(insertUser);
                         context.SaveChanges();
@@ -50,8 +47,8 @@ namespace OnlineScrum.BusinessLayer
 
                 using (var context = new DatabaseContext())
                 {
-                    var userEmails = from student in context.Users
-                                           select student.Email;
+                    var userEmails = from user in context.Users
+                                           select user.Email;
 
                     foreach (var Email in userEmails)
                     {
@@ -77,12 +74,12 @@ namespace OnlineScrum.BusinessLayer
             {
                 using (var context = new DatabaseContext())
                 {
-                    var userSet = from student in context.Users
+                    var userSet = from user in context.Users
                                            select new
                                            {
-                                               student.Email,
-                                               student.Password,
-                                               student.Role
+                                               user.Email,
+                                               user.Password,
+                                               user.Role
                                            };
 
                    

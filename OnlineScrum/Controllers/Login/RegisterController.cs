@@ -36,7 +36,6 @@ namespace OnlineScrum.Controllers
                 ViewBag.Error = status;
                 return RedirectToAction("register", new { errorMessage = status });
             }
-            //return RedirectToAction("Dashboard/Lecturer");
             return RedirectToAction("login", "login");
         }
     }
