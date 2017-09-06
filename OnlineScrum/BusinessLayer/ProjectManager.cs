@@ -7,8 +7,9 @@ namespace OnlineScrum.BusinessLayer
 {
     public class ProjectManager
     {
-        public static string AddProject(Project project, string scrumMaster)
+        public static string AddProject(Project project, string scrumMaster, out Project pr)
         {
+            pr = new Project();
             if (project == null)
             {
                 return "Error when adding. Please try again";
@@ -42,6 +43,7 @@ namespace OnlineScrum.BusinessLayer
                     }
                     context.Projects.Add(insertProject);
                     context.SaveChanges();
+                    pr = insertProject;
                     return "";
                 }
             }

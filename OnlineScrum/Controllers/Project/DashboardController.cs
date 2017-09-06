@@ -65,10 +65,10 @@ namespace OnlineScrum.Controllers
                 return View();
             }
 
-            var result = ProjectManager.AddProject(project, user.Email);
+            project.ScrumMaster = user.Email;
+            var result = ProjectManager.AddProject(project, user.Email, out project);
             ViewBag.Error = result;
             if (!String.IsNullOrEmpty(result)) return View();
-            project.ScrumMaster = user.Email;
 
             Session["Project"] = project;
 

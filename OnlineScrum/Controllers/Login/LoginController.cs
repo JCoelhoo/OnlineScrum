@@ -433,7 +433,7 @@ namespace OnlineScrum.Controllers
                     SprintlessProjectID = 1
                 };
 
-                ProjectManager.AddProject(proj, "1@g.c");
+                ProjectManager.AddProject(proj, "1@g.c", out proj);
                 proj = ProjectManager.GetProjectByEmail("1@g.c");
                 ProjectManager.AddSprint(sprint1, proj);
                 proj = ProjectManager.GetProjectByEmail("1@g.c");

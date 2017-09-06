@@ -70,6 +70,8 @@ namespace OnlineScrum.Controllers
             ViewBag.Link = "Project";
             if (proj == null)
                 return RedirectToAction("Dashboard", "Dashboard");
+            proj = ProjectManager.GetProjectByID(proj.ProjectID, user.Email);
+
             var sprints = ProjectManager.GetSprintFromProject(proj.Sprints);
             if (sprints == null || sprints.Count(m => m.SprintID == id) == 0)
             {
@@ -99,6 +101,7 @@ namespace OnlineScrum.Controllers
             ViewBag.Link = "Project";
             if (proj == null)
                 return RedirectToAction("Dashboard", "Dashboard");
+            proj = ProjectManager.GetProjectByID(proj.ProjectID, user.Email);
             var sprints = ProjectManager.GetSprintFromProject(proj.Sprints);
             if (sprints == null || sprints.Count(m => m.SprintID == id) == 0)
             {
@@ -122,6 +125,7 @@ namespace OnlineScrum.Controllers
             ViewBag.Link = "Project";
             if (proj == null)
                 return RedirectToAction("Dashboard", "Dashboard");
+            proj = ProjectManager.GetProjectByID(proj.ProjectID, user.Email);
             var sprints = ProjectManager.GetSprintFromProject(proj.Sprints);
             if (sprints == null || sprints.Count(m => m.SprintID == id) == 0)
             {
@@ -135,25 +139,25 @@ namespace OnlineScrum.Controllers
             return View();
         }
 
-        [Route("project/sprint/{id:int}/settings")]
-        public ActionResult Settings(int id)
-        {
-            var user = (User)Session["UserInfo"];
-            if (user == null)
-                return RedirectToAction("Login", "Login");
-            var proj = (Project)Session["Project"];
-            ViewBag.Link = "Project";
-            if (proj == null)
-                return RedirectToAction("Dashboard", "Dashboard");
-            var sprints = ProjectManager.GetSprintFromProject(proj.Sprints);
-            if (sprints == null || sprints.Count(m => m.SprintID == id) == 0)
-            {
-                ViewBag.Error = "Sprint not found";
-                return RedirectToAction("Home", "Project");
-            }
+        //[Route("project/sprint/{id:int}/settings")]
+        //public ActionResult Settings(int id)
+        //{
+        //    var user = (User)Session["UserInfo"];
+        //    if (user == null)
+        //        return RedirectToAction("Login", "Login");
+        //    var proj = (Project)Session["Project"];
+        //    ViewBag.Link = "Project";
+        //    if (proj == null)
+        //        return RedirectToAction("Dashboard", "Dashboard");
+        //    var sprints = ProjectManager.GetSprintFromProject(proj.Sprints);
+        //    if (sprints == null || sprints.Count(m => m.SprintID == id) == 0)
+        //    {
+        //        ViewBag.Error = "Sprint not found";
+        //        return RedirectToAction("Home", "Project");
+        //    }
 
-            return View();
-        }
+        //    return View();
+        //}
 
         [Route("project/sprint/{id:int}/new_item")]
         public ActionResult Create_Item(int id)

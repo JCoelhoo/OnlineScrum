@@ -10,7 +10,10 @@
 </div>
 <br />
 <div class="pull-right">
-    <a class="btn btn-primary" href="/project/create_item">Create Item</a>
+    @if (((User)ViewBag.User).Role == "ScrumMaster")
+    {
+        <a class="btn btn-primary" href="/project/create_item">Create Item</a>
+    }
     <a data-trigger="focus" role="button" tabindex="0" data-placement="left" class="btn btn-info" data-toggle="popover" style="text-align: left;" title="Product Backlog" data-content="This is the list of Items in the Sprint. You can change Items between Sprints as well as create Items that are not assigned to any Sprints.">Help</a>
 </div>
 <link href="@Url.Content("~/Content/SprintMenu.css")" rel="stylesheet" />
@@ -44,7 +47,7 @@
                             <h4 class="col-md-offset-1 col-md-6">@sprint.Key.SprintName <small><a style="color: inherit;" href="@Url.Action("Home", "Sprint", new {id = @sprint.Key.SprintNumber})">goto</a></small></h4>
                             @if (i == 0 && ((User)ViewBag.User).Role == "ScrumMaster")
                             {
-                                <input type="submit" value="Save all changes" class="col-md-5 btn btn-link"/>
+                                <input type="submit" value="Save all changes" class="col-md-5 btn btn-link" />
                             }
                         </div>
                         <div id="container" class="panel-body">
@@ -54,7 +57,7 @@
                                 {
                                     t = true;
                                     <div class="col-md-12 row">
-                                        <input type="hidden" name="item[@i].Item" value="@item.ItemID"/>
+                                        <input type="hidden" name="item[@i].Item" value="@item.ItemID" />
                                         <div class="col-md-4" style="padding-top: 7px">
                                             @item.ItemName
                                         </div>
@@ -72,13 +75,13 @@
                                                 <span class='badge badge-warning'>Delayed</span>
                                             }
                                         </div>
-                                        @if (((User) ViewBag.User).Role == "ScrumMaster")
+                                        @if (((User)ViewBag.User).Role == "ScrumMaster")
                                         {
                                             <div class="col-md-5">
                                                 <select data-val="true" data-val-required="Email Address is required" type="email" class="form-control" name="item[@i].Sprint">
                                                     <option selected disabled>Select sprint</option>
                                                     {
-                                                    @foreach (var s in ((Dictionary<Sprint, List<Item>>) ViewBag.Sprints).Keys.ToList())
+                                                    @foreach (var s in ((Dictionary<Sprint, List<Item>>)ViewBag.Sprints).Keys.ToList())
                                                     {
                                                         if (s.FinishDate.Date < DateTime.Now.Date)
                                                         {
@@ -94,9 +97,9 @@
                                                 i++;
                                             }
                                         }
-                                            <br/>
-                                            <br/>
-                                            <hr style="margin-top: 0px; margin-bottom: 5px;"/>
+                                        <br />
+                                        <br />
+                                        <hr style="margin-top: 0px; margin-bottom: 5px;" />
                                     </div>
                                 }
                             }
@@ -127,9 +130,9 @@
                     {
                         <div class="row">
                             <h4 class="col-md-offset-1 col-md-8">Assign Items to a Sprint</h4>
-                            @if (((User) ViewBag.User).Role == "ScrumMaster")
+                            @if (((User)ViewBag.User).Role == "ScrumMaster")
                             {
-                                <input type="submit" value="Save" class="col-md-2 btn btn-link"/>
+                                <input type="submit" value="Save" class="col-md-2 btn btn-link" />
                             }
                         </div>
 
@@ -137,11 +140,11 @@
                             @foreach (var item in ViewBag.SprintlessItems)
                             {
                                 <div class="col-md-12">
-                                    <input type="hidden" name="item[@i].Item" value="@item.ItemID"/>
+                                    <input type="hidden" name="item[@i].Item" value="@item.ItemID" />
                                     <div class="col-md-6" style="padding-top: 7px">
                                         @item.ItemName
                                     </div>
-                                    @if (((User) ViewBag.User).Role == "ScrumMaster")
+                                    @if (((User)ViewBag.User).Role == "ScrumMaster")
                                     {
                                         <div class="col-md-6">
                                             <select data-val="true" data-val-required="Email Address is required" type="email" class="form-control" name="item[@i].Sprint">
@@ -162,22 +165,24 @@
                                         </div>
                                     }
                                     @{ i++; }
-                                    <br/>
-                                    <br/>
-                                    <hr style="margin-top: 0px; margin-bottom: 5px;"/>
+                                    <br />
+                                    <br />
+                                    <hr style="margin-top: 0px; margin-bottom: 5px;" />
                                 </div>
-                            }
+                                        }
                         </div>
-                    }
-                    else
-                    {
-                        <h5 class="text-center">Here will be items not assigned to Sprints.</h5>
-                        <h5 class="text-center">To create an item without a Sprint, <a href="/project/create_item/">click here</a></h5>
-
-                    }
+                                        }
+                                        else
+                                        {
+                                            <h5 class="text-center">Here will be items not assigned to Sprints.</h5>
+                                            if (((User)ViewBag.User).Role == "ScrumMaster")
+                                            {
+                                                <h5 class="text-center">To create an item without a Sprint, <a href="/project/create_item/">click here</a></h5>
+                                            }
+                                        }
                 </div>
             </div>
-        }
+                                        }
     </div>
 </div>
 

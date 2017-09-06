@@ -20,6 +20,7 @@ namespace OnlineScrum.Controllers
             ViewBag.Link = "Project";
             if (proj == null)
                 return RedirectToAction("Dashboard", "Dashboard");
+            proj = ProjectManager.GetProjectByID(proj.ProjectID, user.Email);
 
             //ViewBag.Project = proj;
             ViewBag.Sprints = ProjectManager.GetSprintFromProject(proj.Sprints).OrderByDescending(m => m.FinishDate)
@@ -91,6 +92,7 @@ namespace OnlineScrum.Controllers
             ViewBag.Link = "Project";
             if (proj == null)
                 return RedirectToAction("Dashboard", "Dashboard");
+            proj = ProjectManager.GetProjectByID(proj.ProjectID, user.Email);
 
             var sprint = new Dictionary<Sprint, List<Item>>();
             var sprints = ProjectManager.GetSprintFromProject(proj.Sprints);
